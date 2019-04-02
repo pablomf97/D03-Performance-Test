@@ -9,31 +9,31 @@ import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class MiscellaneousData extends DomainEntity{
+public class MiscellaneousData extends DomainEntity {
 
-	//Attributes
-	
+	// Attributes
+
 	private String text;
 	private String attachements;
-	
-	//Getters and setters
-	
+
+	// Getters and setters
+
 	@NotBlank
 	public String getText() {
 		return text;
 	}
+
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 	@URL
 	public String getAttachements() {
 		return attachements;
 	}
+
 	public void setAttachements(String attachements) {
 		this.attachements = attachements;
 	}
-	
-	
-	
+
 }

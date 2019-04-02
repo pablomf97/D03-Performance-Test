@@ -54,7 +54,6 @@ public class PositionData extends DomainEntity{
 		this.startDate = startDate;
 	}
 	
-	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getEndDate() {

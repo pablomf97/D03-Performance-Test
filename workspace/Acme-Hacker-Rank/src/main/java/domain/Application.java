@@ -19,10 +19,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Application extends DomainEntity{
+public class Application extends DomainEntity {
 
-	//Attributes
-	
+	// Attributes
+
 	private Date applicationMoment;
 	private String explanation;
 	private String linkCode;
@@ -30,76 +30,104 @@ public class Application extends DomainEntity{
 	private String status;
 	private Problem problem;
 	private Hacker hacker;
-	
-	//Getters and setters
-	
+	private Position position;
+	private Curricula copyCurricula;
+
+	// Getters and setters
+
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getApplicationMoment() {
 		return applicationMoment;
 	}
+
 	public void setApplicationMoment(Date applicationMoment) {
 		this.applicationMoment = applicationMoment;
 	}
-	
+
 	@NotBlank
 	public String getExplanation() {
 		return explanation;
 	}
+
 	public void setExplanation(String explanation) {
 		this.explanation = explanation;
 	}
-	
+
 	@NotBlank
 	@URL
 	public String getLinkCode() {
 		return linkCode;
 	}
+
 	public void setLinkCode(String linkCode) {
 		this.linkCode = linkCode;
 	}
-	
+
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getSubmitMoment() {
 		return submitMoment;
 	}
+
 	public void setSubmitMoment(Date submitMoment) {
 		this.submitMoment = submitMoment;
 	}
-	
+
 	@NotBlank
 	@Pattern(regexp = "\\b(PENDING|SUBMITTED|ACCEPTED|REJECTED)\\b")
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
 	@Valid
 	@NotNull
 	@OneToOne
 	public Problem getProblem() {
 		return problem;
 	}
+
 	public void setProblem(Problem problem) {
 		this.problem = problem;
 	}
-	
+
 	@Valid
 	@NotNull
 	@ManyToOne(optional = false)
 	public Hacker getHacker() {
 		return hacker;
 	}
+
 	public void setHacker(Hacker hacker) {
 		this.hacker = hacker;
 	}
-	
-	
-	
-	
+
+	@Valid
+	@NotNull
+	@ManyToOne(optional = false)
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
+	@Valid
+	@NotNull
+	@OneToOne(optional = false)
+	public Curricula getCopyCurricula() {
+		return copyCurricula;
+	}
+
+	public void setCopyCurricula(Curricula copyCurricula) {
+		this.copyCurricula = copyCurricula;
+	}
+
 }
