@@ -56,6 +56,22 @@ public class ActorService {
 		return result;
 	}
 
+	/**
+	 * Check the authority of the actor
+	 * 
+	 * @param actor
+	 * @param authority
+	 * @return boolean
+	 */
+	public boolean checkAuthority(final Actor actor, final String authority) {
+		Assert.notNull(actor);
+		boolean result = false;
+		if (actor.getUserAccount().getAuthorities().iterator().next()
+				.getAuthority().equals(authority))
+			result = true;
+		return result;
+	}
+	
 	public Collection<Actor> findAllExceptPrincipal() {
 		Collection<Actor> result;
 		Actor principal;
