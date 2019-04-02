@@ -1,10 +1,13 @@
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,6 +36,7 @@ public class Position extends DomainEntity {
 	private String skillsRequired;
 	private Company company;
 	private Boolean isDraft;
+	private Collection<Problem> problems;
 
 	// Getters and setters
 
@@ -130,6 +134,16 @@ public class Position extends DomainEntity {
 
 	public void setIsDraft(Boolean isDraft) {
 		this.isDraft = isDraft;
+	}
+
+	@ElementCollection
+	@ManyToMany
+	public Collection<Problem> getProblems() {
+		return problems;
+	}
+
+	public void setProblems(Collection<Problem> problems) {
+		this.problems = problems;
 	}
 
 }

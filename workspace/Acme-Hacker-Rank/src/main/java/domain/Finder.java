@@ -21,7 +21,7 @@ public class Finder extends DomainEntity {
 	// Attributes
 
 	private String keyWord;
-	private Date deadline;
+	private Date minimumDeadline;
 	private Double minimumSalary;
 	private Date maximumDeadline;
 	private Collection<Position> results;
@@ -39,12 +39,12 @@ public class Finder extends DomainEntity {
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	public Date getDeadline() {
-		return deadline;
+	public Date getMinimumDeadline() {
+		return minimumDeadline;
 	}
 
-	public void setDeadline(Date deadline) {
-		this.deadline = deadline;
+	public void setMinimumDeadline(Date minimumDeadline) {
+		this.minimumDeadline = minimumDeadline;
 	}
 
 	public Double getMinimumSalary() {

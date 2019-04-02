@@ -3,7 +3,6 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -19,7 +18,7 @@ public class Problem extends DomainEntity {
 	private String statement;
 	private String optionalHint;
 	private String attachments;
-	private Position position;
+	private Company company;
 	private Boolean isDraft;
 
 	// Getters and setters
@@ -61,13 +60,12 @@ public class Problem extends DomainEntity {
 
 	@Valid
 	@NotNull
-	@ManyToOne(optional = false)
-	public Position getPosition() {
-		return position;
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setPosition(Position position) {
-		this.position = position;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	@NotNull
