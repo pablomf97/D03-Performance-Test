@@ -51,7 +51,7 @@ public class Curricula extends DomainEntity {
 
 	@ElementCollection
 	@NotEmpty
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	public Collection<PositionData> getPositionData() {
 		return this.positionData;
 	}
