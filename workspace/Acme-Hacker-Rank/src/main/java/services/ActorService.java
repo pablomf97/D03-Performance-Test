@@ -74,6 +74,11 @@ public class ActorService {
 		return result;
 	}
 
+	/**
+	 * Find all actors minus principal
+	 * 
+	 * @return Collection<Actor>
+	 */
 	public Collection<Actor> findAllExceptPrincipal() {
 		Collection<Actor> result;
 		Actor principal;
