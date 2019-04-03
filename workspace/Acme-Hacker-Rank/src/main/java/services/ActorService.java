@@ -1,6 +1,8 @@
 package services;
 
 import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.transaction.Transactional;
 
@@ -86,4 +88,24 @@ public class ActorService {
 		return result;
 	}
 
+	/**
+	 * Validate email pattern
+	 * 
+	 * @param email
+	 * @return messageCode
+	 */
+	public Boolean checkEmail(final String email, final String authority) {
+		Boolean result;
+		final Pattern pattern = Pattern
+				.compile("(^(([a-z]|[0-9]){1,}[@]{1}([a-z]|[0-9]){1,}([.]{1}([a-z]|[0-9]){1,}){1,})$)|(^((([a-z]|[0-9]){1,}[ ]{1}){1,}<(([a-z]|[0-9]){1,}[@]{1}([a-z]|[0-9]){1,}([.]{1}([a-z]|[0-9]){1,}){1,})>)$)");
+		final Matcher matcher = pattern.matcher(email);
+		if (authority.equals("ADMININISTRATOR") && matcher.matches()) {
+			final Pattern patternAdmin = Pattern
+					.compile("(^((([a-z]|[0-9]){1,}[@])$)|(^(([a-z]|[0-9]){1,}[ ]{1}){1,}<(([a-z]|[0-9]){1,}[@]>))$)");
+			final Matcher matcherAdmin = patternAdmin.matcher(email);
+			result = matcherAdmin.matches() ? true : false;
+		} else
+			result = matcher.matches() ? true : false;
+		return result;
+	}
 }

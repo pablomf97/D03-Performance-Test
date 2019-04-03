@@ -7,6 +7,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -25,6 +26,11 @@ public class HackerService {
 
 	@Autowired
 	private HackerRepository hackerRepository;
+
+	/* Services */
+
+	@Autowired
+	private SystemConfigurationService systemConfigurationService;
 
 	/* Simple CRUD methods */
 
@@ -66,6 +72,31 @@ public class HackerService {
 	public List<Hacker> findAll() {
 
 		return this.hackerRepository.findAll();
+	}
+
+	public Hacker save(Hacker hacker) {
+		Hacker res;
+		Assert.notNull(hacker);
+
+		char[] phoneArray = hacker.getPhoneNumber().toCharArray();
+		if ((!hacker.getPhoneNumber().equals(null) && !hacker.getPhoneNumber()
+				.equals("")))
+			if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
+				String cc = this.systemConfigurationService
+						.findMySystemConfiguration().getCountryCode();
+				hacker.setPhoneNumber("+" + cc + " " + hacker.getPhoneNumber());
+			}
+
+		if (hacker.getId() == 0) {
+			Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+			String encodedpass = encoder.encodePassword(hacker.getUserAccount()
+					.getPassword(), null);
+			hacker.getUserAccount().setPassword(encodedpass);
+		}
+
+		res = this.hackerRepository.save(hacker);
+		return res;
+
 	}
 
 }
