@@ -66,7 +66,7 @@ public class FinderService {
 
 		}
 		public Finder save(Finder finder){
-			Finder result = null;
+			Finder result;
 			Date currentMoment;
 			Actor principal;
 			
@@ -79,13 +79,24 @@ public class FinderService {
 							"not.allowed");
 					
 				}catch(Throwable oops){
-					return null;
+					principal = this.actorService.findByPrincipal();
+					Assert.isTrue(
+							this.actorService.checkAuthority(principal, "MEMBER"),
+							"not.allowed");
+
+					
+					
 				}
 			}
+			Assert.notNull(finder, "not.allowed");
+			if(finder.getMinimumSalary()!=null){
+				Assert.isTrue(finder.getMinimumSalary() >=0.,"not.negative");
+			}
+			
+			result = this.finderRepository.save(finder);
+			Assert.notNull(result, "not.null");
+
 			return result;
-			
-			
-			
 		}
 		
 }
