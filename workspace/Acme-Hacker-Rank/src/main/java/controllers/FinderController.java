@@ -2,12 +2,16 @@ package controllers;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
+import javax.validation.Valid;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -111,6 +115,35 @@ public class FinderController extends AbstractController{
 		if (!finder.getResults().isEmpty())
 			result.addObject("positions", finder.getResults());
 		result.addObject("requestUri", "finder/hacker/search.do");
+		return result;
+	}
+	@RequestMapping(value = "/search", method = RequestMethod.POST, params = "save")
+	public ModelAndView search(@Valid final Finder finder, final BindingResult binding) {
+		ModelAndView result;
+	
+		
+		if (binding.hasErrors()) {
+			final List<ObjectError> errors = binding.getAllErrors();
+			for (final ObjectError e : errors)
+				System.out.println(e.toString());
+			result = this.createEditModelAndView(finder);
+
+		} else
+			try {
+				
+				this.finderService.search(finder);
+				result = new ModelAndView("redirect:/finder/hacker/search.do");
+
+			} catch (final Throwable oops) {
+				System.out.println(finder.getResults());
+				System.out.println(oops.getMessage());
+				System.out.println(oops.getClass());
+				System.out.println(oops.getCause());
+
+				result = this.createEditModelAndView(finder, "finder.commit.error");
+
+			}
+
 		return result;
 	}
 	
