@@ -13,6 +13,6 @@ import domain.Position;
 @Repository
 public interface FinderRepository extends JpaRepository<Finder, Integer> {
 	@Query("select p from Position p ")
-	Collection<Position> search(String keyWord,Date deadline,Double salary,Date maximumDeadline);
+	Collection<Position> search(String keyWord,Date deadline,Double minimumSalary,Date maximumDeadline);
 	
 }
