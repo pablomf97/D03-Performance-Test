@@ -61,7 +61,7 @@ public class Problem extends DomainEntity {
 
 	@Valid
 	@NotNull
-	@ManyToOne(optional=false)
+	@ManyToOne(optional = false)
 	public Company getCompany() {
 		return company;
 	}
