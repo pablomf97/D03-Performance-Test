@@ -12,7 +12,13 @@ import domain.Position;
 
 @Repository
 public interface FinderRepository extends JpaRepository<Finder, Integer> {
-	@Query("select p from Position p ")
-	Collection<Position> search(String keyWord,Date deadline,Double minimumSalary,Date maximumDeadline);
+	@Query("select p from Position p where p.salary >= '?0'   and where  p.deadline <= '?1' and (p.ticker like %?2% or p.description like %?2% or p.title like %?2% or p.profileRequired like %?2% or p.technologiesRequired like %?2% or p.skillsRequired like %?2%)")
+	Collection<Position> search(Double minimumSalary,Date maximumDeadline,String keyWord);
 	
+	
+	@Query("select max(h.finder.results.size), min(h.finder.results.size), avg(h.finder.results.size),sqrt(sum(h.finder.results.size* h.finder.results.size) / count(h.finder.results.size) -(avg(h.finder.results.size) * avg(h.finder.results.size))) from Hacker h")
+	Double[] StatsFinder();
+
+	@Query("select p from Position p where  ( p.deadline like '?0')")
+	Position searchDeadline(Date deadline);
 }
