@@ -3,6 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -10,18 +11,21 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.apache.commons.collections.FastArrayList;
+
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import domain.Actor;
+import domain.Curricula;
 import domain.Finder;
 import domain.Hacker;
 import domain.Position;
 
+import repositories.CurriculaRepository;
 import repositories.FinderRepository;
+import repositories.HackerRepository;
 import repositories.PositionRepository;
 
 @Transactional
@@ -39,10 +43,14 @@ public class FinderService {
 	@Autowired
 	private PositionRepository positionService;
 
-
+	@Autowired
+	private CurriculaRepository curriculaRepository;
+	
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
-
+	
+	@Autowired
+	private HackerRepository hackerRepository;
 
 	// Constructors
 	public FinderService() {
@@ -156,7 +164,7 @@ public class FinderService {
 		Collection<Position> results=new ArrayList<Position>();
 		String keyWord;
 		Double minimumSalary;
-		Date deadline;
+	
 		Date maximumDeadline;
 		int nResults;
 
@@ -212,9 +220,45 @@ public class FinderService {
 
 
 	}
+	public Double ratioFinders() {
+		Double emptys = this.FindersEmpty();
+		Double all = (double) this.findAll().size();
+		Double res;
 
+		res = (emptys / all);
 
+		return res;
 
+	}
+	public Double FindersEmpty() {
+		Double res;
+		res = (double) this.finderRepository.FindersEmpty().size();
+		return res;
+	}
+	
+	public Collection<Integer> numberCurriculaPerHacker(){
+		return this.finderRepository.numberCurriculaPerHacker();
+	}
+	
+	public Integer MaxCurriculaPerHacker(){
+		
+		return  Collections.max(this.numberCurriculaPerHacker());
+	}
+	public Integer MinCurriculaPerHacker(){
+		
+		return  Collections.min(this.numberCurriculaPerHacker());
+	}
+
+	public Double AvgCurriculaPerHacker(){
+		List<Integer> cvsPerHacker=(List<Integer>) this.numberCurriculaPerHacker();
+		int total=0;
+		double avg=0.;
+		for(int i = 0; i < cvsPerHacker.size(); i++){
+			total += cvsPerHacker.get(i);
+		}
+		 avg = total / cvsPerHacker.size();
+		 return avg;
+	}
 
 }
 

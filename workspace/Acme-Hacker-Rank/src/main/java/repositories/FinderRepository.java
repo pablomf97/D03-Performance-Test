@@ -21,4 +21,10 @@ public interface FinderRepository extends JpaRepository<Finder, Integer> {
 
 	@Query("select p from Position p where  ( p.deadline like '?0')")
 	Position searchDeadline(Date deadline);
+	@Query("select f from Finder f where f.results.size='0'")
+	Collection<Finder> FindersEmpty();
+	
+	@Query("select (select count(e) from Curricula e where e.hacker=h) from Hacker h")
+	Collection<Integer> numberCurriculaPerHacker();
+	
 }
