@@ -7,8 +7,10 @@ import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -24,6 +26,7 @@ public class Curricula extends DomainEntity {
 	private Collection<PositionData> positionData;
 	private PersonalData personalData;
 	private Boolean isCopy;
+	private Hacker hacker;
 
 	// Getters and setters
 
@@ -78,4 +81,15 @@ public class Curricula extends DomainEntity {
 		this.isCopy = isCopy;
 	}
 
+	@Valid
+	@ManyToOne(optional=false)
+	public Hacker getHacker() {
+		return hacker;
+	}
+
+	public void setHacker(Hacker hacker) {
+		this.hacker = hacker;
+	}
+
+	
 }

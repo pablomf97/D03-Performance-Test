@@ -56,7 +56,7 @@ public class AdministratorService {
 		userAccount = new UserAccount();
 		res = new Administrator();
 
-		auth.setAuthority(Authority.ADMINISTRATOR);
+		auth.setAuthority(Authority.ADMIN);
 		authority.add(auth);
 		userAccount.setAuthorities(authority);
 
