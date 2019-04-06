@@ -59,8 +59,8 @@ public class Actor extends DomainEntity {
 		return VAT;
 	}
 
-	public void setVAT(Double vAT) {
-		VAT = vAT;
+	public void setVAT(Double VAT) {
+		this.VAT = VAT;
 	}
 
 	@URL
@@ -116,6 +116,90 @@ public class Actor extends DomainEntity {
 
 	public void setUserAccount(UserAccount userAccount) {
 		this.userAccount = userAccount;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((VAT == null) ? 0 : VAT.hashCode());
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result
+				+ ((creditCard == null) ? 0 : creditCard.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
+		result = prime * result + ((photo == null) ? 0 : photo.hashCode());
+		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		result = prime * result
+				+ ((userAccount == null) ? 0 : userAccount.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Actor other = (Actor) obj;
+		if (VAT == null) {
+			if (other.VAT != null)
+				return false;
+		} else if (!VAT.equals(other.VAT))
+			return false;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
+		if (creditCard == null) {
+			if (other.creditCard != null)
+				return false;
+		} else if (!creditCard.equals(other.creditCard))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (phoneNumber == null) {
+			if (other.phoneNumber != null)
+				return false;
+		} else if (!phoneNumber.equals(other.phoneNumber))
+			return false;
+		if (photo == null) {
+			if (other.photo != null)
+				return false;
+		} else if (!photo.equals(other.photo))
+			return false;
+		if (surname == null) {
+			if (other.surname != null)
+				return false;
+		} else if (!surname.equals(other.surname))
+			return false;
+		if (userAccount == null) {
+			if (other.userAccount != null)
+				return false;
+		} else if (!userAccount.equals(other.userAccount))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Actor [name=" + name + ", surname=" + surname + ", VAT=" + VAT
+				+ ", photo=" + photo + ", email=" + email + ", phoneNumber="
+				+ phoneNumber + ", address=" + address + ", creditCard="
+				+ creditCard + ", userAccount=" + userAccount + "]";
 	}
 
 }

@@ -27,15 +27,14 @@ public class Authority implements GrantedAuthority {
 
 	// Constructors -----------------------------------------------------------
 
-	private static final long	serialVersionUID	= 1L;
-
+	private static final long serialVersionUID = 1L;
 
 	public Authority() {
 		super();
 	}
 
-
 	// Values -----------------------------------------------------------------
+
 
 	public static final String	ADMIN		= "ADMIN";
 	public static final String	HACKER	= "HACKER";
@@ -43,10 +42,10 @@ public class Authority implements GrantedAuthority {
 
 	// Attributes -------------------------------------------------------------
 
-	private String				authority;
-
+	private String authority;
 
 	@NotBlank
+
 	@Pattern(regexp = "^" + Authority.ADMIN + "|" + Authority.HACKER + "|" + Authority.COMPANY + "$")
 	@Override
 	public String getAuthority() {
@@ -70,7 +69,7 @@ public class Authority implements GrantedAuthority {
 		authority = new Authority();
 		authority.setAuthority(Authority.HACKER);
 		result.add(authority);
-		
+
 		authority = new Authority();
 		authority.setAuthority(Authority.COMPANY);
 		result.add(authority);
@@ -96,7 +95,8 @@ public class Authority implements GrantedAuthority {
 		else if (!this.getClass().isInstance(other))
 			result = false;
 		else
-			result = (this.getAuthority().equals(((Authority) other).getAuthority()));
+			result = (this.getAuthority().equals(((Authority) other)
+					.getAuthority()));
 
 		return result;
 	}

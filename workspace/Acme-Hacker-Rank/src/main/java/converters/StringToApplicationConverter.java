@@ -1,17 +1,21 @@
 package converters;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import repositories.ApplicationRepository;
 
 import domain.Application;
 
+@Component
+@Transactional
 public class StringToApplicationConverter implements Converter<String, Application> {
 
 	@Autowired
-
 	ApplicationRepository	actorRepository;
 
 	@Override
