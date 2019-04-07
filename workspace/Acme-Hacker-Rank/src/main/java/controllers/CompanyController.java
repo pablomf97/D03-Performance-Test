@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CompanyService;
 import domain.Company;
+import forms.EditionCompanyFormObject;
 import forms.RegisterCompanyFormObject;
 
 @Controller
@@ -22,7 +24,68 @@ public class CompanyController extends AbstractController {
 	@Autowired
 	private CompanyService companyService;
 
+	@Autowired
+	private ActorService actorService;
+
 	/* Methods */
+
+	/**
+	 * 
+	 * Edit company GET
+	 * 
+	 * @return ModelAndView
+	 **/
+	@RequestMapping(value = "/company/edit", method = RequestMethod.GET)
+	public ModelAndView editCompany() {
+		ModelAndView res;
+		Company principal;
+
+		principal = (Company) this.actorService.findByPrincipal();
+
+		EditionCompanyFormObject editionCompanyFormObject = new EditionCompanyFormObject(
+				principal);
+
+		res = this.createEditModelAndView(editionCompanyFormObject);
+
+		return res;
+	}
+
+	/**
+	 * 
+	 * Edit company POST
+	 * 
+	 * @return ModelAndView
+	 **/
+	@RequestMapping(value = "/company/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView edit(
+			@Valid EditionCompanyFormObject editionCompanyFormObject,
+			BindingResult binding) {
+
+		ModelAndView res;
+
+		Company company = new Company();
+		company = this.companyService.create();
+
+		company = this.companyService.reconstruct(editionCompanyFormObject,
+				binding);
+
+		if (binding.hasErrors()) {
+			res = this.createEditModelAndView(editionCompanyFormObject);
+		} else {
+			try {
+
+				this.companyService.save(company);
+
+				res = new ModelAndView("redirect:/");
+
+			} catch (Throwable oops) {
+				res = this.createEditModelAndView(editionCompanyFormObject,
+						"company.commit.error");
+
+			}
+		}
+		return res;
+	}
 
 	/**
 	 * 
@@ -31,13 +94,13 @@ public class CompanyController extends AbstractController {
 	 * @return ModelAndView
 	 **/
 	@RequestMapping(value = "/company/register", method = RequestMethod.GET)
-	public ModelAndView createAdmin() {
+	public ModelAndView registerNewCompany() {
 		ModelAndView res;
 
 		RegisterCompanyFormObject registerCompanyFormObject = new RegisterCompanyFormObject();
 		registerCompanyFormObject.setTermsAndConditions(false);
 
-		res = this.createEditModelAndView(registerCompanyFormObject);
+		res = this.createRegisterModelAndView(registerCompanyFormObject);
 
 		return res;
 	}
@@ -49,7 +112,7 @@ public class CompanyController extends AbstractController {
 	 * @return ModelAndView
 	 **/
 	@RequestMapping(value = "/company/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(
+	public ModelAndView register(
 			@Valid RegisterCompanyFormObject registerCompanyFormObject,
 			BindingResult binding) {
 
@@ -62,7 +125,7 @@ public class CompanyController extends AbstractController {
 				binding);
 
 		if (binding.hasErrors()) {
-			res = this.createEditModelAndView(registerCompanyFormObject);
+			res = this.createRegisterModelAndView(registerCompanyFormObject);
 		} else {
 			try {
 
@@ -71,8 +134,8 @@ public class CompanyController extends AbstractController {
 				res = new ModelAndView("redirect:/");
 
 			} catch (Throwable oops) {
-				res = this.createEditModelAndView(registerCompanyFormObject,
-						"company.commit.error");
+				res = this.createRegisterModelAndView(
+						registerCompanyFormObject, "company.commit.error");
 
 			}
 		}
@@ -82,15 +145,37 @@ public class CompanyController extends AbstractController {
 	/* Auxiliary methods */
 
 	protected ModelAndView createEditModelAndView(
-			RegisterCompanyFormObject registerCompanyFormObject) {
+			EditionCompanyFormObject editionCompanyFormObject) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(registerCompanyFormObject, null);
+		result = this.createEditModelAndView(editionCompanyFormObject, null);
 
 		return result;
 	}
 
 	protected ModelAndView createEditModelAndView(
+			EditionCompanyFormObject editionCompanyFormObject,
+			String messageCode) {
+		ModelAndView result;
+
+		result = new ModelAndView("company/edit");
+		result.addObject("editionCompanyFormObject", editionCompanyFormObject);
+		result.addObject("message", messageCode);
+
+		return result;
+	}
+
+	protected ModelAndView createRegisterModelAndView(
+			RegisterCompanyFormObject registerCompanyFormObject) {
+		ModelAndView result;
+
+		result = this.createRegisterModelAndView(registerCompanyFormObject,
+				null);
+
+		return result;
+	}
+
+	protected ModelAndView createRegisterModelAndView(
 			RegisterCompanyFormObject registerCompanyFormObject,
 			String messageCode) {
 		ModelAndView result;

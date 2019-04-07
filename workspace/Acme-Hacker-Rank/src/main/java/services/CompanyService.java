@@ -21,6 +21,7 @@ import security.UserAccount;
 import domain.Actor;
 import domain.Company;
 import domain.CreditCard;
+import forms.EditionCompanyFormObject;
 import forms.RegisterCompanyFormObject;
 
 @Transactional
@@ -116,6 +117,8 @@ public class CompanyService {
 
 			Assert.isTrue(principal.getId() == company.getId(), "no.permission");
 
+			company.setUserAccount(principal.getUserAccount());
+
 			/* Managing phone number */
 			char[] phoneArray = company.getPhoneNumber().toCharArray();
 			if ((!company.getPhoneNumber().equals(null) && !company
@@ -140,6 +143,97 @@ public class CompanyService {
 		}
 
 		res = this.companyRepository.save(company);
+		return res;
+	}
+
+	/* Other methods */
+
+	/**
+	 * Reconstruct an Company from the database
+	 * 
+	 * @param Company
+	 * 
+	 * @return Company
+	 */
+	public Company reconstruct(EditionCompanyFormObject form,
+			BindingResult binding) {
+
+		Company res = this.create();
+
+		res.setId(form.getId());
+		res.setVersion(form.getVersion());
+		res.setName(form.getName());
+		res.setSurname(form.getSurname());
+		res.setVAT(form.getVAT());
+		res.setPhoto(form.getPhoto());
+		res.setEmail(form.getEmail());
+		res.setPhoneNumber(form.getPhoneNumber());
+		res.setAddress(form.getAddress());
+		res.setCommercialName(form.getCommercialName());
+
+		/* Creating credit card */
+		CreditCard creditCard = new CreditCard();
+
+		creditCard.setHolder(form.getHolder());
+		creditCard.setMake(form.getMake());
+		creditCard.setNumber(form.getNumber());
+		creditCard.setExpirationMonth(form.getExpirationMonth());
+		creditCard.setExpirationYear(form.getExpirationYear());
+		creditCard.setCVV(form.getCVV());
+
+		res.setCreditCard(creditCard);
+
+		/* VAT */
+		if (form.getVAT() != null) {
+			try {
+
+				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+						"VAT.error");
+			} catch (Throwable oops) {
+				binding.addError(new FieldError("editionFormObject", "VAT",
+						form.getPassword(), false, null, null, "VAT.error"));
+			}
+		}
+
+		/* Credit card */
+		if (form.getNumber() != null) {
+			try {
+				Assert.isTrue(this.creditCardService
+						.checkCreditCardNumber(creditCard.getNumber()),
+						"card.number.error");
+			} catch (Throwable oops) {
+				binding.addError(new FieldError("editionFormObject", "number",
+						form.getNumber(), false, null, null,
+						"card.number.error"));
+			}
+		}
+
+		if (creditCard.getExpirationMonth() != null
+				&& creditCard.getExpirationYear() != null) {
+
+			try {
+				Assert.isTrue(
+						!this.creditCardService.checkIfExpired(
+								creditCard.getExpirationMonth(),
+								creditCard.getExpirationYear()),
+						"card.date.error");
+			} catch (ParseException pe) {
+				binding.addError(new FieldError("editionFormObject", "number",
+						form.getExpirationMonth(), false, null, null,
+						"card.date.error"));
+			}
+
+			if (form.getCVV() != null) {
+				try {
+					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
+							"CVV.error");
+				} catch (Throwable oops) {
+					binding.addError(new FieldError("editionFormObject", "CVV",
+							form.getCVV(), false, null, null, "CVV.error"));
+				}
+			}
+		}
+
 		return res;
 	}
 
