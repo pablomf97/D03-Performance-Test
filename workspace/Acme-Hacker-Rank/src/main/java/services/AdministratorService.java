@@ -21,6 +21,7 @@ import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
 import domain.CreditCard;
+import forms.EditionFormObject;
 import forms.RegisterFormObject;
 
 @Transactional
@@ -146,6 +147,8 @@ public class AdministratorService {
 			Assert.isTrue(principal.getId() == administrator.getId(),
 					"no.permission");
 
+			administrator.setUserAccount(principal.getUserAccount());
+
 			/* Managing phone number */
 			char[] phoneArray = administrator.getPhoneNumber().toCharArray();
 			if ((!administrator.getPhoneNumber().equals(null) && !administrator
@@ -161,7 +164,7 @@ public class AdministratorService {
 			/* Managing email */
 			String email = administrator.getEmail();
 			Assert.isTrue(
-					this.actorService.checkEmail(email, principal
+					!this.actorService.checkEmail(email, principal
 							.getUserAccount().getAuthorities().iterator()
 							.next().toString()), "actor.email.error");
 
@@ -202,37 +205,83 @@ public class AdministratorService {
 	 * 
 	 * @return Administrator
 	 */
-	public Administrator reconstruct(Administrator administrator) {
-		Actor principal;
+	public Administrator reconstruct(EditionFormObject form,
+			BindingResult binding) {
+
+		/* Creating admin */
 		Administrator res = this.create();
 
-		Assert.notNull(administrator);
+		res.setId(form.getId());
+		res.setVersion(form.getVersion());
+		res.setName(form.getName());
+		res.setSurname(form.getSurname());
+		res.setVAT(form.getVAT());
+		res.setPhoto(form.getPhoto());
+		res.setEmail(form.getEmail());
+		res.setPhoneNumber(form.getPhoneNumber());
+		res.setAddress(form.getAddress());
 
-		principal = this.actorService.findByPrincipal();
+		/* Creating credit card */
+		CreditCard creditCard = new CreditCard();
 
-		if (administrator.getId() == 0) {
+		creditCard.setHolder(form.getHolder());
+		creditCard.setMake(form.getMake());
+		creditCard.setNumber(form.getNumber());
+		creditCard.setExpirationMonth(form.getExpirationMonth());
+		creditCard.setExpirationYear(form.getExpirationYear());
+		creditCard.setCVV(form.getCVV());
 
-			Assert.isTrue(this.actorService.checkAuthority(principal,
-					"ADMINISTRATOR"), "no.permission");
+		res.setCreditCard(creditCard);
 
-			res = administrator;
+		/* VAT */
+		if (form.getVAT() != null) {
+			try {
 
-		} else {
+				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+						"VAT.error");
+			} catch (Throwable oops) {
+				binding.addError(new FieldError("editionFormObject", "VAT",
+						form.getPassword(), false, null, null, "VAT.error"));
+			}
+		}
 
-			Assert.isTrue(principal.getId() == administrator.getId(),
-					"no.permission");
+		/* Credit card */
+		if (form.getNumber() != null) {
+			try {
+				Assert.isTrue(this.creditCardService
+						.checkCreditCardNumber(creditCard.getNumber()),
+						"card.number.error");
+			} catch (Throwable oops) {
+				binding.addError(new FieldError("editionFormObject", "number",
+						form.getNumber(), false, null, null,
+						"card.number.error"));
+			}
+		}
 
-			/* Setting new values */
-			res.setId(administrator.getId());
-			res.setName(administrator.getName());
-			res.setSurname(administrator.getSurname());
-			res.setVAT(administrator.getVAT());
-			res.setPhoto(administrator.getPhoto());
-			res.setEmail(administrator.getEmail());
-			res.setPhoneNumber(administrator.getPhoneNumber());
-			res.setAddress(administrator.getAddress());
-			res.setCreditCard(administrator.getCreditCard());
+		if (creditCard.getExpirationMonth() != null
+				&& creditCard.getExpirationYear() != null) {
 
+			try {
+				Assert.isTrue(
+						!this.creditCardService.checkIfExpired(
+								creditCard.getExpirationMonth(),
+								creditCard.getExpirationYear()),
+						"card.date.error");
+			} catch (ParseException pe) {
+				binding.addError(new FieldError("editionFormObject", "number",
+						form.getExpirationMonth(), false, null, null,
+						"card.date.error"));
+			}
+
+			if (form.getCVV() != null) {
+				try {
+					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
+							"CVV.error");
+				} catch (Throwable oops) {
+					binding.addError(new FieldError("editionFormObject", "CVV",
+							form.getCVV(), false, null, null, "CVV.error"));
+				}
+			}
 		}
 
 		return res;
