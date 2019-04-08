@@ -10,6 +10,11 @@
 
 <tiles-definitions>
 
+	<definition name="administrator/display" extends="master.page">
+		<put-attribute name="title" value="Ver perfil" />
+		<put-attribute name="body" value="/views/administrator/display.jsp" />
+	</definition>
+
 	<definition name="administrator/register" extends="master.page">
 		<put-attribute name="title" value="Registrar administrador" />
 		<put-attribute name="body" value="/views/administrator/register.jsp" />

@@ -10,6 +10,11 @@
 
 <tiles-definitions>
 
+	<definition name="company/display" extends="master.page">
+		<put-attribute name="title" value="Ver perfil" />
+		<put-attribute name="body" value="/views/company/display.jsp" />
+	</definition>
+
 	<definition name="company/register" extends="master.page">
 		<put-attribute name="title" value="Registrar empresa" />
 		<put-attribute name="body" value="/views/company/register.jsp" />

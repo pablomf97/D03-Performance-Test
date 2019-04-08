@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
@@ -28,6 +29,41 @@ public class HackerController extends AbstractController {
 	private ActorService actorService;
 
 	/* Methods */
+
+	/**
+	 * 
+	 * Display hacker
+	 * 
+	 * @params id (optional)
+	 * 
+	 * @return ModelAndView
+	 * **/
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam(required = false) Integer id) {
+		ModelAndView res;
+		Hacker toDisplay;
+		Boolean found = true;
+
+		try {
+			if (id != null) {
+				toDisplay = (Hacker) this.actorService.findOne(id);
+				if (toDisplay == null)
+					found = false;
+			} else {
+				toDisplay = (Hacker) this.actorService.findByPrincipal();
+			}
+
+			res = new ModelAndView("hacker/display");
+			res.addObject("hacker", toDisplay);
+			res.addObject("found", found);
+		} catch (Throwable oops) {
+			found = false;
+			res = new ModelAndView("hacker/display");
+			res.addObject("found", found);
+		}
+
+		return res;
+	}
 
 	/**
 	 * 

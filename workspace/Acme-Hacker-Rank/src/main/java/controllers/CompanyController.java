@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
@@ -28,6 +29,41 @@ public class CompanyController extends AbstractController {
 	private ActorService actorService;
 
 	/* Methods */
+
+	/**
+	 * 
+	 * Display company
+	 * 
+	 * @params id (optional)
+	 * 
+	 * @return ModelAndView
+	 * **/
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam(required = false) Integer id) {
+		ModelAndView res;
+		Company toDisplay;
+		Boolean found = true;
+
+		try {
+			if (id != null) {
+				toDisplay = (Company) this.actorService.findOne(id);
+				if (toDisplay == null)
+					found = false;
+			} else {
+				toDisplay = (Company) this.actorService.findByPrincipal();
+			}
+
+			res = new ModelAndView("company/display");
+			res.addObject("company", toDisplay);
+			res.addObject("found", found);
+		} catch (Throwable oops) {
+			found = false;
+			res = new ModelAndView("company/display");
+			res.addObject("found", found);
+		}
+
+		return res;
+	}
 
 	/**
 	 * 
