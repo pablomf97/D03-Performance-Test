@@ -372,6 +372,21 @@
 		<property name="CVV" value="001" />
 	</bean>
 	
+	
+	<!-- APPLICATION -->
+	
+	<bean id="application1_h1" class="domain.Application">
+		<property name="applicationMoment" value="08/10/2018 10:00" />
+		<property name="explanation" value="This is my first great application" />
+		<property name="linkCode" value="https://www.linktocodeofapp1.com/"/>
+		<property name="submitMoment" value="08/01/2019 10:00" />
+		<property name="status" value="ACCEPTED" />
+		<property name="problem" ref="problem4_c1" />
+		<property name="hacker" ref="hacker1" />
+		<property name="position" ref="position1_c1" />
+		<property name="copyCurricula" ref="curricula1_copy" />
+	</bean>
+	
 	<!-- CURRICULA -->
 	
 	<bean id="curricula1" class="domain.Curricula">
@@ -389,6 +404,65 @@
 		<property name="positionData" >
 			<list>
 				<ref bean="positionData1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="curricula1_copy" class="domain.Curricula">
+		<property name="isCopy" value="true" />
+		<property name="hacker" ref="hacker1" />
+		<property name="personalData" ref="personalData1_copy" />
+		<property name="educationData">
+			<list>
+				<ref bean="educationData1_copy" />
+			</list>
+		</property>
+		<property name="miscellaneousData">
+			<null />
+		</property>
+		<property name="positionData" >
+			<list>
+				<ref bean="positionData1_copy" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="curricula6" class="domain.Curricula">
+		<property name="isCopy" value="false" />
+		<property name="hacker" ref="hacker1" />
+		<property name="personalData" ref="personalData6" />
+		<property name="educationData">
+			<list>
+				<ref bean="educationData6_1" />
+				<ref bean="educationData6_2" />
+			</list>
+		</property>
+		<property name="miscellaneousData">
+			<null />
+		</property>
+		<property name="positionData" >
+			<list>
+				<ref bean="positionData6_1" />
+				<ref bean="positionData6_2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="curricula7" class="domain.Curricula">
+		<property name="isCopy" value="false" />
+		<property name="hacker" ref="hacker1" />
+		<property name="personalData" ref="personalData7" />
+		<property name="educationData">
+			<list>
+				<ref bean="educationData7" />
+			</list>
+		</property>
+		<property name="miscellaneousData">
+			<null />
+		</property>
+		<property name="positionData" >
+			<list>
+				<ref bean="positionData7" />
 			</list>
 		</property>
 	</bean>
@@ -412,6 +486,25 @@
 		</property>
 	</bean>
 	
+	<bean id="curricula8" class="domain.Curricula">
+		<property name="isCopy" value="false" />
+		<property name="hacker" ref="hacker2" />
+		<property name="personalData" ref="personalData8" />
+		<property name="educationData">
+			<list>
+				<ref bean="educationData8" />
+			</list>
+		</property>
+		<property name="miscellaneousData">
+			<null />
+		</property>
+		<property name="positionData" >
+			<list>
+				<ref bean="positionData8" />
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="curricula3" class="domain.Curricula">
 		<property name="isCopy" value="false" />
 		<property name="hacker" ref="hacker3" />
@@ -422,7 +515,10 @@
 			</list>
 		</property>
 		<property name="miscellaneousData">
-			<null />
+			<list>
+				<ref bean="miscellaneousData3_1" />
+				<ref bean="miscellaneousData3_2" />
+			</list>
 		</property>
 		<property name="positionData" >
 			<list>
@@ -460,7 +556,9 @@
 			</list>
 		</property>
 		<property name="miscellaneousData">
-			<null />
+			<list>
+				<ref bean="miscellaneousData5" />
+			</list>
 		</property>
 		<property name="positionData" >
 			<list>
@@ -472,6 +570,14 @@
 	<!-- EDUCATION DATA -->
 	
 	<bean id="educationData1" class="domain.EducationData">
+		<property name="degree" value="Ing. Informatico de Software" />
+		<property name="institution" value="Universidad de Sevilla" />
+		<property name="mark" value="9.99" />
+		<property name="startDate" value="01/09/2011 19:48" />
+		<property name="endDate" value="20/07/2015 11:26" />
+	</bean>
+	
+	<bean id="educationData1_copy" class="domain.EducationData">
 		<property name="degree" value="Ing. Informatico de Software" />
 		<property name="institution" value="Universidad de Sevilla" />
 		<property name="mark" value="9.99" />
@@ -511,9 +617,49 @@
 		<property name="endDate" value="05/02/2015 10:00" />
 	</bean>
 	
+	<bean id="educationData6_1" class="domain.EducationData">
+		<property name="degree" value="Ing. Informatico de todo 6_1" />
+		<property name="institution" value="Udemy" />
+		<property name="mark" value="10.0" />
+		<property name="startDate" value="05/01/2015 10:00" />
+		<property name="endDate" value="05/02/2015 10:00" />
+	</bean>
+	
+	<bean id="educationData6_2" class="domain.EducationData">
+		<property name="degree" value="Ing. Informatico de todo 6_2"  />
+		<property name="institution" value="Udemy" />
+		<property name="mark" value="8.0" />
+		<property name="startDate" value="05/01/2017 10:00" />
+		<property name="endDate" value="05/02/2018 10:00" />
+	</bean>
+	
+	<bean id="educationData7" class="domain.EducationData">
+		<property name="degree" value="Ing. Informatico de todo" />
+		<property name="institution" value="Udemy" />
+		<property name="mark" value="10.0" />
+		<property name="startDate" value="05/01/2015 10:00" />
+		<property name="endDate" value="05/02/2015 10:00" />
+	</bean>
+	
+	<bean id="educationData8" class="domain.EducationData">
+		<property name="degree" value="Ing. Informatico de todo" />
+		<property name="institution" value="Udemy" />
+		<property name="mark" value="10.0" />
+		<property name="startDate" value="05/01/2015 10:00" />
+		<property name="endDate" value="05/02/2015 10:00" />
+	</bean>
+	
 	<!-- PERSONAL DATA -->
 	
 	<bean id="personalData1" class="domain.PersonalData">
+		<property name="githubProfile" value="https://github.com/" />
+		<property name="linkedIn" value="https://es.linkedin.com/" />
+		<property name="fullName" value="Alberto Ramírez" />
+		<property name="statement" value="Statement of personalData 1" />
+		<property name="phoneNumber" value="646626167" />
+	</bean>
+	
+	<bean id="personalData1_copy" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
 		<property name="linkedIn" value="https://es.linkedin.com/" />
 		<property name="fullName" value="Alberto Ramírez" />
@@ -553,9 +699,40 @@
 		<property name="phoneNumber" value="646626167" />
 	</bean>
 	
+	<bean id="personalData6" class="domain.PersonalData">
+		<property name="githubProfile" value="https://github.com/" />
+		<property name="linkedIn" value="https://es.linkedin.com/" />
+		<property name="fullName" value="Paula Montero Galán" />
+		<property name="statement" value="Statement of personalData 6" />
+		<property name="phoneNumber" value="646626167" />
+	</bean>
+	
+	<bean id="personalData7" class="domain.PersonalData">
+		<property name="githubProfile" value="https://github.com/" />
+		<property name="linkedIn" value="https://es.linkedin.com/" />
+		<property name="fullName" value="Paula Montero Galán" />
+		<property name="statement" value="Statement of personalData 7" />
+		<property name="phoneNumber" value="646626167" />
+	</bean>
+	
+	<bean id="personalData8" class="domain.PersonalData">
+		<property name="githubProfile" value="https://github.com/" />
+		<property name="linkedIn" value="https://es.linkedin.com/" />
+		<property name="fullName" value="Paula Montero Galán" />
+		<property name="statement" value="Statement of personalData 8" />
+		<property name="phoneNumber" value="646626167" />
+	</bean>
+	
 	<!-- POSITION DATA -->
 	
 	<bean id="positionData1" class="domain.PositionData">
+		<property name="title" value="Title of position data 1" />
+		<property name="description" value="Tired of writing datas" />
+		<property name="startDate" value="01/09/2011 19:48" />
+		<property name="endDate" value="20/07/2015 11:26" />
+	</bean>
+	
+	<bean id="positionData1_copy" class="domain.PositionData">
 		<property name="title" value="Title of position data 1" />
 		<property name="description" value="Tired of writing datas" />
 		<property name="startDate" value="01/09/2011 19:48" />
@@ -584,11 +761,56 @@
 	</bean>
 	
 	<bean id="positionData5" class="domain.PositionData">
-		<property name="title" value="Tired of DT" />
-		<property name="description" value="Udemy" />
+		<property name="title" value="Title of position data 5" />
+		<property name="description" value="Carrefour" />
 		<property name="startDate" value="05/01/2015 10:00" />
 		<property name="endDate" value="05/02/2015 10:00" />
 	</bean>
+	
+	<bean id="positionData6_1" class="domain.PositionData">
+		<property name="title" value="Title of position data 6_1" />
+		<property name="description" value="Supersol" />
+		<property name="startDate" value="05/01/2015 10:00" />
+		<property name="endDate" value="05/02/2015 10:00" />
+	</bean>
+	
+	<bean id="positionData6_2" class="domain.PositionData">
+		<property name="title" value="Title of position data 6_2" />
+		<property name="description" value="MAS" />
+		<property name="startDate" value="05/01/2015 10:00" />
+		<property name="endDate" value="05/02/2015 10:00" />
+	</bean>
+	
+	<bean id="positionData7" class="domain.PositionData">
+		<property name="title" value="Title of position data 7" />
+		<property name="description" value="Dia" />
+		<property name="startDate" value="05/01/2015 10:00" />
+		<property name="endDate" value="05/02/2015 10:00" />
+	</bean>
+	
+	<bean id="positionData8" class="domain.PositionData">
+		<property name="title" value="Title of position data 8" />
+		<property name="description" value="Mercadona" />
+		<property name="startDate" value="05/01/2015 10:00" />
+		<property name="endDate" value="05/02/2015 10:00" />
+	</bean>
+	
+	<!-- MISCELLANEOUS DATA -->
+	
+	<bean id="miscellaneousData3_1" class="domain.MiscellaneousData">
+		<property name="text" value="Miscellaneous data 1 of curricula 3" />
+		<property name="attachements" value="https://attachment.com/" />
+	</bean>
+	
+	<bean id="miscellaneousData3_2" class="domain.MiscellaneousData">
+		<property name="text" value="Miscellaneous data 2 of curricula 3" />
+		<property name="attachements" value="https://attachment.com/" />
+	</bean>
+	
+	<bean id="miscellaneousData5" class="domain.MiscellaneousData">
+		<property name="text" value="Personal data of curricula 5... jk is miscellaneous" />
+		<property name="attachements" value="https://attachment.com/" />
+	</bean>	
 	
 	<!-- FINDER -->
 
