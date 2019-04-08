@@ -47,13 +47,6 @@
 				<br />
 
 				<div>
-					<strong><spring:message code="actor.surname" />: </strong>
-					<jstl:out value="${company.surname}" />
-				</div>
-
-				<br />
-
-				<div>
 					<strong><spring:message code="actor.email" />: </strong>
 					<jstl:out value="${company.email}" />
 				</div>

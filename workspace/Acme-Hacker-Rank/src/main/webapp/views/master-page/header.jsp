@@ -56,6 +56,9 @@
 						code="master.page.login" /></a></li>
 		</security:authorize>
 
+		<li><a class="fNiv" href="company/list.do"><spring:message
+					code="master.page.company.list" /></a></li>
+
 		<security:authorize access="isAuthenticated()">
 			<li><a class="fNiv"> <spring:message
 						code="master.page.profile" /> (<security:authentication

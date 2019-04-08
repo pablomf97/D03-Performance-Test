@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +62,33 @@ public class CompanyController extends AbstractController {
 			found = false;
 			res = new ModelAndView("company/display");
 			res.addObject("found", found);
+		}
+
+		return res;
+	}
+
+	/**
+	 * 
+	 * Display company
+	 * 
+	 * @return ModelAndView
+	 * **/
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView res;
+		Collection<Company> allCompanies;
+		Boolean err = false;
+
+		try {
+			allCompanies = this.companyService.findAll();
+
+			res = new ModelAndView("company/list");
+			res.addObject("allCompanies", allCompanies);
+			res.addObject("err", err);
+		} catch (Throwable oops) {
+			err = true;
+			res = new ModelAndView("company/list");
+			res.addObject("err", err);
 		}
 
 		return res;
