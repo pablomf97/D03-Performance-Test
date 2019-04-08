@@ -16,14 +16,19 @@
 	uri="http://www.springframework.org/security/tags"%>
 
 <div>
-	<a href="#"><img src="images/logo.png" alt="Acme-Hacker-Rank Co., Inc."
-		style="margin-bottom: 0.5em;" /></a>
+	<a href="#"><img src="images/logo.png"
+		alt="Acme-Hacker-Rank Co., Inc." style="margin-bottom: 0.5em;" /></a>
 </div>
 
 <div>
 	<ul id="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
 		<security:authorize access="hasRole('ADMIN')">
+			<!-- Register admin -->
+			<li><a class="fNiv"
+				href="administrator/administrator/register.do"><spring:message
+						code="master.page.register.admin" /></a></li>
+
 			<li><a class="fNiv"><spring:message
 						code="master.page.administrator" /></a>
 				<ul>
@@ -48,6 +53,18 @@
 		</security:authorize>
 
 		<security:authorize access="isAnonymous()">
+
+			<!-- Sign up -->
+			<li><a class="fNiv"><spring:message
+						code="master.page.singup" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="company/company/register.do"><spring:message
+								code="master.page.register.company" /></a></li>
+					<li><a href="hacker/hacker/register.do"><spring:message
+								code="master.page.register.hacker" /></a></li>
+				</ul></li>
+
 			<li><a class="fNiv" href="security/login.do"><spring:message
 						code="master.page.login" /></a></li>
 		</security:authorize>

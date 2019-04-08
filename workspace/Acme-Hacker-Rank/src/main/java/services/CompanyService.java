@@ -218,7 +218,7 @@ public class CompanyService {
 								creditCard.getExpirationYear()),
 						"card.date.error");
 			} catch (ParseException pe) {
-				binding.addError(new FieldError("editionFormObject", "number",
+				binding.addError(new FieldError("editionFormObject", "expirationMonth",
 						form.getExpirationMonth(), false, null, null,
 						"card.date.error"));
 			}
@@ -276,7 +276,7 @@ public class CompanyService {
 
 		List<Authority> authorities = new ArrayList<Authority>();
 		Authority authority = new Authority();
-		authority.setAuthority(Authority.ADMIN);
+		authority.setAuthority(Authority.COMPANY);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
 
@@ -349,9 +349,9 @@ public class CompanyService {
 								creditCard.getExpirationYear()),
 						"card.date.error");
 			} catch (ParseException pe) {
-				binding.addError(new FieldError("registerObjectForm", "number",
-						form.getExpirationMonth(), false, null, null,
-						"card.date.error"));
+				binding.addError(new FieldError("registerObjectForm",
+						"expirationMonth", form.getExpirationMonth(), false,
+						null, null, "card.date.error"));
 			}
 
 			if (form.getCVV() != null) {

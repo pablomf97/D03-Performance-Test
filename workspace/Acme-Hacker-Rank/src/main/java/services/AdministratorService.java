@@ -268,9 +268,9 @@ public class AdministratorService {
 								creditCard.getExpirationYear()),
 						"card.date.error");
 			} catch (ParseException pe) {
-				binding.addError(new FieldError("editionFormObject", "number",
-						form.getExpirationMonth(), false, null, null,
-						"card.date.error"));
+				binding.addError(new FieldError("editionFormObject",
+						"expirationMonth", form.getExpirationMonth(), false,
+						null, null, "card.date.error"));
 			}
 
 			if (form.getCVV() != null) {
@@ -398,10 +398,10 @@ public class AdministratorService {
 								creditCard.getExpirationMonth(),
 								creditCard.getExpirationYear()),
 						"card.date.error");
-			} catch (ParseException pe) {
-				binding.addError(new FieldError("registerObjectForm", "number",
-						form.getExpirationMonth(), false, null, null,
-						"card.date.error"));
+			} catch (Throwable oops) {
+				binding.addError(new FieldError("registerObjectForm",
+						"expirationMonth", form.getExpirationMonth(), false,
+						null, null, "card.date.error"));
 			}
 
 			if (form.getCVV() != null) {
