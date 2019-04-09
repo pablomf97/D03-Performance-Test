@@ -18,14 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import domain.Actor;
-import domain.Curricula;
+
 import domain.Finder;
 import domain.Hacker;
 import domain.Position;
 
-import repositories.CurriculaRepository;
+
 import repositories.FinderRepository;
-import repositories.HackerRepository;
+
 import repositories.PositionRepository;
 
 @Transactional
@@ -43,14 +43,10 @@ public class FinderService {
 	@Autowired
 	private PositionRepository positionService;
 
-	@Autowired
-	private CurriculaRepository curriculaRepository;
 	
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
 	
-	@Autowired
-	private HackerRepository hackerRepository;
 
 	// Constructors
 	public FinderService() {
@@ -258,6 +254,27 @@ public class FinderService {
 		}
 		 avg = total / cvsPerHacker.size();
 		 return avg;
+	}
+	public Double stdevCurriculaPerHacker()
+	{
+		List<Integer> cvsPerHacker=(List<Integer>) this.numberCurriculaPerHacker();
+	    double mean = this.AvgCurriculaPerHacker();
+	    double temp = 0;
+
+	    for (int i = 0; i < cvsPerHacker.size(); i++)
+	    {
+	        int val = cvsPerHacker.get(i);
+
+	       
+	        double squrDiffToMean = Math.pow(val - mean, 2);
+
+	        temp += squrDiffToMean;
+	    }
+
+	  
+	    double meanOfDiffs = (double) temp / (double) (cvsPerHacker.size());
+
+	    return Math.sqrt(meanOfDiffs);
 	}
 
 }
