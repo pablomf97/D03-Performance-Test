@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 
 import repositories.CompanyRepository;
 import security.Authority;
@@ -190,8 +189,7 @@ public class CompanyService {
 				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
 						"VAT.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("editionFormObject", "VAT",
-						form.getPassword(), false, null, null, "VAT.error"));
+				binding.rejectValue("VAT", "VAT.error");
 			}
 		}
 
@@ -202,9 +200,7 @@ public class CompanyService {
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("editionFormObject", "number",
-						form.getNumber(), false, null, null,
-						"card.number.error"));
+				binding.rejectValue("number", "card.number.error");
 			}
 		}
 
@@ -218,9 +214,7 @@ public class CompanyService {
 								creditCard.getExpirationYear()),
 						"card.date.error");
 			} catch (ParseException pe) {
-				binding.addError(new FieldError("editionFormObject", "expirationMonth",
-						form.getExpirationMonth(), false, null, null,
-						"card.date.error"));
+				binding.rejectValue("expirationMonth", "card.date.error");
 			}
 
 			if (form.getCVV() != null) {
@@ -228,8 +222,7 @@ public class CompanyService {
 					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
 							"CVV.error");
 				} catch (Throwable oops) {
-					binding.addError(new FieldError("editionFormObject", "CVV",
-							form.getCVV(), false, null, null, "CVV.error"));
+					binding.rejectValue("CVV", "CVV.error");
 				}
 			}
 		}
@@ -292,26 +285,21 @@ public class CompanyService {
 		/* VAT */
 		if (form.getVAT() != null) {
 			try {
-
 				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
 						"VAT.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("registerObjectForm", "VAT",
-						form.getPassword(), false, null, null, "VAT.error"));
+				binding.rejectValue("VAT", "VAT.error");
 			}
 		}
 
 		/* Password confirmation */
 		if (form.getPassword() != null) {
 			try {
-
 				Assert.isTrue(
 						form.getPassword().equals(form.getPassConfirmation()),
 						"pass.confirm.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("registerObjectForm",
-						"password", form.getPassword(), false, null, null,
-						"pass.confirm.error"));
+				binding.rejectValue("password", "pass.confirm.error");
 			}
 		}
 
@@ -320,9 +308,7 @@ public class CompanyService {
 			try {
 				Assert.isTrue((form.getTermsAndConditions()), "terms.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("registerObjectForm",
-						"termsAndConditions", form.getTermsAndConditions(),
-						false, null, null, "terms.error"));
+				binding.rejectValue("termsAndConditions", "terms.error");
 			}
 		}
 
@@ -333,9 +319,7 @@ public class CompanyService {
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("registerObjectForm", "number",
-						form.getNumber(), false, null, null,
-						"card.number.error"));
+				binding.rejectValue("number", "card.number.error");
 			}
 		}
 
@@ -348,10 +332,8 @@ public class CompanyService {
 								creditCard.getExpirationMonth(),
 								creditCard.getExpirationYear()),
 						"card.date.error");
-			} catch (ParseException pe) {
-				binding.addError(new FieldError("registerObjectForm",
-						"expirationMonth", form.getExpirationMonth(), false,
-						null, null, "card.date.error"));
+			} catch (Throwable oops) {
+				binding.rejectValue("expirationMonth", "card.date.error");
 			}
 
 			if (form.getCVV() != null) {
@@ -359,9 +341,7 @@ public class CompanyService {
 					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
 							"CVV.error");
 				} catch (Throwable oops) {
-					binding.addError(new FieldError("registerObjectForm",
-							"CVV", form.getCVV(), false, null, null,
-							"CVV.error"));
+					binding.rejectValue("CVV", "CVV.error");
 				}
 			}
 		}
