@@ -26,11 +26,14 @@ import domain.Position;
 
 import repositories.FinderRepository;
 
-import repositories.PositionRepository;
+
+
+
 
 @Transactional
 @Service
 public class FinderService {
+
 
 	// Managed repository ------------------------------
 	@Autowired
@@ -39,9 +42,6 @@ public class FinderService {
 	// Supporting services -----------------------
 	@Autowired
 	private ActorService actorService;
-
-	@Autowired
-	private PositionRepository positionService;
 
 	
 	@Autowired
@@ -90,7 +90,8 @@ public class FinderService {
 		Finder result;
 
 		Hacker principal;
-
+		Date currentMoment;
+		currentMoment = new Date(System.currentTimeMillis() - 1);
 
 		principal = (Hacker)this.actorService.findByPrincipal();
 		Assert.isTrue(
@@ -101,7 +102,7 @@ public class FinderService {
 		if(finder.getMinimumSalary()!=null){
 			Assert.isTrue(finder.getMinimumSalary() >=0.,"not.negative");
 		}
-
+		finder.setSearchMoment(currentMoment);
 		result = this.finderRepository.save(finder);
 		Assert.notNull(result, "not.null");
 
@@ -163,6 +164,9 @@ public class FinderService {
 	
 		Date maximumDeadline;
 		int nResults;
+		if(finder.getMinimumSalary()!=null){
+			Assert.isTrue(finder.getMinimumSalary() >=0.,"not.negative");
+		}
 
 		Collection<Position> resultsPageables = new ArrayList<Position>();
 
@@ -182,10 +186,18 @@ public class FinderService {
 				.getMaximumDeadline();
 		
 		if(finder.getDeadline()==null&&finder.getKeyWord().isEmpty()&&finder.getMinimumSalary()==null&&finder.getMaximumDeadline()==null){
-			results=this.positionService.findAll();
+			results=this.finderRepository.AllPositions();
 		}else{
+			if(finder.getDeadline()==null){
+				
+			
 			results=this.finderRepository.search(minimumSalary,maximumDeadline,keyWord);
-			if(finder.getDeadline()!=null){
+			}
+			else{
+				if(finder.getMaximumDeadline()!=null || !finder.getKeyWord().isEmpty()||finder.getMinimumSalary()!=null){
+					results=this.finderRepository.search(minimumSalary,maximumDeadline,keyWord);
+				}
+				
 
 				List<Position> resultsDeadline=new ArrayList<Position>();
 				resultsDeadline.add(this.finderRepository.searchDeadline(finder.getDeadline()));
@@ -208,6 +220,7 @@ public class FinderService {
 			}
 		}
 		finder.setResults(resultsPageables);
+	
 
 		this.save(finder);
 
@@ -232,38 +245,38 @@ public class FinderService {
 		return res;
 	}
 	
-	public Collection<Integer> numberCurriculaPerHacker(){
+	public List<Long> numberCurriculaPerHacker(){
 		return this.finderRepository.numberCurriculaPerHacker();
 	}
 	
-	public Integer MaxCurriculaPerHacker(){
+	public Long MaxCurriculaPerHacker(){
 		
 		return  Collections.max(this.numberCurriculaPerHacker());
 	}
-	public Integer MinCurriculaPerHacker(){
+	public Long MinCurriculaPerHacker(){
 		
 		return  Collections.min(this.numberCurriculaPerHacker());
 	}
 
 	public Double AvgCurriculaPerHacker(){
-		List<Integer> cvsPerHacker=(List<Integer>) this.numberCurriculaPerHacker();
+		
 		int total=0;
 		double avg=0.;
-		for(int i = 0; i < cvsPerHacker.size(); i++){
-			total += cvsPerHacker.get(i);
+		for(int i = 0; i < this.numberCurriculaPerHacker().size(); i++){
+			total += this.numberCurriculaPerHacker().get(i);
 		}
-		 avg = total / cvsPerHacker.size();
+		 avg = (total / (double)this.numberCurriculaPerHacker().size());
 		 return avg;
 	}
 	public Double stdevCurriculaPerHacker()
 	{
-		List<Integer> cvsPerHacker=(List<Integer>) this.numberCurriculaPerHacker();
+		List<Long> cvsPerHacker=(List<Long>) this.numberCurriculaPerHacker();
 	    double mean = this.AvgCurriculaPerHacker();
 	    double temp = 0;
 
 	    for (int i = 0; i < cvsPerHacker.size(); i++)
 	    {
-	        int val = cvsPerHacker.get(i);
+	        Long val = cvsPerHacker.get(i);
 
 	       
 	        double squrDiffToMean = Math.pow(val - mean, 2);
@@ -275,6 +288,10 @@ public class FinderService {
 	    double meanOfDiffs = (double) temp / (double) (cvsPerHacker.size());
 
 	    return Math.sqrt(meanOfDiffs);
+
+	}
+	public Double[] StatsFinder(){
+		return this.finderRepository.StatsFinder();
 	}
 
 }

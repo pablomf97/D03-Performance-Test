@@ -27,7 +27,7 @@ import services.SystemConfigurationService;
 @Controller
 @RequestMapping("/finder/hacker")
 public class FinderController extends AbstractController{
-	
+
 
 	// Services
 
@@ -36,8 +36,8 @@ public class FinderController extends AbstractController{
 
 	@Autowired
 	private ActorService 		actorService;
-	
-	
+
+
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
 
@@ -72,10 +72,10 @@ public class FinderController extends AbstractController{
 	// DELETE
 	@RequestMapping(value = "/search", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final Finder finder, final BindingResult binding) {
-	
+
 		ModelAndView result;
 		try {
-			
+
 			this.finderService.delete(finder);
 			result = new ModelAndView("redirect:search.do");
 		} catch (final Throwable oops) {
@@ -99,7 +99,7 @@ public class FinderController extends AbstractController{
 				"not.allowed");
 		Date maxLivedMoment = new Date();
 
-		
+
 
 		finder = principal.getFinder();
 		if (finder.getSearchMoment() != null) {
@@ -112,25 +112,26 @@ public class FinderController extends AbstractController{
 
 		result = new ModelAndView("finder/search");
 		result.addObject("finder", finder);
-		if (!finder.getResults().isEmpty())
-			result.addObject("positions", finder.getResults());
+
+		result.addObject("positions", finder.getResults());
+
 		result.addObject("requestUri", "finder/hacker/search.do");
 		return result;
 	}
 	@RequestMapping(value = "/search", method = RequestMethod.POST, params = "save")
 	public ModelAndView search(@Valid final Finder finder, final BindingResult binding) {
 		ModelAndView result;
-	
-		
+
+
 		if (binding.hasErrors()) {
 			final List<ObjectError> errors = binding.getAllErrors();
 			for (final ObjectError e : errors)
 				System.out.println(e.toString());
 			result = this.createEditModelAndView(finder);
 
-		} else
+		} else{
 			try {
-				
+
 				this.finderService.search(finder);
 				result = new ModelAndView("redirect:/finder/hacker/search.do");
 
@@ -143,33 +144,33 @@ public class FinderController extends AbstractController{
 				result = this.createEditModelAndView(finder, "finder.commit.error");
 
 			}
+		}
+		return result;
+	}
+
+	// ancillary methods
+
+	protected ModelAndView createEditModelAndView(final Finder finder) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(finder, null);
 
 		return result;
 	}
-	
-	// ancillary methods
 
-		protected ModelAndView createEditModelAndView(final Finder finder) {
-			ModelAndView result;
+	protected ModelAndView createEditModelAndView(final Finder finder, final String messageCode) {
+		ModelAndView result;
+		final Collection<Position> positions;
+		positions = finder.getResults();
 
-			result = this.createEditModelAndView(finder, null);
+		result = new ModelAndView("finder/search");
+		result.addObject("message", messageCode);
+		result.addObject("finder", finder);
+		result.addObject("positions", positions);
 
-			return result;
-		}
+		return result;
+	}
 
-		protected ModelAndView createEditModelAndView(final Finder finder, final String messageCode) {
-			ModelAndView result;
-			final Collection<Position> positions;
-			positions = finder.getResults();
 
-			result = new ModelAndView("finder/search");
-			result.addObject("message", messageCode);
-			result.addObject("finder", finder);
-			result.addObject("positions", positions);
 
-			return result;
-		}
-
-	
-	
 }

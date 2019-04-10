@@ -19,7 +19,7 @@ public class CreditCard {
 	private String number;
 	private Integer expirationMonth;
 	private Integer expirationYear;
-	private int CVV;
+	private Integer CVV;
 
 	// Getters and Setters
 
@@ -72,11 +72,11 @@ public class CreditCard {
 
 	@NotNull
 	@Range(min = 0, max = 999)
-	public int getCVV() {
+	public Integer getCVV() {
 		return CVV;
 	}
 
-	public void setCVV(int cVV) {
+	public void setCVV(Integer cVV) {
 		CVV = cVV;
 	}
 

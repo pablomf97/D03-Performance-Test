@@ -20,9 +20,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 
-<!---<security:authorize access="hasRole('HACKER')">-->
+<security:authorize access="hasRole('HACKER')">
 
-	<form:form action="finder/member/search.do" modelAttribute="finder">
+	<form:form action="finder/hacker/search.do" modelAttribute="finder">
 
 		<form:hidden path="id" />
 		<form:hidden path="version" />
@@ -100,4 +100,4 @@
 		</display:column>
 	</display:table>
 	</jstl:if>
-<!---</security:authorize>-->
+</security:authorize>

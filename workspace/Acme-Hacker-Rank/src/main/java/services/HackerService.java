@@ -1,5 +1,6 @@
 package services;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -10,13 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.ResourceUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import repositories.HackerRepository;
 import security.Authority;
 import security.UserAccount;
 import domain.CreditCard;
-import domain.Finder;
 import domain.Hacker;
+import forms.EditionFormObject;
+import forms.RegisterFormObject;
 
 @Transactional
 @Service
@@ -32,6 +37,12 @@ public class HackerService {
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
 
+	@Autowired
+	private ActorService actorService;
+
+	@Autowired
+	private CreditCardService creditCardService;
+
 	/* Simple CRUD methods */
 
 	public Hacker create() {
@@ -40,13 +51,12 @@ public class HackerService {
 		Authority auth;
 		Collection<Authority> authority;
 		CreditCard creditCard;
-		Finder finder;
 
 		creditCard = new CreditCard();
 		auth = new Authority();
 		authority = new ArrayList<Authority>();
 		userAccount = new UserAccount();
-		finder = new Finder();
+
 		res = new Hacker();
 
 		auth.setAuthority(Authority.HACKER);
@@ -55,7 +65,6 @@ public class HackerService {
 
 		res.setUserAccount(userAccount);
 		res.setCreditCard(creditCard);
-		res.setFinder(finder);
 
 		return res;
 	}
@@ -74,29 +83,284 @@ public class HackerService {
 		return this.hackerRepository.findAll();
 	}
 
+	/**
+	 * Save an hacker
+	 * 
+	 * @param Hacker
+	 * 
+	 * @return Hacker
+	 */
 	public Hacker save(Hacker hacker) {
 		Hacker res;
+		Hacker principal;
+
 		Assert.notNull(hacker);
 
-		char[] phoneArray = hacker.getPhoneNumber().toCharArray();
-		if ((!hacker.getPhoneNumber().equals(null) && !hacker.getPhoneNumber()
-				.equals("")))
-			if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
-				String cc = this.systemConfigurationService
-						.findMySystemConfiguration().getCountryCode();
-				hacker.setPhoneNumber("+" + cc + " " + hacker.getPhoneNumber());
+		if (hacker.getId() == 0) {
+
+			/* Managing phone number */
+			char[] phoneArray = hacker.getPhoneNumber().toCharArray();
+			if ((!hacker.getPhoneNumber().equals(null) && !hacker
+					.getPhoneNumber().equals(""))) {
+				if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
+					String cc = this.systemConfigurationService
+							.findMySystemConfiguration().getCountryCode();
+					hacker.setPhoneNumber(cc + " " + hacker.getPhoneNumber());
+				}
 			}
 
-		if (hacker.getId() == 0) {
-			Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-			String encodedpass = encoder.encodePassword(hacker.getUserAccount()
-					.getPassword(), null);
-			hacker.getUserAccount().setPassword(encodedpass);
+			/* Managing email */
+			// String email = administrator.getEmail();
+			// Assert.isTrue(
+			// this.actorService.checkEmail(email, principal
+			// .getUserAccount().getAuthorities().iterator()
+			// .next().toString()), "actor.email.error");
+
+			/* Managing photo */
+			Assert.isTrue(ResourceUtils.isUrl(hacker.getPhoto()),
+					"actor.photo.error");
+		} else {
+			principal = (Hacker) this.actorService.findByPrincipal();
+			Assert.isTrue(principal.getId() == hacker.getId(), "no.permission");
+
+			/* Managing phone number */
+			char[] phoneArray = hacker.getPhoneNumber().toCharArray();
+			if ((!hacker.getPhoneNumber().equals(null) && !hacker
+					.getPhoneNumber().equals(""))) {
+				if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
+					String cc = this.systemConfigurationService
+							.findMySystemConfiguration().getCountryCode();
+					hacker.setPhoneNumber(cc + " " + hacker.getPhoneNumber());
+				}
+			}
+
+			hacker.setUserAccount(principal.getUserAccount());
+
+			if (principal.getFinder() != null) {
+				hacker.setFinder(principal.getFinder());
+			}
 		}
 
 		res = this.hackerRepository.save(hacker);
 		return res;
-
 	}
 
+	/* Other methods */
+
+	/**
+	 * Reconstruct an Hacker from the database
+	 * 
+	 * @param Hacker
+	 * 
+	 * @return Hacker
+	 */
+	public Hacker reconstruct(EditionFormObject form, BindingResult binding) {
+
+		Hacker res = this.create();
+
+		res.setId(form.getId());
+		res.setVersion(form.getVersion());
+		res.setName(form.getName());
+		res.setSurname(form.getSurname());
+		res.setVAT(form.getVAT());
+		res.setPhoto(form.getPhoto());
+		res.setEmail(form.getEmail());
+		res.setPhoneNumber(form.getPhoneNumber());
+		res.setAddress(form.getAddress());
+
+		/* Creating credit card */
+		CreditCard creditCard = new CreditCard();
+
+		creditCard.setHolder(form.getHolder());
+		creditCard.setMake(form.getMake());
+		creditCard.setNumber(form.getNumber());
+		creditCard.setExpirationMonth(form.getExpirationMonth());
+		creditCard.setExpirationYear(form.getExpirationYear());
+		creditCard.setCVV(form.getCVV());
+
+		res.setCreditCard(creditCard);
+
+		/* VAT */
+		if (form.getVAT() != null) {
+			try {
+
+				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+						"VAT.error");
+			} catch (Throwable oops) {
+				binding.addError(new FieldError("editionFormObject", "VAT",
+						form.getPassword(), false, null, null, "VAT.error"));
+			}
+		}
+
+		/* Credit card */
+		if (form.getNumber() != null) {
+			try {
+				Assert.isTrue(this.creditCardService
+						.checkCreditCardNumber(creditCard.getNumber()),
+						"card.number.error");
+			} catch (Throwable oops) {
+				binding.addError(new FieldError("editionFormObject", "number",
+						form.getNumber(), false, null, null,
+						"card.number.error"));
+			}
+		}
+
+		if (creditCard.getExpirationMonth() != null
+				&& creditCard.getExpirationYear() != null) {
+
+			try {
+				Assert.isTrue(
+						!this.creditCardService.checkIfExpired(
+								creditCard.getExpirationMonth(),
+								creditCard.getExpirationYear()),
+						"card.date.error");
+			} catch (ParseException pe) {
+				binding.addError(new FieldError("editionFormObject", "expirationMonth",
+						form.getExpirationMonth(), false, null, null,
+						"card.date.error"));
+			}
+
+			if (form.getCVV() != null) {
+				try {
+					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
+							"CVV.error");
+				} catch (Throwable oops) {
+					binding.addError(new FieldError("editionFormObject", "CVV",
+							form.getCVV(), false, null, null, "CVV.error"));
+				}
+			}
+		}
+
+		return res;
+	}
+
+	/**
+	 * Reconstruct a hacker from a register object form from the database
+	 * 
+	 * @param RegisterFormObject
+	 * 
+	 * @return Hacker
+	 */
+	public Hacker reconstruct(RegisterFormObject form, BindingResult binding) {
+
+		/* Creating hacker */
+		Hacker res = this.create();
+
+		res.setName(form.getName());
+		res.setSurname(form.getSurname());
+		res.setVAT(form.getVAT());
+		res.setPhoto(form.getPhoto());
+		res.setEmail(form.getEmail());
+		res.setPhoneNumber(form.getPhoneNumber());
+		res.setAddress(form.getAddress());
+
+		/* Creating credit card */
+		CreditCard creditCard = new CreditCard();
+
+		creditCard.setHolder(form.getHolder());
+		creditCard.setMake(form.getMake());
+		creditCard.setNumber(form.getNumber());
+		creditCard.setExpirationMonth(form.getExpirationMonth());
+		creditCard.setExpirationYear(form.getExpirationYear());
+		creditCard.setCVV(form.getCVV());
+
+		res.setCreditCard(creditCard);
+
+		/* Creating user account */
+		UserAccount userAccount = new UserAccount();
+
+		List<Authority> authorities = new ArrayList<Authority>();
+		Authority authority = new Authority();
+		authority.setAuthority(Authority.HACKER);
+		authorities.add(authority);
+		userAccount.setAuthorities(authorities);
+
+		userAccount.setUsername(form.getUsername());
+
+		Md5PasswordEncoder encoder;
+		encoder = new Md5PasswordEncoder();
+		userAccount
+				.setPassword(encoder.encodePassword(form.getPassword(), null));
+
+		res.setUserAccount(userAccount);
+
+		/* VAT */
+		if (form.getVAT() != null) {
+			try {
+
+				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+						"VAT.error");
+			} catch (Throwable oops) {
+				binding.addError(new FieldError("registerObjectForm", "VAT",
+						form.getPassword(), false, null, null, "VAT.error"));
+			}
+		}
+
+		/* Password confirmation */
+		if (form.getPassword() != null) {
+			try {
+
+				Assert.isTrue(
+						form.getPassword().equals(form.getPassConfirmation()),
+						"pass.confirm.error");
+			} catch (Throwable oops) {
+				binding.addError(new FieldError("registerObjectForm",
+						"password", form.getPassword(), false, null, null,
+						"pass.confirm.error"));
+			}
+		}
+
+		/* Terms&Conditions */
+		if (form.getTermsAndConditions() != null) {
+			try {
+				Assert.isTrue((form.getTermsAndConditions()), "terms.error");
+			} catch (Throwable oops) {
+				binding.addError(new FieldError("registerObjectForm",
+						"termsAndConditions", form.getTermsAndConditions(),
+						false, null, null, "terms.error"));
+			}
+		}
+
+		/* Credit card */
+		if (form.getNumber() != null) {
+			try {
+				Assert.isTrue(this.creditCardService
+						.checkCreditCardNumber(creditCard.getNumber()),
+						"card.number.error");
+			} catch (Throwable oops) {
+				binding.addError(new FieldError("registerObjectForm", "number",
+						form.getNumber(), false, null, null,
+						"card.number.error"));
+			}
+		}
+
+		if (creditCard.getExpirationMonth() != null
+				&& creditCard.getExpirationYear() != null) {
+
+			try {
+				Assert.isTrue(
+						!this.creditCardService.checkIfExpired(
+								creditCard.getExpirationMonth(),
+								creditCard.getExpirationYear()),
+						"card.date.error");
+			} catch (ParseException pe) {
+				binding.addError(new FieldError("registerObjectForm",
+						"expirationMonth", form.getExpirationMonth(), false,
+						null, null, "card.date.error"));
+			}
+
+			if (form.getCVV() != null) {
+				try {
+					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
+							"CVV.error");
+				} catch (Throwable oops) {
+					binding.addError(new FieldError("registerObjectForm",
+							"CVV", form.getCVV(), false, null, null,
+							"CVV.error"));
+				}
+			}
+		}
+
+		return res;
+	}
 }
