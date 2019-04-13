@@ -363,4 +363,13 @@ public class HackerService {
 
 		return res;
 	}
+	public String hackerWithMoreApplications(){
+	
+			String res=this.hackerRepository.hackerWithMoreApplications();
+			if(res==null){
+				res="";
+			}
+			return res;
+		
+	}
 }

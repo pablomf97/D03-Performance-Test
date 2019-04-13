@@ -19,7 +19,85 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <security:authorize access="hasRole('ADMIN')">
+	
+	
+	<table class="displayStyle" style="width: 50%">
+			<tr>
+				<th colspan="2"><spring:message
+						code="administrator.statistics.C" /></th>
+			</tr>
+			<tr>
+				<td><spring:message code="administrator.minSalarayPositions" /></td>
+				<td style="text-align: right">${minSalarayPositions}</td>
+			</tr>
+			<tr>
+				<td><spring:message code="administrator.maxSalaryPositions" /></td>
+				<td style="text-align: right">${maxSalaryPositions}</td>
+			</tr>
+			<tr>
+				<td><spring:message code="administrator.AVGSalaryPositions" /></td>
+				<td style="text-align: right">${AVGSalaryPositions}</td>
+			</tr>
+			<tr>
+				<td><spring:message code="administrator.STDDEVSalaryPositions" /></td>
+				<td style="text-align: right">${STDDEVSalaryPositions}</td>
+			</tr>
+			<tr>
+				<td><spring:message code="administrator.bestPositionSalary" /></td>
+				<td style="text-align: right">${bestPositionSalary}</td>
+			</tr>
+			<tr>
+				<td><spring:message code="administrator.worstPositionSalary" /></td>
+				<td style="text-align: right">${worstPositionSalary}</td>
+			</tr>
+			
+			<tr>
+				<td><spring:message code="administrator.companyWithMorePositions" /></td>
+				<td style="text-align: right">${companyWithMorePositions}</td>
+			</tr>
+				<tr>
+				<td><spring:message code="administrator.maxPositionPerCompany" /></td>
+				<td style="text-align: right">${maxPositionPerCompany}</td>
+			</tr>
+			
+				<tr>
+				<td><spring:message code="administrator.minPositionPerCompany" /></td>
+				<td style="text-align: right">${minPositionPerCompany}</td>
+			</tr>
+			
+				<tr>
+				<td><spring:message code="administrator.avgPositionPerCompany" /></td>
+				<td style="text-align: right">${avgPositionPerCompany}</td>
+			</tr>
+				<tr>
+				<td><spring:message code="administrator.sttdevPositionPerCompany" /></td>
+				<td style="text-align: right">${sttdevPositionPerCompany}</td>
+			</tr>
+				<tr>
+				<td><spring:message code="administrator.maxApplicationsPerHacker" /></td>
+				<td style="text-align: right">${maxApplicationsPerHacker}</td>
+			</tr>
+			<tr>
+				<td><spring:message code="administrator.minApplicationsPerHacker" /></td>
+				<td style="text-align: right">${minApplicationsPerHacker}</td>
+			</tr>
+			<tr>
+				<td><spring:message code="administrator.avgApplicationsPerHacker" /></td>
+				<td style="text-align: right">${avgApplicationsPerHacker}</td>
+			</tr>
+			<tr>
+				<td><spring:message code="administrator.sttdevApplicationsPerHacker" /></td>
+				<td style="text-align: right">${sttdevApplicationsPerHacker}</td>
+			</tr>
+			<tr>
+			<td><spring:message code="administrator.hackerWithMoreApplications" /></td>
+				<td style="text-align: right">${hackerWithMoreApplications}</td>
+			</tr>
+			
+			
 
+</table>
+		
 	
 		<table class="displayStyle" style="width: 50%">
 			<tr>
