@@ -43,10 +43,10 @@ public class FinderService {
 	@Autowired
 	private ActorService actorService;
 
-	
+
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
-	
+
 
 	// Constructors
 	public FinderService() {
@@ -161,7 +161,7 @@ public class FinderService {
 		Collection<Position> results=new ArrayList<Position>();
 		String keyWord;
 		Double minimumSalary;
-	
+
 		Date maximumDeadline;
 		int nResults;
 		if(finder.getMinimumSalary()!=null){
@@ -184,20 +184,20 @@ public class FinderService {
 
 		maximumDeadline= finder.getMaximumDeadline() == null ? maxDefaultDate : finder
 				.getMaximumDeadline();
-		
+
 		if(finder.getDeadline()==null&&finder.getKeyWord().isEmpty()&&finder.getMinimumSalary()==null&&finder.getMaximumDeadline()==null){
 			results=this.finderRepository.AllPositions();
 		}else{
 			if(finder.getDeadline()==null){
-				
-			
-			results=this.finderRepository.search(minimumSalary,maximumDeadline,keyWord);
+
+
+				results=this.finderRepository.search(minimumSalary,maximumDeadline,keyWord);
 			}
 			else{
 				if(finder.getMaximumDeadline()!=null || !finder.getKeyWord().isEmpty()||finder.getMinimumSalary()!=null){
 					results=this.finderRepository.search(minimumSalary,maximumDeadline,keyWord);
 				}
-				
+
 
 				List<Position> resultsDeadline=new ArrayList<Position>();
 				resultsDeadline.add(this.finderRepository.searchDeadline(finder.getDeadline()));
@@ -220,7 +220,7 @@ public class FinderService {
 			}
 		}
 		finder.setResults(resultsPageables);
-	
+
 
 		this.save(finder);
 
@@ -232,9 +232,11 @@ public class FinderService {
 	public Double ratioFinders() {
 		Double emptys = this.FindersEmpty();
 		Double all = (double) this.findAll().size();
-		Double res;
-
-		res = (emptys / all);
+		Double res=0.;
+		if(!this.findAll().isEmpty()){
+			res = (emptys / all);
+		}
+		
 
 		return res;
 
@@ -244,50 +246,66 @@ public class FinderService {
 		res = (double) this.finderRepository.FindersEmpty().size();
 		return res;
 	}
-	
+
 	public List<Long> numberCurriculaPerHacker(){
 		return this.finderRepository.numberCurriculaPerHacker();
 	}
-	
+
 	public Long MaxCurriculaPerHacker(){
-		
-		return  Collections.max(this.numberCurriculaPerHacker());
+		List<Long> l = this.numberCurriculaPerHacker();
+		Long res=(long) 0;
+		if (!l.isEmpty()){
+			res=Collections.max(this.numberCurriculaPerHacker());
+		}
+		return  res;
 	}
 	public Long MinCurriculaPerHacker(){
-		
-		return  Collections.min(this.numberCurriculaPerHacker());
+		List<Long> l = this.numberCurriculaPerHacker();
+		Long res=(long) 0;
+		if (!l.isEmpty()){
+			res=Collections.min(this.numberCurriculaPerHacker());
+		}
+		return  res;
 	}
 
 	public Double AvgCurriculaPerHacker(){
-		
+
 		int total=0;
 		double avg=0.;
-		for(int i = 0; i < this.numberCurriculaPerHacker().size(); i++){
-			total += this.numberCurriculaPerHacker().get(i);
+		if(this.numberCurriculaPerHacker().isEmpty()){
+
+		}else{
+			for(int i = 0; i < this.numberCurriculaPerHacker().size(); i++){
+				total += this.numberCurriculaPerHacker().get(i);
+			}
+			avg = (total / (double)this.numberCurriculaPerHacker().size());
 		}
-		 avg = (total / (double)this.numberCurriculaPerHacker().size());
-		 return avg;
+		return avg;
 	}
 	public Double stdevCurriculaPerHacker()
 	{
 		List<Long> cvsPerHacker=(List<Long>) this.numberCurriculaPerHacker();
-	    double mean = this.AvgCurriculaPerHacker();
-	    double temp = 0;
+		double mean = this.AvgCurriculaPerHacker();
+		double temp = 0;
+		Double res=0.;
+		if(this.numberCurriculaPerHacker().isEmpty() ){
+			
+		}else{
+		for (int i = 0; i < cvsPerHacker.size(); i++)
+		{
+			Long val = cvsPerHacker.get(i);
 
-	    for (int i = 0; i < cvsPerHacker.size(); i++)
-	    {
-	        Long val = cvsPerHacker.get(i);
 
-	       
-	        double squrDiffToMean = Math.pow(val - mean, 2);
+			double squrDiffToMean = Math.pow(val - mean, 2);
 
-	        temp += squrDiffToMean;
-	    }
+			temp += squrDiffToMean;
+		}
 
-	  
-	    double meanOfDiffs = (double) temp / (double) (cvsPerHacker.size());
 
-	    return Math.sqrt(meanOfDiffs);
+		double meanOfDiffs = (double) temp / (double) (cvsPerHacker.size());
+		res=Math.sqrt(meanOfDiffs);
+		}
+		return res;
 
 	}
 	public Double[] StatsFinder(){

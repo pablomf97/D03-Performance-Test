@@ -60,42 +60,60 @@ public class PositionService {
 		return this.positionRepository.positionsPerCompany();
 	}
 	public Long maxPositionPerCompany(){
-		return Collections.max(this.positionRepository.positionsPerCompany());
+		List<Long> l = this.positionsPerCompany();
+		Long res=(long) 0;
+		if (!l.isEmpty()){
+			res=Collections.max(this.positionsPerCompany());
+		}
+		return  res;
 	}
 
 	public Long minPositionPerCompany(){
-		return Collections.min(this.positionRepository.positionsPerCompany());
-	}
+		List<Long> l = this.positionsPerCompany();
+		Long res=(long) 0;
+		if (!l.isEmpty()){
+			res=Collections.min(this.positionsPerCompany());
+		}
+		return  res;}
 
 	public Double avgPositionPerCompany(){
 		int total=0;
 		double avg=0.;
-		for(int i = 0; i < this.positionsPerCompany().size(); i++){
-			total += this.positionsPerCompany().get(i);
+		if(this.positionsPerCompany().isEmpty()){
+
+		}else{
+			for(int i = 0; i < this.positionsPerCompany().size(); i++){
+				total += this.positionsPerCompany().get(i);
+			}
+			avg = (total / (double)this.positionsPerCompany().size());
 		}
-		avg = (total / (double)this.positionsPerCompany().size());
 		return avg;
 	}
 	public Double sttdevPositionPerCompany(){
 		List<Long> posPerComp=(List<Long>) this.positionsPerCompany();
 		double mean = this.avgPositionPerCompany();
 		double temp = 0;
+		Double res;
+		if(this.positionsPerCompany().isEmpty()){
+			res=0.;
+		}else{
 
-		for (int i = 0; i < posPerComp.size(); i++)
-		{
-			Long val = posPerComp.get(i);
+			for (int i = 0; i < posPerComp.size(); i++)
+			{
+				Long val = posPerComp.get(i);
 
 
-			double squrDiffToMean = Math.pow(val - mean, 2);
+				double squrDiffToMean = Math.pow(val - mean, 2);
 
-			temp += squrDiffToMean;
+				temp += squrDiffToMean;
+			}
+
+			double meanOfDiffs = (double) temp / (double) (posPerComp.size());
+			res=Math.sqrt(meanOfDiffs);
 		}
-
-		double meanOfDiffs = (double) temp / (double) (posPerComp.size());
-
-		return Math.sqrt(meanOfDiffs);
+		return res;
 	}
-	
-	
-	
+
+
+
 }
