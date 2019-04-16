@@ -32,7 +32,7 @@
 		<jstl:out value="${row.ticker }"></jstl:out>
 	</display:column>
 	<display:column titleKey="position.company" sortable="true">
-		<jstl:out value="${row.company.userAccount.username }"></jstl:out>
+		<a href="company/display.do?Id=${row.id}"><jstl:out value="${row.company.commercialName }"></jstl:out></a>
 	</display:column>
 	<%-- 	<jstl:if test="${name == row.company.commercialName} }">
  --%>
