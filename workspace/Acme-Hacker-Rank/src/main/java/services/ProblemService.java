@@ -1,11 +1,142 @@
+
 package services;
+
+import java.util.Collection;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+
+import repositories.ProblemRepository;
+import domain.Actor;
+import domain.Company;
+import domain.Problem;
 
 @Transactional
 @Service
 public class ProblemService {
+
+	// Managed repository ------------------------------------
+
+	@Autowired
+	private ProblemRepository	problemRepository;
+
+	@Autowired
+	private ApplicationService	applicationService;
+
+	@Autowired
+	private PositionService		poisitionService;
+	// Supporting services -----------------------------------
+
+	@Autowired
+	private ActorService		actorService;
+
+	@Autowired
+	private Validator			validator;
+
+
+	// Simple CRUD methods -----------------------------------
+
+	public Problem create(final Actor actor) {
+		Actor principal;
+		Problem result;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "COMPANY"), "not.allowed");
+
+		result = new Problem();
+		result.setCompany((Company) actor);
+		result.setIsDraft(true);
+
+		return result;
+	}
+
+	public Collection<Problem> findAll() {
+		Collection<Problem> result;
+		result = this.problemRepository.findAll();
+
+		return result;
+	}
+
+	public Problem findOne(final int problemId) {
+		Problem result;
+
+		result = this.problemRepository.findOne(problemId);
+		Assert.notNull(result);
+		return result;
+	}
+
+	public Problem save(final Problem problem) {
+		Actor principal;
+		Problem result = null;
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "COMPANY"), "not.allowed");
+		Assert.isTrue(problem.getCompany().equals(principal), "not.allowed");
+		if (problem.getId() == 0)
+			result = problem;
+		else {
+			result = this.findOne(problem.getId());
+			Assert.isTrue(result.getCompany().equals(principal), "not.allowed");
+			Assert.isTrue(result.getIsDraft());
+			result.setAttachments(problem.getAttachments());
+			result.setIsDraft(problem.getIsDraft());
+			result.setOptionalHint(problem.getOptionalHint());
+			result.setStatement(problem.getStatement());
+			result.setTitle(problem.getTitle());
+		}
+		Assert.notNull(result);
+		result = this.problemRepository.save(result);
+
+		return result;
+	}
+
+	public void delete(final Problem problem) {
+		Actor principal;
+
+		Assert.notNull(problem);
+		Assert.isTrue(problem.getId() != 0, "wrong.id");
+		Assert.isTrue((this.applicationService.findByProblem(problem)).isEmpty(), "problem.used");
+		Assert.isTrue(!this.problemRepository.findByPosition().contains(problem), "problem.used");
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "COMPANY"), "not.allowed");
+		Assert.isTrue(problem.getCompany().getId() == principal.getId(), "not.allowed");
+
+		this.problemRepository.delete(problem.getId());
+
+	}
+	public Collection<Problem> findByOwner(final Actor actor) {
+		Assert.notNull(actor);
+		return this.problemRepository.findByOwner(actor.getId());
+
+	}
+
+	// Other business methods -------------------------------
+
+	public Problem reconstruct(final Problem problem, final BindingResult binding) {
+		final Actor principal = this.actorService.findByPrincipal();
+		Problem result = this.create(principal);
+
+		if (problem.getId() == 0)
+			result = problem;
+		else {
+			final Problem orig = this.findOne(problem.getId());
+			result.setId(orig.getId());
+			Assert.notNull(orig);
+			Assert.isTrue(orig.getCompany().getId() == principal.getId());
+		}
+		result.setCompany((Company) principal);
+		result.setAttachments(problem.getAttachments());
+		result.setIsDraft(problem.getIsDraft());
+		result.setOptionalHint(problem.getOptionalHint());
+		result.setStatement(problem.getStatement());
+		result.setTitle(problem.getTitle());
+		this.validator.validate(result, binding);
+		return result;
+	}
 
 }

@@ -5,21 +5,18 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Hacker extends Actor{
-	
-	//Attributes
+public class Hacker extends Actor {
+
+	// Attributes
 	private Finder finder;
 
-	
-	//Geters and setters
-	
+	// Geters and setters
+
 	@Valid
-	@NotNull
-	@OneToOne(optional = false)
+	@OneToOne(optional = true)
 	public Finder getFinder() {
 		return finder;
 	}
@@ -27,10 +24,5 @@ public class Hacker extends Actor{
 	public void setFinder(Finder finder) {
 		this.finder = finder;
 	}
-	
-	
 
-	
-	
-	
 }

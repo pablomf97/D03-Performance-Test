@@ -10,7 +10,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,10 +20,11 @@ public class Finder extends DomainEntity {
 	// Attributes
 
 	private String keyWord;
-	private Date minimumDeadline;
+	private Date deadline;
 	private Double minimumSalary;
 	private Date maximumDeadline;
 	private Collection<Position> results;
+	private Date searchMoment;
 
 	// Getters and setters
 
@@ -36,15 +36,14 @@ public class Finder extends DomainEntity {
 		this.keyWord = keyWord;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	public Date getMinimumDeadline() {
-		return minimumDeadline;
+	public Date getDeadline() {
+		return deadline;
 	}
 
-	public void setMinimumDeadline(Date minimumDeadline) {
-		this.minimumDeadline = minimumDeadline;
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
 	}
 
 	public Double getMinimumSalary() {
@@ -64,7 +63,6 @@ public class Finder extends DomainEntity {
 	}
 
 	@Valid
-	@NotNull
 	@ManyToMany
 	public Collection<Position> getResults() {
 		return results;
@@ -73,5 +71,14 @@ public class Finder extends DomainEntity {
 	public void setResults(Collection<Position> results) {
 		this.results = results;
 	}
+	
+	public Date getSearchMoment() {
+		return searchMoment;
+	}
+
+	public void setSearchMoment(Date searchMoment) {
+		this.searchMoment = searchMoment;
+	}
+	
 
 }
