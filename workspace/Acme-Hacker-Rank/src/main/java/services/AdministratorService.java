@@ -42,6 +42,9 @@ public class AdministratorService {
 	@Autowired
 	private CreditCardService creditCardService;
 
+	@Autowired
+	private UtilityService utilityService;
+
 	/* Simple CRUD methods */
 
 	/**
@@ -133,7 +136,7 @@ public class AdministratorService {
 			/* Managing email */
 			// String email = administrator.getEmail();
 			// Assert.isTrue(
-			// this.actorService.checkEmail(email, principal
+			// this.actorService.checkEmail(email, administrator
 			// .getUserAccount().getAuthorities().iterator()
 			// .next().toString()), "actor.email.error");
 
@@ -160,11 +163,11 @@ public class AdministratorService {
 			}
 
 			/* Managing email */
-			String email = administrator.getEmail();
-			Assert.isTrue(
-					!this.actorService.checkEmail(email, principal
-							.getUserAccount().getAuthorities().iterator()
-							.next().toString()), "actor.email.error");
+			// String email = administrator.getEmail();
+			// Assert.isTrue(
+			// this.actorService.checkEmail(email, administrator
+			// .getUserAccount().getAuthorities().iterator()
+			// .next().toString()), "actor.email.error");
 
 			/* Managing photo */
 			Assert.isTrue(ResourceUtils.isUrl(administrator.getPhoto()),
@@ -234,7 +237,7 @@ public class AdministratorService {
 		/* VAT */
 		if (form.getVAT() != null) {
 			try {
-				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+				Assert.isTrue(this.utilityService.checkVAT(form.getVAT()),
 						"VAT.error");
 			} catch (Throwable oops) {
 				binding.rejectValue("VAT", "VAT.error");
@@ -248,7 +251,7 @@ public class AdministratorService {
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
 			} catch (Throwable oops) {
-				binding.rejectValue("number", "card.number.error");
+				binding.rejectValue("number", "number.error");
 			}
 		}
 
@@ -332,7 +335,7 @@ public class AdministratorService {
 		/* VAT */
 		if (form.getVAT() != null) {
 			try {
-				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+				Assert.isTrue(this.utilityService.checkVAT(form.getVAT()),
 						"VAT.error");
 			} catch (Throwable oops) {
 				binding.rejectValue("VAT", "VAT.error");
@@ -366,7 +369,7 @@ public class AdministratorService {
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
 			} catch (Throwable oops) {
-				binding.rejectValue("number", "card.number.error");
+				binding.rejectValue("number", "number.error");
 			}
 		}
 
@@ -394,5 +397,9 @@ public class AdministratorService {
 		}
 
 		return res;
+	}
+
+	public void flush() {
+		this.administratorRepository.flush();
 	}
 }

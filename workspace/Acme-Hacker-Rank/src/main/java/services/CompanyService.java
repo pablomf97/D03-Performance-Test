@@ -43,6 +43,9 @@ public class CompanyService {
 	@Autowired
 	private CreditCardService creditCardService;
 
+	@Autowired
+	private UtilityService utilityService;
+
 	/* Simple CRUD methods */
 
 	public Company create() {
@@ -102,9 +105,9 @@ public class CompanyService {
 			}
 
 			/* Managing email */
-			// String email = administrator.getEmail();
+			// String email = company.getEmail();
 			// Assert.isTrue(
-			// this.actorService.checkEmail(email, principal
+			// this.actorService.checkEmail(email, company
 			// .getUserAccount().getAuthorities().iterator()
 			// .next().toString()), "actor.email.error");
 
@@ -130,11 +133,11 @@ public class CompanyService {
 			}
 
 			/* Managing email */
-			String email = company.getEmail();
-			Assert.isTrue(
-					this.actorService.checkEmail(email, principal
-							.getUserAccount().getAuthorities().iterator()
-							.next().toString()), "actor.email.error");
+			// String email = company.getEmail();
+			// Assert.isTrue(
+			// this.actorService.checkEmail(email, company
+			// .getUserAccount().getAuthorities().iterator()
+			// .next().toString()), "actor.email.error");
 
 			/* Managing photo */
 			Assert.isTrue(ResourceUtils.isUrl(company.getPhoto()),
@@ -186,7 +189,7 @@ public class CompanyService {
 		if (form.getVAT() != null) {
 			try {
 
-				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+				Assert.isTrue(this.utilityService.checkVAT(form.getVAT()),
 						"VAT.error");
 			} catch (Throwable oops) {
 				binding.rejectValue("VAT", "VAT.error");
@@ -200,7 +203,7 @@ public class CompanyService {
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
 			} catch (Throwable oops) {
-				binding.rejectValue("number", "card.number.error");
+				binding.rejectValue("number", "number.error");
 			}
 		}
 
@@ -285,7 +288,7 @@ public class CompanyService {
 		/* VAT */
 		if (form.getVAT() != null) {
 			try {
-				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+				Assert.isTrue(this.utilityService.checkVAT(form.getVAT()),
 						"VAT.error");
 			} catch (Throwable oops) {
 				binding.rejectValue("VAT", "VAT.error");
@@ -319,7 +322,7 @@ public class CompanyService {
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
 			} catch (Throwable oops) {
-				binding.rejectValue("number", "card.number.error");
+				binding.rejectValue("number", "number.error");
 			}
 		}
 

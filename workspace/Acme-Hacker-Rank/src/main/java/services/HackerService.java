@@ -41,6 +41,9 @@ public class HackerService {
 	@Autowired
 	private CreditCardService creditCardService;
 
+	@Autowired
+	private UtilityService utilityService;
+
 	/* Simple CRUD methods */
 
 	public Hacker create() {
@@ -108,9 +111,9 @@ public class HackerService {
 			}
 
 			/* Managing email */
-			// String email = administrator.getEmail();
+			// String email = hacker.getEmail();
 			// Assert.isTrue(
-			// this.actorService.checkEmail(email, principal
+			// this.actorService.checkEmail(email, hacker
 			// .getUserAccount().getAuthorities().iterator()
 			// .next().toString()), "actor.email.error");
 
@@ -120,6 +123,13 @@ public class HackerService {
 		} else {
 			principal = (Hacker) this.actorService.findByPrincipal();
 			Assert.isTrue(principal.getId() == hacker.getId(), "no.permission");
+
+			/* Managing email */
+			// String email = hacker.getEmail();
+			// Assert.isTrue(
+			// this.actorService.checkEmail(email, hacker
+			// .getUserAccount().getAuthorities().iterator()
+			// .next().toString()), "actor.email.error");
 
 			/* Managing phone number */
 			char[] phoneArray = hacker.getPhoneNumber().toCharArray();
@@ -181,7 +191,7 @@ public class HackerService {
 		/* VAT */
 		if (form.getVAT() != null) {
 			try {
-				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+				Assert.isTrue(this.utilityService.checkVAT(form.getVAT()),
 						"VAT.error");
 			} catch (Throwable oops) {
 				binding.rejectValue("VAT", "VAT.error");
@@ -195,7 +205,7 @@ public class HackerService {
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
 			} catch (Throwable oops) {
-				binding.rejectValue("number", "card.number.error");
+				binding.rejectValue("number", "number.error");
 			}
 		}
 
@@ -278,7 +288,7 @@ public class HackerService {
 		/* VAT */
 		if (form.getVAT() != null) {
 			try {
-				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+				Assert.isTrue(this.utilityService.checkVAT(form.getVAT()),
 						"VAT.error");
 			} catch (Throwable oops) {
 				binding.rejectValue("VAT", "VAT.error");
@@ -312,7 +322,7 @@ public class HackerService {
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
 			} catch (Throwable oops) {
-				binding.rejectValue("number", "card.number.error");
+				binding.rejectValue("number", "number.error");
 			}
 		}
 
@@ -340,5 +350,9 @@ public class HackerService {
 		}
 
 		return res;
+	}
+
+	public void flush() {
+		this.hackerRepository.flush();
 	}
 }

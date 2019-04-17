@@ -22,7 +22,7 @@
 
 	<definition name="hacker/edit" extends="master.page">
 		<put-attribute name="title" value="Edit profile" />
-		<put-attribute name="body" value="/views/hacker/register.jsp" />
+		<put-attribute name="body" value="/views/hacker/edit.jsp" />
 	</definition>
 
 </tiles-definitions>
