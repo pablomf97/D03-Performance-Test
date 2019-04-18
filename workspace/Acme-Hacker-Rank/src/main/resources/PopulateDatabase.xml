@@ -381,10 +381,19 @@
 		<property name="linkCode" value="https://www.linktocodeofapp1.com/"/>
 		<property name="submitMoment" value="08/01/2019 10:00" />
 		<property name="status" value="ACCEPTED" />
-		<property name="problem" ref="problem4_c1" />
+		<property name="problem" ref="problem3_c1" />
 		<property name="hacker" ref="hacker1" />
 		<property name="position" ref="position1_c1" />
 		<property name="copyCurricula" ref="curricula1_copy" />
+	</bean>
+	
+	<bean id="application1_h2" class="domain.Application">
+		<property name="applicationMoment" value="08/12/2018 10:00" />
+		<property name="status" value="PENDING" />
+		<property name="problem" ref="problem1_c1" />
+		<property name="hacker" ref="hacker1" />
+		<property name="position" ref="position2_c1" />
+
 	</bean>
 	
 	<!-- CURRICULA -->
