@@ -24,27 +24,34 @@
 	<ul id="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
 		<security:authorize access="hasRole('ADMIN')">
+			<!-- Register admin -->
+			<li><a class="fNiv"
+				href="administrator/administrator/register.do"><spring:message
+						code="master.page.register.admin" /></a></li>
+
 			<li><a class="fNiv"><spring:message
 						code="master.page.administrator" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="administrator/action-1.do"><spring:message
-								code="master.page.administrator.action.1" /></a></li>
+
 					<li><a href="administrator/action-2.do"><spring:message
 								code="master.page.administrator.action.2" /></a></li>
 				</ul></li>
 		</security:authorize>
 
-		<security:authorize access="hasRole('CUSTOMER')">
+		<security:authorize access="isAnonymous()">
+
+			<!-- Sign up -->
 			<li><a class="fNiv"><spring:message
-						code="master.page.customer" /></a>
+						code="master.page.singup" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="customer/action-1.do"><spring:message
-								code="master.page.customer.action.1" /></a></li>
-					<li><a href="customer/action-2.do"><spring:message
-								code="master.page.customer.action.2" /></a></li>
+					<li><a href="company/company/register.do"><spring:message
+								code="master.page.register.company" /></a></li>
+					<li><a href="hacker/hacker/register.do"><spring:message
+								code="master.page.register.hacker" /></a></li>
 				</ul></li>
+
 		</security:authorize>
 		<li><a class="fNiv"><spring:message
 					code="master.page.position" /></a>
@@ -76,10 +83,13 @@
 				</ul></li>
 		</security:authorize>
 
-		<security:authorize access="isAnonymous()">
+
 			<li><a class="fNiv" href="security/login.do"><spring:message
 						code="master.page.login" /></a></li>
 		</security:authorize>
+
+		<li><a class="fNiv" href="company/list.do"><spring:message
+					code="master.page.company.list" /></a></li>
 
 		<security:authorize access="isAuthenticated()">
 			<li><a class="fNiv"> <spring:message
@@ -88,12 +98,24 @@
 			</a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="profile/action-1.do"><spring:message
-								code="master.page.profile.action.1" /></a></li>
-					<li><a href="profile/action-2.do"><spring:message
-								code="master.page.profile.action.2" /></a></li>
-					<li><a href="profile/action-3.do"><spring:message
-								code="master.page.profile.action.3" /></a></li>
+					<security:authorize access="hasRole('ADMIN')">
+						<li><a href="administrator/display.do"><spring:message
+									code="actor.view" /></a></li>
+						<li><a href="administrator/administrator/edit.do"><spring:message
+									code="master.page.actor.edit" /></a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('COMPANY')">
+						<li><a href="company/display.do"><spring:message
+									code="actor.view" /></a></li>
+						<li><a href="company/company/edit.do"><spring:message
+									code="master.page.actor.edit" /></a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('HACKER')">
+						<li><a href="hacker/display.do"><spring:message
+									code="actor.view" /></a></li>
+						<li><a href="hacker/hacker/edit.do"><spring:message
+									code="master.page.actor.edit" /></a></li>
+					</security:authorize>
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
 				</ul></li>

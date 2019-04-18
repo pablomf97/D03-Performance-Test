@@ -15,7 +15,6 @@ import domain.Actor;
 public class StringToActorConverter implements Converter<String, Actor> {
 
 	@Autowired
-
 	ActorRepository	actorRepository;
 
 	@Override

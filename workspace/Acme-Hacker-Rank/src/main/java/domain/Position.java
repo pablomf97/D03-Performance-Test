@@ -97,6 +97,7 @@ public class Position extends DomainEntity {
 		this.salary = salary;
 	}
 
+
 	//@Pattern(regexp = "\\[A-Z]{4}-d{4}")
 	public String getTicker() {
 		return this.ticker;
@@ -135,6 +136,7 @@ public class Position extends DomainEntity {
 		this.isDraft = isDraft;
 	}
 
+<<<<<<< HEAD
 	@NotNull
 	public Boolean getIsCancelled() {
 		return this.isCancelled;
@@ -144,6 +146,8 @@ public class Position extends DomainEntity {
 		this.isCancelled = isCancelled;
 	}
 
+=======
+>>>>>>> develop
 	@ManyToMany
 	public Collection<Problem> getProblems() {
 		return this.problems;

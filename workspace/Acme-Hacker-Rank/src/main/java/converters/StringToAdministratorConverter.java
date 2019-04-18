@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.StringUtils;
 
-
 import repositories.AdministratorRepository;
 
 import domain.Administrator;
 
-public class StringToAdministratorConverter implements Converter<String, Administrator> {
+public class StringToAdministratorConverter implements
+		Converter<String, Administrator> {
 
 	@Autowired
-	AdministratorRepository	actorRepository;
+	AdministratorRepository actorRepository;
 
 	@Override
 	public Administrator convert(final String text) {
