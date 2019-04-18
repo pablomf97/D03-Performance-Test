@@ -2,7 +2,7 @@ package repositories;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,10 +24,17 @@ public interface FinderRepository extends JpaRepository<Finder, Integer> {
 
 	@Query("select p from Position p where  ( p.deadline between ?1 and  ?1)and p.isDraft=0 ")
 	Position searchDeadline(Date deadline);
-	@Query("select f from Finder f where f.results.size='0'")
-	Collection<Finder> FindersEmpty();
+	@Query("select (sum(case when m.results.size=0 then 1.0 else 0 end)/count(m)) from Finder m")
+	Double RatioFindersEmpty();
 	
-	@Query("select (select count(e) from Curricula e where e.hacker=h) from Hacker h")
-	List<Long> numberCurriculaPerHacker();
+	@Query("select max(1.0*(select count(*) from Curricula a where a.hacker=h)) from Hacker h")
+	Integer MaxCurriculaPerHacker();
+	@Query("select min(1.0*(select count(*) from Curricula a where a.hacker=h)) from Hacker h")
+	Integer MinCurriculaPerHacker();
+	@Query("select avg(1.0*(select count(*) from Curricula a where a.hacker=h)) from Hacker h")
+	Double AvgCurriculaPerHacker();
+	@Query("select stddev(1.0*(select count(*) from Curricula a where a.hacker=h)) from Hacker h")
+	Double StddevCurriculaPerHacker();
+
 	
 }

@@ -1,6 +1,6 @@
 package repositories;
 
-import java.util.List;
+
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +11,14 @@ import domain.Application;
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Integer> {
 
-	@Query("select ((select count(*) from Application a where a.hacker=h)) from Hacker h")
-	List<Long> applicationsPerHacker();
+	
+	@Query("select avg(1.0*(select count(*) from Application a where a.hacker=h)) from Hacker h")
+	Double avgApplicationsPerHacker();
+	@Query("select max(1.0*(select count(*) from Application a where a.hacker=h)) from Hacker h")
+	Integer maxApplicationsPerHacker();
+	@Query("select min(1.0*(select count(*) from Application a where a.hacker=h)) from Hacker h")
+	Integer minApplicationsPerHacker();
+	@Query("select stddev(1.0*(select count(*) from Application a where a.hacker=h)) from Hacker h")
+	Double stddevApplicationsPerHacker();
 	
 }

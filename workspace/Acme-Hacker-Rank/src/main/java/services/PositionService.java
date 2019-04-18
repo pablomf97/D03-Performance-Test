@@ -1,7 +1,6 @@
 package services;
 
-import java.util.Collections;
-import java.util.List;
+
 
 import javax.transaction.Transactional;
 
@@ -55,63 +54,23 @@ public class PositionService {
 		}
 		return res;
 	}
-	public List<Long >positionsPerCompany(){
 
-		return this.positionRepository.positionsPerCompany();
-	}
-	public Long maxPositionPerCompany(){
-		List<Long> l = this.positionsPerCompany();
-		Long res=(long) 0;
-		if (!l.isEmpty()){
-			res=Collections.max(this.positionsPerCompany());
-		}
-		return  res;
+	public Integer maxPositionPerCompany(){
+	
+		return  this.positionRepository.maxPositionPerCompany();
 	}
 
-	public Long minPositionPerCompany(){
-		List<Long> l = this.positionsPerCompany();
-		Long res=(long) 0;
-		if (!l.isEmpty()){
-			res=Collections.min(this.positionsPerCompany());
+	public Integer minPositionPerCompany(){
+		return this.positionRepository.minPositionPerCompany();
 		}
-		return  res;}
 
 	public Double avgPositionPerCompany(){
-		int total=0;
-		double avg=0.;
-		if(this.positionsPerCompany().isEmpty()){
-
-		}else{
-			for(int i = 0; i < this.positionsPerCompany().size(); i++){
-				total += this.positionsPerCompany().get(i);
-			}
-			avg = (total / (double)this.positionsPerCompany().size());
-		}
-		return avg;
+	
+		return this.positionRepository.avgPositionPerCompany();
 	}
 	public Double sttdevPositionPerCompany(){
-		List<Long> posPerComp=(List<Long>) this.positionsPerCompany();
-		double mean = this.avgPositionPerCompany();
-		double temp = 0;
-		Double res;
-		if(this.positionsPerCompany().isEmpty()){
-			res=0.;
-		}else{
-
-			for (int i = 0; i < posPerComp.size(); i++)
-			{
-				Long val = posPerComp.get(i);
-
-
-				double squrDiffToMean = Math.pow(val - mean, 2);
-
-				temp += squrDiffToMean;
-			}
-
-			double meanOfDiffs = (double) temp / (double) (posPerComp.size());
-			res=Math.sqrt(meanOfDiffs);
-		}
-		return res;
+	
+		return this.positionRepository.stddevPositionPerCompany();
 	}
 
 

@@ -1,6 +1,6 @@
 package repositories;
 
-import java.util.List;
+
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,8 +29,15 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 	@Query("select max(p.company.commercialName) from Position p")
 	String companyWithMorePositions();
 	
-	@Query("select ((select count(*) from Position p where p.company=c)) from Company c ")
-	List<Long> positionsPerCompany();
+	
+	@Query("select max(1.0*(select count(p) from Position p where p.company.id = c.id)) from Company c")
+	Integer maxPositionPerCompany();
+	@Query("select min(1.0*(select count(p) from Position p where p.company.id = c.id)) from Company c")
+	Integer minPositionPerCompany();
+	@Query("select avg(1.0*(select count(p) from Position p where p.company.id = c.id)) from Company c")
+	Double avgPositionPerCompany();
+	@Query("select stddev(1.0*(select count(p) from Position p where p.company.id = c.id)) from Company c")
+	Double stddevPositionPerCompany();
 	
 
 }

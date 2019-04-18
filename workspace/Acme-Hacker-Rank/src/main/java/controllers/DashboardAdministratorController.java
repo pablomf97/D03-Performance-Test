@@ -33,10 +33,10 @@ public class DashboardAdministratorController extends AbstractController{
 			//LEVEL B
 			Double AvgCurriculaPerHacker=this.finderService.AvgCurriculaPerHacker();
 			Double ratioFinders=this.finderService.ratioFinders();
-			Long MaxCurriculaPerHacker=this.finderService.MaxCurriculaPerHacker();
+			Integer MaxCurriculaPerHacker=this.finderService.MaxCurriculaPerHacker();
 			Double stdevCurriculaPerHacker =this.finderService.stdevCurriculaPerHacker();
 			Double []statsFinder=this.finderService.StatsFinder();
-			Long MinCurriculaPerHacker =this.finderService.MinCurriculaPerHacker();
+			Integer MinCurriculaPerHacker =this.finderService.MinCurriculaPerHacker();
 			
 			//LEVEL C
 			 Double minSalarayPositions=this.positionService.minSalarayPositions();
@@ -46,13 +46,13 @@ public class DashboardAdministratorController extends AbstractController{
 			 String bestPositionSalary=this.positionService.bestPositionSalary();
 			 String worstPositionSalary=this.positionService.worstPositionSalary();
 			 String  companyWithMorePositions=this.positionService.companyWithMorePositions();
-			 Long maxPositionPerCompany=this.positionService.maxPositionPerCompany();
-			 Long minPositionPerCompany=this.positionService.minPositionPerCompany();
+			 Integer maxPositionPerCompany=this.positionService.maxPositionPerCompany();
+			 Integer minPositionPerCompany=this.positionService.minPositionPerCompany();
 			 Double avgPositionPerCompany=this.positionService.avgPositionPerCompany();
 			 Double sttdevPositionPerCompany=this.positionService.sttdevPositionPerCompany();
 			 
-			 Long maxApplicationsPerHacker=this.applicationService.maxApplicationsPerHacker();
-			 Long minApplicationsPerHacker=this.applicationService.minApplicationsPerHacker();
+			 Integer maxApplicationsPerHacker=this.applicationService.maxApplicationsPerHacker();
+			 Integer minApplicationsPerHacker=this.applicationService.minApplicationsPerHacker();
 			 Double avgApplicationsPerHacker=this.applicationService.avgApplicationsPerHacker();
 			 Double sttdevApplicationsPerHacker=this.applicationService.sttdevApplicationsPerHacker();
 			 
