@@ -26,7 +26,7 @@ import domain.Problem;
 public class PositionService {
 
 	@Autowired
-	private PositionRepository	poisitionRepository;
+	private PositionRepository	positionRepository;
 
 	@Autowired
 	private ProblemService		problemService;
@@ -61,14 +61,14 @@ public class PositionService {
 
 	public Collection<Position> findAll() {
 		Collection<Position> result;
-		result = this.poisitionRepository.findAll();
+		result = this.positionRepository.findAll();
 
 		return result;
 	}
 
 	public Collection<Position> findAllFinal() {
 		Collection<Position> result;
-		result = this.poisitionRepository.findAllFinal();
+		result = this.positionRepository.findAllFinal();
 
 		return result;
 	}
@@ -76,7 +76,7 @@ public class PositionService {
 	public Position findOne(final int positionId) {
 		Position result;
 
-		result = this.poisitionRepository.findOne(positionId);
+		result = this.positionRepository.findOne(positionId);
 		Assert.notNull(result);
 		return result;
 	}
@@ -111,7 +111,7 @@ public class PositionService {
 			}
 		}
 		Assert.notNull(result);
-		result = this.poisitionRepository.save(result);
+		result = this.positionRepository.save(result);
 
 		return result;
 	}
@@ -121,22 +121,37 @@ public class PositionService {
 
 		Assert.notNull(position);
 		Assert.isTrue(position.getId() != 0, "wrong.id");
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "COMPANY"), "not.allowed");
+		final Position orig = this.findOne(position.getId());
+		Assert.isTrue(position.getCompany().getId() == principal.getId(), "not.allowed");
+		Assert.isTrue(orig.getId() == position.getId());
 		final Collection<Application> applies = this.applicationService.findByPosition(position);
 		for (final Application a : applies) {
 			this.applicationService.delete(a.getId());
-			this.curriculaService.delete(a.getCopyCurricula());
+			this.curriculaService.delete(a.getCopyCurricula().getId());
 		}
+
+		this.positionRepository.delete(position.getId());
+
+	}
+	public void cancel(final Position position) {
+		Actor principal;
+
+		Assert.notNull(position);
+		Assert.isTrue(position.getId() != 0, "wrong.id");
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "COMPANY"), "not.allowed");
+		final Position orig = this.findOne(position.getId());
 		Assert.isTrue(position.getCompany().getId() == principal.getId(), "not.allowed");
-
-		this.poisitionRepository.delete(position.getId());
-
+		Assert.isTrue(orig.getId() == position.getId());
+		orig.setIsCancelled(true);
+		this.positionRepository.save(orig);
 	}
 
 	public Collection<Position> findByOwner(final Actor actor) {
 		Assert.notNull(actor);
-		return this.poisitionRepository.findByOwner(actor.getId());
+		return this.positionRepository.findByOwner(actor.getId());
 
 	}
 
@@ -194,12 +209,16 @@ public class PositionService {
 			rand.setSeed(d.getTime());
 			final int i = (1000 + rand.nextInt(9000));
 			final String result = res + i;
-			if (this.poisitionRepository.findByTicker(result) != null) {
+			if (this.positionRepository.findByTicker(result) != null) {
 				res = result;
 				b = false;
 			}
 		}
 		return res;
+	}
+
+	public void flush() {
+		this.positionRepository.flush();
 	}
 
 }

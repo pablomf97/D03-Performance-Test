@@ -33,5 +33,8 @@ public class ApplicationService {
 		final Collection<Application> res = this.applicationRepository.findByPosition(position.getId());
 		return res;
 	}
+	public void delete(final Integer entity) {
+		this.applicationRepository.delete(entity);
+	}
 
 }

@@ -9,7 +9,17 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-
+<script>
+	function addFields() {
+		// Container <div> where dynamic content will be placed
+		var container = document.getElementById("container");
+		// Create an <input> element, set its type and name attributes
+		var input = document.createElement("input");
+		input.type = "text";
+		input.name = "attachments";
+		container.appendChild(input);
+	}
+</script>
 <form:form action="problem/edit.do" modelAttribute="problem" id="form">
 	<fieldset>
 		<br>
@@ -25,7 +35,19 @@
 		<acme:textbox code="problem.optionalHint" path="optionalHint" />
 		<br> <br>
 
-		<acme:textbox code="problem.attachments" path="attachments" />
+		<%-- 		<acme:textbox code="problem.attachments" path="attachments" />
+ --%>
+		<spring:message code="problem.attachments.add" />
+		:
+		<button type="button" onClick="addFields()">
+			<spring:message code="problem.attachments" />
+		</button>
+		<div id="container"></div>
+		<jstl:forEach items="${problem.attachments}" var="at">
+			<input name="attachments" value="${at}" />
+		</jstl:forEach>
+		<form:errors path="attachments" cssClass="error" />
+
 		<br /> <br />
 	</fieldset>
 	<br />

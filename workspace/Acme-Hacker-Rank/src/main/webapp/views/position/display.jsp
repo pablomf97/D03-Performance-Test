@@ -19,7 +19,11 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%
+	String name = (String) pageContext.getAttribute("name", PageContext.SESSION_SCOPE);
+out.print("Hello "+pageContext.getResponse().toString());  
 
+%>
 <table class="displayStyle">
 	<tr>
 		<td><strong> <spring:message code="position.title" /> :
@@ -97,18 +101,20 @@
 		<td><jstl:out value="${position.isCancelled}" /></td>
 	</tr>
 
-	<jstl:forEach items="${position.problems}" var="pro">
-		<tr>
-			<td>${pro.title}</td>
-			<td>${pro.isDraft}</td>
-			<td>
-				<button
-					onClick="window.location.href='problem/display.do?Id=${pro.id}'">
-					<spring:message code="position.problem.display" />
-				</button>
-			</td>
-		</tr>
-	</jstl:forEach>
+	<jstl:if test="${name == position.company.userAccount.username}">
+		<jstl:forEach items="${position.problems}" var="pro">
+			<tr>
+				<td>${pro.title}</td>
+				<td>${pro.isDraft}</td>
+				<td>
+					<button
+						onClick="window.location.href='problem/display.do?Id=${pro.id}'">
+						<spring:message code="position.problem.display" />
+					</button>
+				</td>
+			</tr>
+		</jstl:forEach>
+	</jstl:if>
 </table>
 <jstl:if test="${position.isDraft == true }">
 

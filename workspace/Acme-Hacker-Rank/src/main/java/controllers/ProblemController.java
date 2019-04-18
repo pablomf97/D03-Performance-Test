@@ -135,9 +135,14 @@ public class ProblemController extends AbstractController {
 		Problem problem;
 		try {
 			problem = this.problemService.findOne(Id);
+
 			result = new ModelAndView("problem/display");
+			final BindingResult binding = null;
+			final Collection<String> attachments = this.problemService.checkSplitPictures(problem.getAttachments(), binding);
+			result.addObject("attachments", attachments);
 			result.addObject(problem);
 		} catch (final Throwable opps) {
+			opps.printStackTrace();
 			result = new ModelAndView("redirect:list.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}

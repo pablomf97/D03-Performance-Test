@@ -61,7 +61,14 @@
 	<jstl:if test="${position.id != 0}">
 		<button
 			onClick="window.location.href='position/delete.do?Id=${position.id}'">
-			<spring:message code="position.confirm.delete" />
+			<jstl:if test="${position.isDraft == true }">
+				<spring:message code="position.confirm.delete" />
+
+			</jstl:if>
+			<jstl:if test="${position.isDraft == false }">
+				<spring:message code="position.cancelled " />
+
+			</jstl:if>
 		</button>
 	</jstl:if>
 	<acme:cancel code="position.cancel" url="position/list.do" />

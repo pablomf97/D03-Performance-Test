@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -8,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
@@ -136,7 +138,29 @@ public class ProblemService {
 		result.setStatement(problem.getStatement());
 		result.setTitle(problem.getTitle());
 		this.validator.validate(result, binding);
+		this.checkSplitPictures(result.getAttachments(), binding);
 		return result;
+	}
+
+	public Collection<String> checkSplitPictures(final String attachments, final BindingResult binding) {
+		final Collection<String> res = new ArrayList<>();
+		if (attachments != null && !attachments.isEmpty()) {
+			final String[] slice = attachments.split(",");
+			for (final String p : slice)
+				if (p.trim() != "") {
+					try {
+						Assert.isTrue(ResourceUtils.isUrl(p), "error.url");
+					} catch (final Throwable oops) {
+						binding.rejectValue("attachments", "error.url");
+					}
+					res.add(p);
+				}
+		}
+		return res;
+	}
+
+	public void flush() {
+		this.problemRepository.flush();
 	}
 
 }

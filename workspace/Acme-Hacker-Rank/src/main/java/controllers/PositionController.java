@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +38,16 @@ public class PositionController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
-	public ModelAndView listAll() {
+	public ModelAndView listAll(final Integer id) {
 		ModelAndView result;
 		try {
+			Collection<Position> positions = new ArrayList<>();
+			if (id != null) {
+				final Actor actor = this.actorService.findOne(id);
+				positions = this.positionService.findByOwner(actor);
+			} else
+				positions = this.positionService.findAllFinal();
 			result = new ModelAndView("position/list");
-			final Collection<Position> positions = this.positionService.findAllFinal();
 			result.addObject("requestURI", "/position/list.do");
 			result.addObject("positions", positions);
 		} catch (final Throwable opps) {
@@ -72,7 +78,10 @@ public class PositionController extends AbstractController {
 		ModelAndView result;
 		try {
 			final Position position = this.positionService.findOne(Id);
-			this.positionService.delete(position);
+			if (position.getIsDraft() == false)
+				this.positionService.cancel(position);
+			else
+				this.positionService.delete(position);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:list.do");

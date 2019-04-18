@@ -47,30 +47,25 @@
 	</tr>
 
 	<tr>
-		<td><strong> <spring:message code="problem.attachments" />
-				:
-		</strong></td>
-		<td><jstl:out value="${problem.attachments}" /></td>
-	</tr>
-
-	<tr>
 		<td><strong> <spring:message code="problem.company" />
 				:
 		</strong></td>
 		<td><jstl:out value="${problem.company.commercialName}" /></td>
 	</tr>
-
 	<tr>
-		<td><strong> <spring:message code="problem.isDraft" />
+		<td><strong> <spring:message code="problem.attachments" />
 				:
 		</strong></td>
-		<td><jstl:out value="${problem.isDraft}" /></td>
+		<jstl:forEach items="${attachments}" var="at">
+			<td><a href="${at }" target=blank><jstl:out value="${at }"></jstl:out></a></td>
+		</jstl:forEach>
 	</tr>
 
 </table>
 <%-- </jstl:if> --%>
 <jstl:if test="${problem.isDraft == true }">
-<button onClick="window.location.href='problem/delete.do?Id=${problem.id}'">
-	<spring:message code="position.confirm.delete" />
-</button>
+	<button
+		onClick="window.location.href='problem/delete.do?Id=${problem.id}'">
+		<spring:message code="position.confirm.delete" />
+	</button>
 </jstl:if>
