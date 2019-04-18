@@ -1,0 +1,48 @@
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+
+<%
+	String name = (String) pageContext.getAttribute("user", PageContext.SESSION_SCOPE);
+%>
+<jstl:if test="${not empty problemUsed}">
+	<a class="error" ><spring:message code="delete.isempty" /></a>
+</jstl:if>
+<display:table pagesize="5" class="displaytag" name="problems"
+	requestURI="${requestURI}" id="row">
+	<%-- 	<jstl:if test="${name == row.company.userAccount.username}">
+ --%>
+	<display:column titleKey="problem.company" sortable="true">
+		<jstl:out value="${row.company.commercialName }"></jstl:out>
+	</display:column>
+	<display:column titleKey="problem.title" sortable="true">
+		<jstl:out value="${row.title }"></jstl:out>
+	</display:column>
+	<display:column titleKey="problem.optionalHint" sortable="true">
+		<jstl:out value="${row.optionalHint }"></jstl:out>
+	</display:column>
+	<display:column titleKey="problem.isDraft" sortable="true">
+		<jstl:out value="${row.isDraft }"></jstl:out>
+	</display:column>
+	<display:column>
+		<a href="problem/display.do?Id=${row.id}"> <spring:message
+				code="problem.display" />
+		</a>
+	</display:column>
+	<display:column>
+		<jstl:if test="${row.isDraft == true}">
+			<a href="problem/edit.do?Id=${row.id}"> <spring:message
+					code="problem.edit" />
+			</a>
+		</jstl:if>
+	</display:column>
+	<%-- 	</jstl:if>
+ --%>
+</display:table>
+

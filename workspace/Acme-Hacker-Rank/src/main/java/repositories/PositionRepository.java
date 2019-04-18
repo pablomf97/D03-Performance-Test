@@ -1,5 +1,8 @@
+
 package repositories;
 
+
+import java.util.Collection;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,5 +42,14 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 	@Query("select stddev(1.0*(select count(p) from Position p where p.company.id = c.id)) from Company c")
 	Double stddevPositionPerCompany();
 	
+
+	@Query("select p from Position p where p.company.id = ?1")
+	Collection<Position> findByOwner(int id);
+
+	@Query("select p from Position p where p.ticker = ?1")
+	Position findByTicker(String ticker);
+
+	@Query("select p from Position p where p.isDraft = false")
+	Collection<Position> findAllFinal();
 
 }

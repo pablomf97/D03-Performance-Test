@@ -52,6 +52,38 @@
 								code="master.page.register.hacker" /></a></li>
 				</ul></li>
 
+		</security:authorize>
+		<li><a class="fNiv"><spring:message
+					code="master.page.position" /></a>
+			<ul>
+				<li class="arrow"></li>
+				<li><a href="position/listAll.do"><spring:message
+							code="master.page.position.list" /></a></li>
+				<security:authorize access="hasRole('COMPANY')">
+
+					<li><a href="position/create.do"><spring:message
+								code="master.page.position.edit" /></a></li>
+				</security:authorize>
+
+			</ul></li>
+		<security:authorize access="hasRole('COMPANY')">
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.problem" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="problem/list.do"><spring:message
+								code="master.page.problem.list" /></a></li>
+					<security:authorize access="hasRole('COMPANY')">
+
+						<li><a href="problem/create.do"><spring:message
+									code="master.page.problem.edit" /></a></li>
+					</security:authorize>
+
+				</ul></li>
+		</security:authorize>
+
+		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message
 						code="master.page.login" /></a></li>
 		</security:authorize>
