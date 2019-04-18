@@ -121,7 +121,7 @@ public class ProblemController extends AbstractController {
 		try {
 			problem = this.problemService.findOne(Id);
 			result = new ModelAndView("problem/edit");
-			result.addObject(problem);
+			result.addObject("problem", problem);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:list.do");
 			result.addObject("messageCode", "problem.commit.error");
@@ -141,6 +141,11 @@ public class ProblemController extends AbstractController {
 			final Collection<String> attachments = this.problemService.checkSplitPictures(problem.getAttachments(), binding);
 			result.addObject("attachments", attachments);
 			result.addObject(problem);
+			try {
+				final Actor actor2 = this.actorService.findByPrincipal();
+				result.addObject("name", actor2.getUserAccount().getUsername());
+			} catch (final Throwable opps) {
+			}
 		} catch (final Throwable opps) {
 			opps.printStackTrace();
 			result = new ModelAndView("redirect:list.do");

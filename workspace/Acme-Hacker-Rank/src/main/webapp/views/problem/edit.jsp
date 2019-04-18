@@ -26,14 +26,23 @@
 		<form:hidden path="id" />
 		<form:hidden path="isDraft" />
 
-		<acme:textbox code="problem.title" path="title" />
-		<br> <br>
+		<form:label path="title">
+			<spring:message code="problem.title" />:*</form:label>
+		<form:input type="text" path="title" />
+		<form:errors path="title" cssClass="error" />
+		<br />
 
-		<acme:textbox code="problem.statement" path="statement" />
-		<br> <br>
+		<form:label path="statement">
+			<spring:message code="problem.statement" />:*</form:label>
+		<form:input type="text" path="statement" />
+		<form:errors path="statement" cssClass="error" />
+		<br />
+		<form:label path="optionalHint">
+			<spring:message code="problem.optionalHint" />:*</form:label>
+		<form:input type="text" path="optionalHint" />
+		<form:errors path="optionalHint" cssClass="error" />
+		<br />
 
-		<acme:textbox code="problem.optionalHint" path="optionalHint" />
-		<br> <br>
 
 		<%-- 		<acme:textbox code="problem.attachments" path="attachments" />
  --%>
@@ -56,14 +65,15 @@
 		<acme:submit code="problem.save" name="save" />&nbsp;
 					<acme:submit code="problem.save.final" name="saveFinal" />&nbsp; 
 				</jstl:if>
-	<jstl:if test="${problem.id != 0}">
-		<button
-			onClick="window.location.href='problem/delete.do?Id=${problem.id}'">
-			<spring:message code="position.confirm.delete" />
-		</button>
-	</jstl:if>
-	<acme:cancel code="problem.cancel" url="problem/list.do" />
-	<br />
-	<br />
+
 
 </form:form>
+<jstl:if test="${problem.id != 0}">
+	<button
+		onClick="window.location.href='problem/delete.do?Id=${problem.id}'">
+		<spring:message code="position.confirm.delete" />
+	</button>
+</jstl:if>
+<acme:cancel code="problem.cancel" url="problem/list.do" />
+<br />
+<br />

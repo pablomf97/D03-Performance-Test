@@ -19,11 +19,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
-<%
-	String name = (String) pageContext.getAttribute("name", PageContext.SESSION_SCOPE);
-out.print("Hello "+pageContext.getResponse().toString());  
 
-%>
 <table class="displayStyle">
 	<tr>
 		<td><strong> <spring:message code="position.title" /> :

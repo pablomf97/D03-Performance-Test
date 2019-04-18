@@ -16,7 +16,6 @@ import org.springframework.validation.Validator;
 
 import repositories.PositionRepository;
 import domain.Actor;
-import domain.Application;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
@@ -128,12 +127,6 @@ public class PositionService {
 		final Position orig = this.findOne(position.getId());
 		Assert.isTrue(position.getCompany().getId() == principal.getId(), "not.allowed");
 		Assert.isTrue(orig.getId() == position.getId());
-		final Collection<Application> applies = this.applicationService.findByPosition(position);
-		for (final Application a : applies) {
-			this.applicationService.delete(a.getId());
-			this.curriculaService.delete(a.getCopyCurricula().getId());
-		}
-
 		this.positionRepository.delete(position.getId());
 
 	}

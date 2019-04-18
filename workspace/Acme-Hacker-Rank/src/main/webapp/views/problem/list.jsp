@@ -8,9 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<%
-	String name = (String) pageContext.getAttribute("user", PageContext.SESSION_SCOPE);
-%>
+
 <jstl:if test="${not empty problemUsed}">
 	<a class="error" ><spring:message code="delete.isempty" /></a>
 </jstl:if>
