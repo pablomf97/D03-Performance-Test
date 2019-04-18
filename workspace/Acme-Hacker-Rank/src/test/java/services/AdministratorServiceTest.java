@@ -6,7 +6,6 @@ import javax.validation.ValidationException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.validation.BindingResult;
@@ -69,31 +68,25 @@ public class AdministratorServiceTest extends AbstractTest {
 						"4111111111111111", 02, 22, 123,
 						IllegalArgumentException.class },
 				/* Negative cases: invalid data */
-				{ "admin", "adminT", null, "adminT", "adminT", "ES12345678",
-						"https://www.foto.com", "adminT@adminT.adminT",
-						"666666666", "c/ adminT", "adminT", "VISA",
-						"4111111111111111", 02, 22, 123,
-						DataIntegrityViolationException.class },
 				{ "admin", "adminT", "adminT", "adminT", "adminT", null,
 						"https://www.foto.com", "adminT@adminT.adminT",
 						"666666666", "c/ adminT", "adminT", "VISA",
 						"4111111111111111", 02, 22, 123,
-						DataIntegrityViolationException.class },
+						NullPointerException.class },
 				{ "admin", "adminT", "adminT", "adminT", "adminT",
 						"ES12345678", null, "adminT@adminT.adminT",
 						"666666666", "c/ adminT", "adminT", "VISA",
 						"4111111111111111", 02, 22, 123,
-						DataIntegrityViolationException.class },
+						IllegalArgumentException.class },
 				{ "admin", "adminT", "adminT", "adminT", "adminT",
 						"ES12345678", "https://www.foto.com", null,
 						"666666666", "c/ adminT", "adminT", "VISA",
 						"4111111111111111", 02, 22, 123,
-						DataIntegrityViolationException.class },
+						NullPointerException.class },
 				{ "admin", "adminT", "adminT", "adminT", "adminT",
 						"ES12345678", "https://www.foto.com",
 						"adminT@adminT.adminT", "666666666", "c/ adminT", null,
-						null, null, null, null, null,
-						DataIntegrityViolationException.class } };
+						null, null, null, null, null, ValidationException.class } };
 
 		for (int i = 0; i < registerTestingData.length; i++) {
 			templateRegister((String) registerTestingData[i][0],
