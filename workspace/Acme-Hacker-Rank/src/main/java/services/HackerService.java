@@ -355,4 +355,8 @@ public class HackerService {
 	public void flush() {
 		this.hackerRepository.flush();
 	}
+
+	public Hacker findByUsername(String username) {
+		return this.hackerRepository.findByUsername(username);
+	}
 }

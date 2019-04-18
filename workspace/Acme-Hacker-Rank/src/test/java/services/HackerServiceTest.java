@@ -13,6 +13,7 @@ import org.springframework.validation.Validator;
 
 import utilities.AbstractTest;
 import domain.Hacker;
+import forms.EditionFormObject;
 import forms.RegisterFormObject;
 
 @ContextConfiguration(locations = { "classpath:spring/junit.xml" })
@@ -129,6 +130,114 @@ public class HackerServiceTest extends AbstractTest {
 		hackerForm.setPassword(password);
 		hackerForm.setPassConfirmation(password);
 		hackerForm.setTermsAndConditions(true);
+		hackerForm.setName(name);
+		hackerForm.setSurname(surname);
+		hackerForm.setVAT(VAT);
+		hackerForm.setPhoto(photo);
+		hackerForm.setEmail(email);
+		hackerForm.setPhoneNumber(phoneNumber);
+		hackerForm.setAddress(address);
+		hackerForm.setHolder(holder);
+		hackerForm.setMake(make);
+		hackerForm.setNumber(number);
+		hackerForm.setExpirationMonth(expirationMonth);
+		hackerForm.setExpirationYear(expirationYear);
+		hackerForm.setCVV(CVV);
+
+		newHacker = this.hackerService.reconstruct(hackerForm, binding);
+
+		this.validator.validate(newHacker, binding);
+		this.hackerService.save(newHacker);
+	}
+
+	/* ######################################################################## */
+
+	@Test
+	public void driverEdit() {
+		Object editionTestingData[][] = {
+				/* Positive case */
+				{ "hacker1", "hacker1", "hacker1", "ES12345678",
+						"https://www.foto.com", "hacker1@hacker1.hacker1",
+						"666666666", "c/ hacker1", "hacker1", "VISA",
+						"4111111111111111", 02, 22, 123, null },
+				/* Negative cases: invalid data */
+				{ null, "hacker1", "hacker1", "ES12345678",
+						"https://www.foto.com", "hacker1@hacker1.hacker1",
+						"666666666", "c/ hacker1", "hacker1", "VISA",
+						"4111111111111111", 02, 22, 123,
+						NullPointerException.class },
+				{ "hacker1", "hacker1", "hacker1", null,
+						"https://www.foto.com", "hacker1@hacker1.hacker1",
+						"666666666", "c/ hacker1", "hacker1", "VISA",
+						"4111111111111111", 02, 22, 123,
+						NullPointerException.class },
+				{ "hacker1", "hacker1", "hacker1", "ES12345678", null,
+						"hacker1@hacker1.hacker1", "666666666", "c/ hacker1",
+						"hacker1", "VISA", "4111111111111111", 02, 22, 123,
+						null },
+				{ "hacker1", "hacker1", "hacker1", "ES12345678",
+						"https://www.foto.com", null, "666666666",
+						"c/ hacker1", "hacker1", "VISA", "4111111111111111",
+						02, 22, 123, NullPointerException.class },
+				{ "hacker1", "hacker1", "hacker1", "ES12345678",
+						"https://www.foto.com", "hacker1@hacker1.hacker1",
+						"666666666", "c/ admin", null, null, null, null, null,
+						null, ValidationException.class } };
+
+		for (int i = 0; i < editionTestingData.length; i++) {
+			templateEdit((String) editionTestingData[i][0],
+					(String) editionTestingData[i][1],
+					(String) editionTestingData[i][2],
+					(String) editionTestingData[i][3],
+					(String) editionTestingData[i][4],
+					(String) editionTestingData[i][5],
+					(String) editionTestingData[i][6],
+					(String) editionTestingData[i][7],
+					(String) editionTestingData[i][8],
+					(String) editionTestingData[i][9],
+					(String) editionTestingData[i][10],
+					(Integer) editionTestingData[i][11],
+					(Integer) editionTestingData[i][12],
+					(Integer) editionTestingData[i][13],
+					(Class<?>) editionTestingData[i][14]);
+		}
+	}
+
+	protected void templateEdit(String username, String name, String surname,
+			String VAT, String photo, String email, String phoneNumber,
+			String address, String holder, String make, String number,
+			Integer expirationMonth, Integer expirationYear, Integer CVV,
+			Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			authenticate(username);
+
+			this.editHacker(username, name, surname, VAT, photo, email,
+					phoneNumber, address, holder, make, number,
+					expirationMonth, expirationYear, CVV);
+
+			unauthenticate();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.checkExceptions(expected, caught);
+	}
+
+	public void editHacker(String username, String name, String surname,
+			String VAT, String photo, String email, String phoneNumber,
+			String address, String holder, String make, String number,
+			Integer expirationMonth, Integer expirationYear, Integer CVV) {
+
+		EditionFormObject hackerForm = new EditionFormObject(
+				this.hackerService.findByUsername(username));
+		Hacker newHacker = new Hacker();
+		BindingResult binding = null;
+
+		hackerForm.setUsername(username);
 		hackerForm.setName(name);
 		hackerForm.setSurname(surname);
 		hackerForm.setVAT(VAT);

@@ -351,4 +351,8 @@ public class CompanyService {
 
 		return res;
 	}
+
+	public Company findByUsername(String username) {
+		return this.companyRepository.findByUsername(username); 
+	}
 }

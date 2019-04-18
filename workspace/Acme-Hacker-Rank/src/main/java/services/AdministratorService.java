@@ -398,6 +398,11 @@ public class AdministratorService {
 
 		return res;
 	}
+	
+	public Administrator findByUsername(String username){
+		return this.administratorRepository.findByUsername(username);
+		
+	}
 
 	public void flush() {
 		this.administratorRepository.flush();

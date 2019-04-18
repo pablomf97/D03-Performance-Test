@@ -13,6 +13,7 @@ import org.springframework.validation.Validator;
 
 import utilities.AbstractTest;
 import domain.Company;
+import forms.EditionCompanyFormObject;
 import forms.RegisterCompanyFormObject;
 
 @ContextConfiguration(locations = { "classpath:spring/junit.xml" })
@@ -154,4 +155,116 @@ public class CompanyServiceTest extends AbstractTest {
 
 	}
 
+	/* ######################################################################## */
+
+	@Test
+	public void driverEdit() {
+		Object editionTestingData[][] = {
+				/* Positive case */
+				{ "company1", "company1", "company1", "ES12345678",
+						"https://www.foto.com", "company1@company1.company1",
+						"666666666", "c/ company1", "company1", "company1",
+						"VISA", "4111111111111111", 02, 22, 123, null },
+				/* Negative cases: invalid data */
+				{ null, "company1", "company1", "ES12345678",
+						"https://www.foto.com", "company1@company1.company1",
+						"666666666", "c/ company1", "company1", "company1",
+						"VISA", "4111111111111111", 02, 22, 123,
+						NullPointerException.class },
+				{ "company1", "company1", "company1", null,
+						"https://www.foto.com", "company1@company1.company1",
+						"666666666", "c/ company1", "company1", "company1",
+						"VISA", "4111111111111111", 02, 22, 123,
+						NullPointerException.class },
+				{ "company1", "company1", "company1", "ES12345678", null,
+						"company1@company1.company1", "666666666",
+						"c/ company1", "company1", "company1", "VISA",
+						"4111111111111111", 02, 22, 123,
+						IllegalArgumentException.class },
+				{ "company1", "company1", "company1", "ES12345678",
+						"https://www.foto.com", null, "666666666",
+						"c/ company1", "company1", "company1", "VISA",
+						"4111111111111111", 02, 22, 123,
+						NullPointerException.class },
+				{ "company1", "company1", "company1", "ES12345678",
+						"https://www.foto.com", "company1@company1.company1",
+						"666666666", "c/ admin", "company1", null, null, null,
+						null, null, null, ValidationException.class } };
+
+		for (int i = 0; i < editionTestingData.length; i++) {
+			templateEdit((String) editionTestingData[i][0],
+					(String) editionTestingData[i][1],
+					(String) editionTestingData[i][2],
+					(String) editionTestingData[i][3],
+					(String) editionTestingData[i][4],
+					(String) editionTestingData[i][5],
+					(String) editionTestingData[i][6],
+					(String) editionTestingData[i][7],
+					(String) editionTestingData[i][8],
+					(String) editionTestingData[i][9],
+					(String) editionTestingData[i][10],
+					(String) editionTestingData[i][11],
+					(Integer) editionTestingData[i][12],
+					(Integer) editionTestingData[i][13],
+					(Integer) editionTestingData[i][14],
+					(Class<?>) editionTestingData[i][15]);
+		}
+	}
+
+	protected void templateEdit(String username, String name, String surname,
+			String VAT, String photo, String email, String phoneNumber,
+			String address, String commercialName, String holder, String make,
+			String number, Integer expirationMonth, Integer expirationYear,
+			Integer CVV, Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			authenticate(username);
+
+			this.editCompany(username, name, surname, VAT, photo, email,
+					phoneNumber, address, commercialName, holder, make, number,
+					expirationMonth, expirationYear, CVV);
+
+			unauthenticate();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.checkExceptions(expected, caught);
+	}
+
+	public void editCompany(String username, String name, String surname,
+			String VAT, String photo, String email, String phoneNumber,
+			String address, String commercialName, String holder, String make,
+			String number, Integer expirationMonth, Integer expirationYear,
+			Integer CVV) {
+
+		EditionCompanyFormObject comForm = new EditionCompanyFormObject(
+				this.companyService.findByUsername(username));
+		Company newCom = new Company();
+		BindingResult binding = null;
+
+		comForm.setUsername(username);
+		comForm.setName(name);
+		comForm.setSurname(surname);
+		comForm.setVAT(VAT);
+		comForm.setPhoto(photo);
+		comForm.setEmail(email);
+		comForm.setPhoneNumber(phoneNumber);
+		comForm.setAddress(address);
+		comForm.setCommercialName(commercialName);
+		comForm.setHolder(holder);
+		comForm.setMake(make);
+		comForm.setNumber(number);
+		comForm.setExpirationMonth(expirationMonth);
+		comForm.setExpirationYear(expirationYear);
+		comForm.setCVV(CVV);
+
+		newCom = this.companyService.reconstruct(comForm, binding);
+
+		this.validator.validate(newCom, binding);
+		this.companyService.save(newCom);
+	}
 }
