@@ -17,6 +17,12 @@
 		<value>/views/security/messages</value>
 		<value>/views/welcome/messages</value>
 
+		<!-- Problem messages -->
+		<value>/views/problem/messages</value>
+		<!-- Position messages -->
+		<value>/views/position/messages</value>
+	
+
 		<!-- Admin messages -->
 		<value>/views/administrator/messages</value>
 
@@ -28,6 +34,7 @@
 		
 		<!-- Application messages -->
 		<value>/views/application/messages</value>
+
 	</util:list>
 
 </beans>

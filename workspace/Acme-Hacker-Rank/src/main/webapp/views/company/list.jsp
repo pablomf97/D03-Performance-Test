@@ -22,7 +22,7 @@
 
 			<display:column style="text-align: center;">
 				<button
-					onclick="location.href = 'position/list.do?companyid=${company.id}';">
+					onclick="location.href = 'position/listAll.do?id=${company.id}';">
 					<spring:message code="position.list" />
 				</button>
 			</display:column>

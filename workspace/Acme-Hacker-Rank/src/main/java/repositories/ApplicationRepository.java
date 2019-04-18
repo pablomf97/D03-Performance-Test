@@ -1,3 +1,4 @@
+
 package repositories;
 
 import java.util.Collection;
@@ -16,5 +17,11 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	
 	@Query("select a from Application a join a.position p where p.company.id = ?1")
 	Collection<Application> findApplicationsByCompanyId(int companyId);
+
+	@Query("select a from Application a where a.problem.id = ?1")
+	Collection<Application> findByProblem(int id);
+
+	@Query("select a from Application a where a.position.id = ?1")
+	Collection<Application> findByPosition(int id);
 
 }

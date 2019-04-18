@@ -23,7 +23,7 @@ public class EditionFormObject {
 	private int version;
 	private String name;
 	private String surname;
-	private Double VAT;
+	private String VAT;
 	private String photo;
 	private String email;
 	private String phoneNumber;
@@ -114,13 +114,12 @@ public class EditionFormObject {
 		this.surname = surname;
 	}
 
-	@NotNull
-	@Range(min = 0, max = 1)
-	public Double getVAT() {
+	@NotBlank
+	public String getVAT() {
 		return VAT;
 	}
 
-	public void setVAT(Double VAT) {
+	public void setVAT(String VAT) {
 		this.VAT = VAT;
 	}
 

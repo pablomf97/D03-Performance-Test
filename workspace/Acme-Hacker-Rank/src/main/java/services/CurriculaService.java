@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -16,6 +17,7 @@ public class CurriculaService {
 
 	@Autowired
 	private CurriculaRepository	curriculaRepository;
+
 	
 	public Collection<Curricula> findCurriculasByHackerId (int hackerId) {
 		Collection<Curricula> curriculas;
@@ -24,4 +26,9 @@ public class CurriculaService {
 		
 		return curriculas;
 	}
+
+	public void delete(final Integer entity) {
+		this.curriculaRepository.delete(entity);
+	}
+
 }

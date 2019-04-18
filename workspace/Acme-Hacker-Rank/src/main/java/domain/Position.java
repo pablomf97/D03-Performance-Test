@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -23,35 +24,38 @@ public class Position extends DomainEntity {
 
 	// Attributes
 
-	private String title;
-	private String description;
-	private Date deadline;
-	private String profileRequired;
-	private String technologiesRequired;
-	private Double salary;
-	private String ticker;
-	private String skillsRequired;
-	private Company company;
-	private Boolean isDraft;
-	private Collection<Problem> problems;
+	private String				title;
+	private String				description;
+	private Date				deadline;
+	private String				profileRequired;
+	private String				technologiesRequired;
+	private Double				salary;
+	private String				ticker;
+	private String				skillsRequired;
+	private Company				company;
+	private Boolean				isDraft;
+	private Boolean				isCancelled;
+
+	private Collection<Problem>	problems;
+
 
 	// Getters and setters
 
 	@NotBlank
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
 	@NotBlank
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -59,56 +63,56 @@ public class Position extends DomainEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getDeadline() {
-		return deadline;
+		return this.deadline;
 	}
 
-	public void setDeadline(Date deadline) {
+	public void setDeadline(final Date deadline) {
 		this.deadline = deadline;
 	}
 
 	@NotBlank
 	public String getProfileRequired() {
-		return profileRequired;
+		return this.profileRequired;
 	}
 
-	public void setProfileRequired(String profileRequired) {
+	public void setProfileRequired(final String profileRequired) {
 		this.profileRequired = profileRequired;
 	}
 
 	@NotBlank
 	public String getTechnologiesRequired() {
-		return technologiesRequired;
+		return this.technologiesRequired;
 	}
 
-	public void setTechnologiesRequired(String technologiesRequired) {
+	public void setTechnologiesRequired(final String technologiesRequired) {
 		this.technologiesRequired = technologiesRequired;
 	}
 
 	@Range(min = 0)
 	public Double getSalary() {
-		return salary;
+		return this.salary;
 	}
 
-	public void setSalary(Double salary) {
+	public void setSalary(final Double salary) {
 		this.salary = salary;
 	}
 
-	@NotBlank
+
 	//@Pattern(regexp = "\\[A-Z]{4}-d{4}")
 	public String getTicker() {
-		return ticker;
+		return this.ticker;
 	}
 
-	public void setTicker(String ticker) {
+	public void setTicker(final String ticker) {
 		this.ticker = ticker;
 	}
 
 	@NotBlank
 	public String getSkillsRequired() {
-		return skillsRequired;
+		return this.skillsRequired;
 	}
 
-	public void setSkillsRequired(String skillsRequired) {
+	public void setSkillsRequired(final String skillsRequired) {
 		this.skillsRequired = skillsRequired;
 	}
 
@@ -116,28 +120,37 @@ public class Position extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public Company getCompany() {
-		return company;
+		return this.company;
 	}
 
-	public void setCompany(Company company) {
+	public void setCompany(final Company company) {
 		this.company = company;
 	}
 
 	@NotNull
 	public Boolean getIsDraft() {
-		return isDraft;
+		return this.isDraft;
 	}
 
-	public void setIsDraft(Boolean isDraft) {
+	public void setIsDraft(final Boolean isDraft) {
 		this.isDraft = isDraft;
+	}
+
+	@NotNull
+	public Boolean getIsCancelled() {
+		return this.isCancelled;
+	}
+
+	public void setIsCancelled(final Boolean isCancelled) {
+		this.isCancelled = isCancelled;
 	}
 
 	@ManyToMany
 	public Collection<Problem> getProblems() {
-		return problems;
+		return this.problems;
 	}
 
-	public void setProblems(Collection<Problem> problems) {
+	public void setProblems(final Collection<Problem> problems) {
 		this.problems = problems;
 	}
 

@@ -1,3 +1,4 @@
+
 package services;
 
 import java.security.SecureRandom;
@@ -16,11 +17,13 @@ import repositories.ApplicationRepository;
 import domain.Actor;
 import domain.Application;
 import domain.Hacker;
+import domain.Position;
 import domain.Problem;
 
 @Transactional
 @Service
 public class ApplicationService {
+
 
 	// Managed repository ------------------------------------
 
@@ -212,5 +215,15 @@ public class ApplicationService {
 			
 		}
 
-		
+		public Collection<Application> findByProblem(final Problem problem) {
+			Assert.notNull(problem);
+			final Collection<Application> res = this.applicationRepository.findByProblem(problem.getId());
+			return res;
+		}
+
+		public Collection<Application> findByPosition(final Position position) {
+			Assert.notNull(position);
+			final Collection<Application> res = this.applicationRepository.findByPosition(position.getId());
+			return res;
+		}
 }
