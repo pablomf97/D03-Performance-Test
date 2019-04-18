@@ -88,6 +88,8 @@ public class PositionService {
 
 		Assert.isTrue(this.actorService.checkAuthority(principal, "COMPANY"), "not.allowed");
 		Assert.isTrue(position.getCompany().equals(principal), "not.allowed");
+		if (position.getIsDraft() == false)
+			Assert.isTrue(position.getProblems().size() >= 2, "problems.error");
 		if (position.getId() == 0) {
 			result = position;
 			result.setTicker(this.generateTicker(position));
@@ -184,6 +186,7 @@ public class PositionService {
 		this.checkProblems(position, binding);
 		return result;
 	}
+
 	public void checkProblems(final Position position, final BindingResult binding) {
 		final Collection<Problem> newProblems = position.getProblems();
 		final Actor actor = this.actorService.findByPrincipal();
@@ -209,7 +212,7 @@ public class PositionService {
 			rand.setSeed(d.getTime());
 			final int i = (1000 + rand.nextInt(9000));
 			final String result = res + i;
-			if (this.positionRepository.findByTicker(result) != null) {
+			if (this.positionRepository.findByTicker(result) == null) {
 				res = result;
 				b = false;
 			}
