@@ -136,7 +136,6 @@ public class Position extends DomainEntity {
 		this.isDraft = isDraft;
 	}
 
-<<<<<<< HEAD
 	@NotNull
 	public Boolean getIsCancelled() {
 		return this.isCancelled;
@@ -146,8 +145,6 @@ public class Position extends DomainEntity {
 		this.isCancelled = isCancelled;
 	}
 
-=======
->>>>>>> develop
 	@ManyToMany
 	public Collection<Problem> getProblems() {
 		return this.problems;
