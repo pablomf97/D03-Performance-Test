@@ -8,6 +8,45 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<style>
+.tooltip {
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 150%;
+	left: 50%;
+	margin-left: -60px;
+	width: 200px;
+}
+
+.tooltip .tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+</style>
+
 <security:authorize access="hasRole('ADMIN')">
 	<form:form modelAttribute="registerFormObject"
 		action="administrator/administrator/register.do">
@@ -84,15 +123,22 @@
 			<br />
 
 			<div>
-				<form:errors path="VAT" cssClass="error">
-					<p class="error">
-						<spring:message code="VAT.error" />
-					</p>
-				</form:errors>
-				<strong><form:label path="VAT">
-						<spring:message code="actor.VAT" />
-					</form:label></strong>
-				<form:input path="VAT" />
+				<div class="tooltip">
+					<form:errors path="VAT" cssClass="error">
+						<p class="error">
+							<spring:message code="VAT.error" />
+						</p>
+					</form:errors>
+					<strong><form:label path="VAT">
+
+							<spring:message code="actor.VAT" />
+
+							<span class="tooltiptext"><spring:message
+									code="VAT.placeholder" /> </span>
+
+						</form:label></strong>
+					<form:input path="VAT" />
+				</div>
 			</div>
 
 			<br />

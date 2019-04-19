@@ -64,17 +64,18 @@ public class ProblemController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
-	public ModelAndView saveProblemFinal(Problem problem, final BindingResult binding) {
+	public ModelAndView saveProblemFinal(final Problem problem, final BindingResult binding) {
 		ModelAndView result;
+		Problem res = null;
 		try {
-			problem = this.problemService.reconstruct(problem, binding);
+			res = this.problemService.reconstruct(problem, binding);
 			if (binding.hasErrors()) {
 				result = new ModelAndView("problem/edit");
 				result.addObject("problem", problem);
 			} else
 				try {
 					problem.setIsDraft(false);
-					this.problemService.save(problem);
+					this.problemService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
 					opps.printStackTrace();
@@ -90,16 +91,17 @@ public class ProblemController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView saveProblem(Problem problem, final BindingResult binding) {
+	public ModelAndView saveProblem(final Problem problem, final BindingResult binding) {
 		ModelAndView result;
+		Problem res = null;
 		try {
-			problem = this.problemService.reconstruct(problem, binding);
+			res = this.problemService.reconstruct(problem, binding);
 			if (binding.hasErrors()) {
 				result = new ModelAndView("problem/edit");
 				result.addObject("problem", problem);
 			} else
 				try {
-					this.problemService.save(problem);
+					this.problemService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
 					opps.printStackTrace();

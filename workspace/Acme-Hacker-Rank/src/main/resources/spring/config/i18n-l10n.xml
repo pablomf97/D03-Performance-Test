@@ -17,18 +17,23 @@
 		<value>/views/security/messages</value>
 		<value>/views/welcome/messages</value>
 
+		<value>/views/terms/messages</value>
+
+
 		<!-- Problem messages -->
 		<value>/views/problem/messages</value>
 		<!-- Position messages -->
 		<value>/views/position/messages</value>
 	
 
+
 		<!-- Admin messages -->
 		<value>/views/administrator/messages</value>
 
+
 		<!-- Hacker messages -->
 		<value>/views/hacker/messages</value>
-
+		<value>/views/finder/messages</value>
 		<!-- Company messages -->
 		<value>/views/company/messages</value>
 

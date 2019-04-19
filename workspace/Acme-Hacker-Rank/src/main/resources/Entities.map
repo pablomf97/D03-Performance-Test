@@ -1,6 +1,5 @@
 #./src/main/resources/Entities.map
-<<<<<<< HEAD
-#Thu Apr 18 02:10:51 CEST 2019
+#Thu Apr 18 18:43:37 CEST 2019
 userHacker3=111
 userHacker2=110
 userHacker1=109
@@ -86,69 +85,3 @@ problem2c1=179
 problem1c3=189
 userHacker5=113
 userHacker4=112
-=======
-#Mon Apr 08 10:52:18 CEST 2019
-userCompany1=71
-problem5_c2=124
-curricula5=100
-problem5_c1=118
-curricula4=96
-curricula3=92
-personalData5=101
-curricula2=88
-personalData4=97
-curricula1=84
-personalData3=93
-personalData2=89
-position3_c1=111
-personalData1=85
-problem3_c2=122
-problem3_c1=116
-position1_c2=112
-position1_c1=109
-problem1_c3=125
-problem1_c2=120
-problem1_c1=114
-educationData5=102
-educationData4=98
-problem6_c1=119
-educationData3=94
-educationData2=90
-educationData1=86
-userHacker5=70
-userHacker4=69
-userHacker3=68
-positionData5=103
-userHacker2=67
-positionData4=99
-userHacker1=66
-problem4_c2=123
-positionData3=95
-problem4_c1=117
-positionData2=91
-administrator2=75
-positionData1=87
-administrator1=74
-position2_c2=113
-position2_c1=110
-company3=83
-company2=82
-company1=81
-hacker5=80
-hacker4=79
-hacker3=78
-hacker2=77
-hacker1=76
-problem2_c2=121
-problem2_c1=115
-userAdmin2=65
-userAdmin1=64
-finderH5=108
-finderH4=107
-finderH3=106
-finderH2=105
-finderH1=104
-sysConf=126
-userCompany3=73
-userCompany2=72
->>>>>>> develop

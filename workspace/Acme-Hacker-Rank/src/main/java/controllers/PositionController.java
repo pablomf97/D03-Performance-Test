@@ -100,12 +100,11 @@ public class PositionController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
-	public ModelAndView savePositionFinal(Position position, final BindingResult binding) {
+	public ModelAndView savePositionFinal(final Position position, final BindingResult binding) {
 		ModelAndView result;
-
+		Position res = null;
 		try {
-
-			position = this.positionService.reconstruct(position, binding);
+			res = this.positionService.reconstruct(position, binding);
 			if (binding.hasErrors()) {
 				result = new ModelAndView("position/edit");
 				result.addObject("position", position);
@@ -114,8 +113,8 @@ public class PositionController extends AbstractController {
 				result.addObject("problems", problems);
 			} else
 				try {
-					position.setIsDraft(false);
-					this.positionService.save(position);
+					res.setIsDraft(false);
+					this.positionService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
 					opps.printStackTrace();
@@ -134,11 +133,12 @@ public class PositionController extends AbstractController {
 		return result;
 	}
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView savePosition(Position position, final BindingResult binding) {
+	public ModelAndView savePosition(final Position position, final BindingResult binding) {
 		ModelAndView result;
+		Position res = null;
 		try {
 
-			position = this.positionService.reconstruct(position, binding);
+			res = this.positionService.reconstruct(position, binding);
 			if (binding.hasErrors()) {
 				result = new ModelAndView("position/edit");
 				result.addObject("position", position);
@@ -147,7 +147,7 @@ public class PositionController extends AbstractController {
 				result.addObject("problems", problems);
 			} else
 				try {
-					this.positionService.save(position);
+					this.positionService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
 					opps.printStackTrace();
@@ -191,6 +191,7 @@ public class PositionController extends AbstractController {
 		try {
 			result = new ModelAndView("position/display");
 			try {
+
 				final Actor actor = this.actorService.findByPrincipal();
 				result.addObject("name", actor.getUserAccount().getUsername());
 			} catch (final Throwable opps) {

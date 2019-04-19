@@ -53,7 +53,8 @@ public class Finder extends DomainEntity {
 	public void setMinimumSalary(Double minimumSalary) {
 		this.minimumSalary = minimumSalary;
 	}
-
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMaximumDeadline() {
 		return maximumDeadline;
 	}

@@ -112,7 +112,7 @@
 		</jstl:forEach>
 	</jstl:if>
 </table>
-<jstl:if test="${position.isDraft == true }">
+<jstl:if test="${name == position.company.userAccount.username }">
 
 	<button
 		onClick="window.location.href='position/delete.do?Id=${position.id}'">

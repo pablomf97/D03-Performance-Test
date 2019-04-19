@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- * PopulateDatabase.xml * * Copyright (C) 2019 Universidad de Sevilla 
 	* * The use of this project is hereby constrained to the conditions of the 
 	* TDG Licence, a copy of which you may download from http://www.tdg-seville.info/License.html -->
 
-<beans xmlns="http://www.springframework.org/schema/beans"	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:util="http://www.springframework.org/schema/util"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
@@ -23,7 +23,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="userAdmin2" class="security.UserAccount">
 		<property name="username" value="admin2" />
 		<property name="password" value="c84258e9c39059a89ab77d846ddab909" />
@@ -131,7 +131,7 @@
 	<bean id="administrator1" class="domain.Administrator">
 		<property name="name" value="JosÃ©" />
 		<property name="surname" value="Gamiz Redondo" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="josgamred@mail.com" />
@@ -144,7 +144,7 @@
 	<bean id="administrator2" class="domain.Administrator">
 		<property name="name" value="Carlos" />
 		<property name="surname" value="Albalat Heredia" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES23456789" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/ima76305daddfsj132.340aaaa0/flat,5.u1.jpg" />
 		<property name="email" value="carlo12@mail.com" />
@@ -158,7 +158,7 @@
 	<bean id="hacker1" class="domain.Hacker">
 		<property name="name" value="Alberto" />
 		<property name="surname" value="RamÃ­rez" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES34567891" />
 		<property name="photo"
 			value="https://psmag.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cg_faces:center%2Cq_auto:good%2Cw_768/MTI3OTA2NzM5Mjk0MDk1Mzcw/binary-code-greenjpg.jpg" />
 		<property name="email" value="alramirez@mail.com" />
@@ -172,7 +172,7 @@
 	<bean id="hacker2" class="domain.Hacker">
 		<property name="name" value="Joseph" />
 		<property name="surname" value="Cuadrado" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES45678912" />
 		<property name="photo"
 			value="https://www.hoax-slayer.net/wp-content/uploads/2017/06/Depositphotos_38625283_m-2015.jpg" />
 		<property name="email" value="joscuadrado@mail.com" />
@@ -186,7 +186,7 @@
 	<bean id="hacker3" class="domain.Hacker">
 		<property name="name" value="MarÃ­a" />
 		<property name="surname" value="RodrÃ­guez Perez" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES56789123" />
 		<property name="photo"
 			value="http://www.internetlab.org.br/wp-content/uploads/2017/07/policial_hacker.png" />
 		<property name="email" value="marrodper@mail.com" />
@@ -200,7 +200,7 @@
 	<bean id="hacker4" class="domain.Hacker">
 		<property name="name" value="Pedro" />
 		<property name="surname" value="MarÃ­n LÃ³pez" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES67891234" />
 		<property name="email" value="pedmarlop@mail.com" />
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="Sin nombre, 1" />
@@ -211,7 +211,7 @@
 	<bean id="hacker5" class="domain.Hacker">
 		<property name="name" value="Paula" />
 		<property name="surname" value="Montero GalÃ¡n" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES78912345" />
 		<property name="photo"
 			value="https://www.definicionabc.com/wp-content/uploads/hacker1.jpg" />
 		<property name="email" value="paumongal@mail.com" />
@@ -226,7 +226,7 @@
 	<bean id="company1" class="domain.Company">
 		<property name="name" value="Gustavo" />
 		<property name="surname" value="Rana Verde" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES89123456" />
 		<property name="photo"
 			value="https://carmesi.files.wordpress.com/2018/11/rana-gustavo-barrio-sesamo-256x300.jpg?w=809" />
 		<property name="email" value="gusranver@mail.com" />
@@ -240,7 +240,7 @@
 	<bean id="company2" class="domain.Company">
 		<property name="name" value="Mari Luz" />
 		<property name="surname" value="Carmona ViÃ±as" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES91234567" />
 		<property name="photo"
 			value="https://www.eff.org/files/banner_library/google-spy-eye.png" />
 		<property name="email" value="marcarviÃ±@mail.com" />
@@ -253,7 +253,7 @@
 	<bean id="company3" class="domain.Company">
 		<property name="name" value="Donald" />
 		<property name="surname" value="Pato VC" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="IT12345678" />
 		<property name="photo"
 			value="https://revistadiners.com.co/wp-content/uploads/2016/08/patodonald_800x669.jpg" />
 		<property name="email" value="gusranver@mail.com" />
@@ -303,46 +303,6 @@
 		<property name="CVV" value="165" />
 	</bean>
 
-	<bean id="hacker3" class="domain.Hacker">
-		<property name="name" value="MarÃ­a" />
-		<property name="surname" value="RodrÃ­guez Perez" />
-		<property name="VAT" value="0.21"/>
-		<property name="photo"
-			value="http://www.internetlab.org.br/wp-content/uploads/2017/07/policial_hacker.png" />
-		<property name="email" value="marrodper@mail.com" />
-		<property name="phoneNumber" value="+34611987654" />
-		<property name="address" value="C/ AtlÃ¡ntica, 71 (MÃ¡laga)" />
-		<property name="creditCard" ref="creditCard5" />
-		<property name="finder" ref="finderH3" />
-		<property name="userAccount" ref="userHacker3" />
-	</bean>
-
-	<bean id="hacker4" class="domain.Hacker">
-		<property name="name" value="Pedro" />
-		<property name="surname" value="MarÃ­n LÃ³pez" />
-		<property name="VAT" value="0.21"/>
-		<property name="email" value="pedmarlop@mail.com" />
-		<property name="phoneNumber" value="+34611987654" />
-		<property name="address" value="Sin nombre, 1" />
-		<property name="creditCard" ref="creditCard6" />
-		<property name="finder" ref="finderH4" />
-		<property name="userAccount" ref="userHacker4" />
-	</bean>
-	
-	<bean id="hacker5" class="domain.Hacker">
-		<property name="name" value="Paula" />
-		<property name="surname" value="Montero GalÃ¡n" />
-		<property name="VAT" value="0.21"/>
-		<property name="photo"
-			value="https://www.definicionabc.com/wp-content/uploads/hacker1.jpg" />
-		<property name="email" value="paumongal@mail.com" />
-		<property name="phoneNumber" value="+34611987654" />
-		<property name="address" value="C/ Mi calle, 1 (Madrid)" />
-		<property name="creditCard" ref="creditCard7" />
-		<property name="finder" ref="finderH5" />
-		<property name="userAccount" ref="userHacker5" />
-	</bean>
-	
 	<!-- COMPANIES -->
 
 	<bean id="creditCard5" class="domain.CreditCard">
@@ -353,7 +313,7 @@
 		<property name="expirationYear" value="21" />
 		<property name="CVV" value="136" />
 	</bean>
-	
+
 	<!-- CREDIT CARD -->
 
 	<bean id="creditCard6" class="domain.CreditCard">
@@ -976,7 +936,8 @@
 		<property name="title" value="Problem 1 of company 1" />
 		<property name="statement" value="Solve this problem now" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
 	</bean>
@@ -984,14 +945,16 @@
 		<property name="title" value="Problem 2 of company 1" />
 		<property name="statement" value="Solve this problem please" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
 	</bean>
 	<bean id="problem3_c1" class="domain.Problem">
 		<property name="title" value="Problem 3 of company 1" />
 		<property name="statement" value="Don't solve this problem now" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
 	</bean>
@@ -999,7 +962,8 @@
 		<property name="title" value="Problem 4 of company 1" />
 		<property name="statement" value="Don't solve this problem please" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="true" />
 	</bean>
@@ -1007,7 +971,8 @@
 		<property name="title" value="Problem 5 of company 1" />
 		<property name="statement" value="We'll hire you anyways" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
 	</bean>
@@ -1015,7 +980,8 @@
 	<bean id="problem6_c1" class="domain.Problem">
 		<property name="title" value="Problem 6 of company 1" />
 		<property name="statement" value="We'll never hire you" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="true" />
 	</bean>
@@ -1024,7 +990,8 @@
 		<property name="title" value="Problem 1 of company 2" />
 		<property name="statement" value="Solve this problem now" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="true" />
 	</bean>
@@ -1033,7 +1000,8 @@
 		<property name="title" value="Problem 2 of company 2" />
 		<property name="statement" value="See ya" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="true" />
 	</bean>
@@ -1042,7 +1010,8 @@
 		<property name="title" value="Problem 3  of company 2" />
 		<property name="statement" value="Solve this if you can" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="false" />
 	</bean>
@@ -1051,7 +1020,8 @@
 		<property name="title" value="Problem 4  of company 2" />
 		<property name="statement" value="Solve this problem now" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="false" />
 	</bean>
@@ -1060,7 +1030,8 @@
 		<property name="title" value="Problem 5 of company 2" />
 		<property name="statement" value="Is this even a problem?" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="true" />
 	</bean>
@@ -1069,7 +1040,8 @@
 		<property name="title" value="Problem 1 of company 3" />
 		<property name="statement" value="Hello problem" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company3" />
 		<property name="isDraft" value="true" />
 	</bean>

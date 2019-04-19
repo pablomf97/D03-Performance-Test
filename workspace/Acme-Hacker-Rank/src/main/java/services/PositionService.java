@@ -97,7 +97,7 @@ public class PositionService {
 			Assert.isTrue(result.getIsDraft());
 			if (position.getIsCancelled() == true) {
 				result.setIsCancelled(true);
-				result.setIsDraft(true);
+				result.setIsDraft(false);
 			} else {
 				Assert.isTrue(result.getCompany().equals(principal), "not.allowed");
 				result.setIsDraft(position.getIsDraft());
@@ -195,7 +195,7 @@ public class PositionService {
 
 	public String generateTicker(final Position position) {
 		String res = "";
-		String name = position.getTitle() + "XXXX";
+		String name = position.getCompany().getCommercialName() + "XXXX";
 		name = name.substring(0, 4);
 		res = name + "-";
 		boolean b = true;

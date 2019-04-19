@@ -110,7 +110,7 @@ public abstract class AbstractTest {
 		this.currentTransaction = this.transactionManager.getTransaction(this.transactionDefinition);
 	}
 
-	protected void commitTransaction() {
+	protected void commitTransaction() { 
 		this.transactionManager.commit(this.currentTransaction);
 	}
 

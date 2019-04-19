@@ -16,6 +16,10 @@
 		<value>/views/misc/tiles.xml</value>
 		<value>/views/security/tiles.xml</value>
 		<value>/views/welcome/tiles.xml</value>
+		<value>/views/terms/tiles.xml</value>
+	
+
+
 
 		<!-- Problem views-->
 		<value>/views/problem/tiles.xml</value>
@@ -27,9 +31,10 @@
 
 		<!-- Hacker views -->
 		<value>/views/hacker/tiles.xml</value>
-
+		<value>/views/finder/tiles.xml</value>
 		<!-- Company views -->
 		<value>/views/company/tiles.xml</value>
+
 	</util:list>
 
 </beans>

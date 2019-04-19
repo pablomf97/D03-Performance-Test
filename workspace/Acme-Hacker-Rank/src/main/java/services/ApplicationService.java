@@ -1,7 +1,9 @@
 
 package services;
 
+
 import java.util.Collection;
+
 
 import javax.transaction.Transactional;
 
@@ -13,6 +15,8 @@ import repositories.ApplicationRepository;
 import domain.Application;
 import domain.Position;
 import domain.Problem;
+
+
 
 @Transactional
 @Service
@@ -36,5 +40,26 @@ public class ApplicationService {
 	public void delete(final Integer entity) {
 		this.applicationRepository.delete(entity);
 	}
+
+	public Integer maxApplicationsPerHacker(){
+	
+		return  this.applicationRepository.maxApplicationsPerHacker();
+	}
+
+	public Integer minApplicationsPerHacker(){
+		
+		return  this.applicationRepository.minApplicationsPerHacker();
+	}
+
+	public Double avgApplicationsPerHacker(){
+	
+		return this.applicationRepository.avgApplicationsPerHacker();
+	}
+	public Double sttdevApplicationsPerHacker(){
+		
+		return this.applicationRepository.stddevApplicationsPerHacker();
+	}
+
+
 
 }

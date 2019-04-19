@@ -73,7 +73,8 @@
 		</fieldset>
 		<br />
 
-
+<div><a href="administrator/export.do"><spring:message
+								code="export" /></a></div>
 	</jstl:when>
 	<jstl:otherwise>
 		<p class="error">
