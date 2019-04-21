@@ -101,9 +101,11 @@
 					<security:authorize access="hasRole('ADMIN')">
 					<li><a  href="statistics/administrator/display.do"><spring:message
 						code="master.page.dashboard" /></a></li>
+						
 						<li><a href="administrator/display.do"><spring:message
 									code="actor.view" /></a></li>
-									
+									<li><a href="administrator/export.do"><spring:message
+								code="export" /></a></li>
 						<li><a href="administrator/administrator/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
 									
@@ -111,6 +113,8 @@
 					<security:authorize access="hasRole('COMPANY')">
 						<li><a href="company/display.do"><spring:message
 									code="actor.view" /></a></li>
+									<li><a href="company/export.do"><spring:message
+								code="export" /></a></li>
 						<li><a href="company/company/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
 					</security:authorize>
@@ -118,7 +122,8 @@
 					
 					<li><a  href="finder/hacker/search.do"><spring:message
 						code="master.page.finder" /></a></li>
-						
+						<li><a href="hacker/export.do"><spring:message
+								code="export" /></a></li>
 						<li><a href="hacker/display.do"><spring:message
 									code="actor.view" /></a></li>
 						<li><a href="hacker/hacker/edit.do"><spring:message

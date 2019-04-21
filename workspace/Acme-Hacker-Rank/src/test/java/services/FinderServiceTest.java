@@ -39,13 +39,15 @@ public class FinderServiceTest extends AbstractTest{
 	public void searchDriver(){
 		Object testingData[][]={
 				{"hacker1",3,"position",null,null,null,null},//positive
+				{"hacker1",0,"rwer",null,null,null,null},//positive
 				{null,3,"position",null,null,null,IllegalArgumentException.class},//negative: 
-				//{"admin",3,"position",null,null,null,ClassCastException.class},//negative: Admin 
-			//	{"hacker1",1,null,null,100.0,null,null},
-			//	{"hacker2",3,null,null,null,null,null},
+				{"admin",3,"position",null,null,null,ClassCastException.class},//negative: Admin 
+				{"hacker1",1,null,null,100.0,null,null},//positive
+				{"hacker2",3,null,null,null,null,null},//positive
 				{"hacker1",3,null,null,null,new GregorianCalendar(2050, Calendar.JANUARY, 1)
-				.getTime(),null},
-				//{},
+				.getTime(),null}//positive
+			
+				
 				
 		};
 		
