@@ -16,7 +16,10 @@ import org.springframework.validation.BindingResult;
 import repositories.HackerRepository;
 import security.Authority;
 import security.UserAccount;
+import domain.Actor;
+import domain.Administrator;
 import domain.CreditCard;
+import domain.Finder;
 import domain.Hacker;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -43,6 +46,15 @@ public class HackerService {
 
 	@Autowired
 	private UtilityService utilityService;
+	
+	@Autowired
+	private FinderService finderService;
+	
+	@Autowired
+	private CurriculaService curriculaService;
+	
+	@Autowired
+	private ApplicationService applicationService;
 
 	/* Simple CRUD methods */
 
@@ -369,5 +381,29 @@ public class HackerService {
 	public Hacker findByUsername(String username) {
 		return this.hackerRepository.findByUsername(username);
 
+	}
+	
+
+	public void delete(Hacker hacker) {
+		Actor principal;
+		
+		Assert.notNull(hacker);
+
+		principal = this.actorService.findByPrincipal();
+
+		Assert.isTrue(principal.getId() == hacker.getId(),
+				"no.permission");	
+		
+		this.applicationService.deleteApp(hacker);
+		
+		this.curriculaService.deleteCV(hacker);
+		
+		
+		
+		this.finderService.deleteFinder(hacker);
+		
+		
+
+		this.hackerRepository.delete(hacker);
 	}
 }

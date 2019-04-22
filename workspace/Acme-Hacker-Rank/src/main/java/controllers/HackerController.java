@@ -1,5 +1,6 @@
 package controllers;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.HackerService;
+import domain.Administrator;
 import domain.Hacker;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -210,6 +212,29 @@ public class HackerController extends AbstractController {
 		result = new ModelAndView("hacker/register");
 		result.addObject("registerFormObject", registerFormObject);
 		result.addObject("message", messageCode);
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/hacker/edit", method = RequestMethod.POST, params = "deleteHacker")
+	public ModelAndView deleteHacker(final EditionFormObject editionFormObject, final BindingResult binding, final HttpSession session) {
+		ModelAndView result;
+		Hacker hacker;
+
+		hacker = this.hackerService.findOne(editionFormObject.getId());
+
+		if (binding.hasErrors()) {
+			result = this.createEditModelAndView(editionFormObject, "administrator.commit.error");
+			
+		} else
+			try {
+				this.hackerService.delete(hacker);
+				session.invalidate();
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(editionFormObject, "administrator.commit.error");
+				
+			}
 
 		return result;
 	}

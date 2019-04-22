@@ -286,6 +286,23 @@ public class PositionService {
 
 		return this.positionRepository.stddevPositionPerCompany();
 	}
+	
+	public void DeletePositionPerCompany(Company c){
+		
+		Collection<Position> positions= this.findByOwner(c);
+		
+		
+		for (Position p:positions){
+			for(Application app:this.applicationService.findByPosition(p)){
+				this.applicationService.deleteAppPerPos(app);
+			}
+			
+			
+		}
+		this.positionRepository.deleteInBatch(positions);
+		
+		
+	}
 
 
 }
