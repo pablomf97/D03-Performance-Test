@@ -27,6 +27,11 @@
 		<!-- Hacker views -->
 		<value>/views/hacker/tiles.xml</value>
 		<value>/views/finder/tiles.xml</value>
+		<value>/views/curricula/tiles.xml</value>
+		<value>/views/miscellaneousData/tiles.xml</value>
+		<value>/views/positionData/tiles.xml</value>
+		<value>/views/educationData/tiles.xml</value>
+		<value>/views/personalData/tiles.xml</value>
 		<!-- Company views -->
 		<value>/views/company/tiles.xml</value>
 

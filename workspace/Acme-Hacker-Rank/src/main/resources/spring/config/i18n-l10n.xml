@@ -24,6 +24,11 @@
 		<!-- Hacker messages -->
 		<value>/views/hacker/messages</value>
 		<value>/views/finder/messages</value>
+		<value>/views/curricula/messages</value>
+		<value>/views/miscellaneousData/messages</value>
+		<value>/views/positionData/messages</value>
+		<value>/views/educationData/messages</value>
+		<value>/views/personalData/messages</value>
 		<!-- Company messages -->
 		<value>/views/company/messages</value>
 
