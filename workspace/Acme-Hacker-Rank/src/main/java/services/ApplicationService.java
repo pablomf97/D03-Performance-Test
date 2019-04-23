@@ -13,6 +13,8 @@ import org.springframework.util.Assert;
 
 import repositories.ApplicationRepository;
 import domain.Application;
+import domain.Curricula;
+import domain.Hacker;
 import domain.Position;
 import domain.Problem;
 
@@ -42,24 +44,34 @@ public class ApplicationService {
 	}
 
 	public Integer maxApplicationsPerHacker(){
-	
+
 		return  this.applicationRepository.maxApplicationsPerHacker();
 	}
 
 	public Integer minApplicationsPerHacker(){
-		
+
 		return  this.applicationRepository.minApplicationsPerHacker();
 	}
 
 	public Double avgApplicationsPerHacker(){
-	
+
 		return this.applicationRepository.avgApplicationsPerHacker();
 	}
 	public Double sttdevApplicationsPerHacker(){
-		
+
 		return this.applicationRepository.stddevApplicationsPerHacker();
 	}
 
 
+	protected void deleteApp(final Hacker hacker) {
+		Collection<Application> apps;
+		apps=this.applicationRepository.findApplicationPerHacker(hacker.getId());
+
+		this.applicationRepository.deleteInBatch(apps);
+
+	}
+	public void deleteAppPerPos(Application app){
+		this.applicationRepository.delete(app);
+	}
 
 }

@@ -42,7 +42,6 @@ public class Curricula extends DomainEntity {
 	}
 
 	@ElementCollection
-	@NotEmpty
 	@OneToMany(cascade = CascadeType.ALL)
 	public Collection<EducationData> getEducationData() {
 		return this.educationData;
@@ -53,7 +52,6 @@ public class Curricula extends DomainEntity {
 	}
 
 	@ElementCollection
-	@NotEmpty
 	@OneToMany(cascade = CascadeType.ALL)
 	public Collection<PositionData> getPositionData() {
 		return this.positionData;

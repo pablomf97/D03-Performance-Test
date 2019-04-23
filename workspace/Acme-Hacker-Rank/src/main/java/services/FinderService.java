@@ -264,6 +264,11 @@ public class FinderService {
 	public void flush() {
 		this.finderRepository.flush();
 	}
+	
+	protected void deleteFinder(final Hacker hacker) {
+		
+		this.finderRepository.delete(hacker.getFinder());
+	}
 }
 
 
