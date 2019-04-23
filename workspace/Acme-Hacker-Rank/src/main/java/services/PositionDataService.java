@@ -137,5 +137,8 @@ public class PositionDataService {
 
 		return result;
 	}
+	public void flush(){
+		this.positionDataRepository.flush();
+	}
 
 }

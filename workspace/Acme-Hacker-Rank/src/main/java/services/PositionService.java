@@ -25,6 +25,7 @@ import org.springframework.validation.Validator;
 
 
 import domain.Actor;
+import domain.Application;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
