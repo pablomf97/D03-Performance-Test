@@ -21,6 +21,11 @@
 
 
 
+		<!-- Problem views-->
+		<value>/views/problem/tiles.xml</value>
+		<!-- Position views-->
+		<value>/views/position/tiles.xml</value>
+
 		<!-- Admin views -->
 		<value>/views/administrator/tiles.xml</value>
 

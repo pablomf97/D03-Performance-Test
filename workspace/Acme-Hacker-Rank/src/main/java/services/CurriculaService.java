@@ -1,4 +1,6 @@
+
 package services;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,19 +10,20 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import repositories.CurriculaRepository;
+import repositories.EducationDataRepository;
+import repositories.MiscellaneousDataRepository;
+import repositories.PositionDataRepository;
 import domain.Curricula;
 import domain.EducationData;
 import domain.Hacker;
-import domain.PersonalData;
 import domain.PositionData;
 
 @Transactional
 @Service
 public class CurriculaService {
+
 
 	//Repository
 
@@ -35,8 +38,6 @@ public class CurriculaService {
 	@Autowired
 	private PersonalDataService personalDataService;
 	
-	@Autowired
-	private Validator validator;
 
 	//Create
 	public Curricula create(){
@@ -139,5 +140,45 @@ public class CurriculaService {
 		return result;
 	}
 	
+
+	
+	
+	@Autowired
+	private MiscellaneousDataRepository miscellaneousDataRepository;
+	
+	@Autowired
+	private PositionDataRepository positionDataRepository;
+	
+	@Autowired
+	private EducationDataRepository educationDataRepository;
+
+
+	public void delete(final Integer entity) {
+		this.curriculaRepository.delete(entity);
+	}
+	
+	protected void deleteCV(final Hacker hacker) {
+		Collection<Curricula> cvs;
+		cvs=this.curriculaRepository.findCVPerHacker(hacker.getId());
+	
+			for (Curricula cv :cvs){
+				
+		
+				this.miscellaneousDataRepository.deleteInBatch(cv.getMiscellaneousData());
+				for (EducationData ed: cv.getEducationData()){
+					this.educationDataRepository.delete(ed);
+				}
+				for (PositionData pd : cv.getPositionData()){
+					this.positionDataRepository.delete(pd);
+				}
+
+				
+				this.curriculaRepository.delete(cv);
+			}
+			
+		
+		
+	}
+
 
 }

@@ -1,89 +1,77 @@
+
 package services;
 
-import java.util.Collections;
-import java.util.List;
+
+import java.util.Collection;
+
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import repositories.ApplicationRepository;
+import domain.Application;
+import domain.Curricula;
+import domain.Hacker;
+import domain.Position;
+import domain.Problem;
+
+
 
 @Transactional
 @Service
 public class ApplicationService {
 
 	@Autowired
-	private ApplicationRepository applicationRepository;
+	private ApplicationRepository	applicationRepository;
 
 
-
-	public List<Long> applicationsPerHacker(){
-		return this.applicationRepository.applicationsPerHacker();
-	}
-
-	public Long maxApplicationsPerHacker(){
-		List<Long> l = this.applicationsPerHacker();
-		Long res=(long) 0;
-		if (!l.isEmpty()){
-			res=Collections.max(this.applicationsPerHacker());
-		}
-		return  res;
-	}
-
-	public Long minApplicationsPerHacker(){
-		List<Long> l = this.applicationsPerHacker();
-		Long res=(long) 0;
-		if (!l.isEmpty()){
-			res=Collections.min(this.applicationsPerHacker());
-		}
-		return  res;
-	}
-
-	public Double avgApplicationsPerHacker(){
-		int total=0;
-		double avg=0.;
-		if(this.applicationsPerHacker().isEmpty()){
-
-		}else{
-			for(int i = 0; i < this.applicationsPerHacker().size(); i++){
-				total += this.applicationsPerHacker().get(i);
-			}
-			avg = (total / (double)this.applicationsPerHacker().size());
-		}
-		return avg;
-	}
-	public Double sttdevApplicationsPerHacker(){
-		List<Long> apsPerH= (List<Long>) this.applicationsPerHacker();
-		double mean = this.avgApplicationsPerHacker();
-		double temp = 0;
-		Double res=0.;
-		if(this.applicationsPerHacker().isEmpty()){
-
-		}else{
-			for (int i = 0; i < apsPerH.size(); i++)
-			{
-				Long val = apsPerH.get(i);
-
-
-				double squrDiffToMean = Math.pow(val - mean, 2);
-
-				temp += squrDiffToMean;
-			}
-
-
-			double meanOfDiffs = (double) temp / (double) (apsPerH.size());
-			res=Math.sqrt(meanOfDiffs);
-		}
-
+	public Collection<Application> findByProblem(final Problem problem) {
+		Assert.notNull(problem);
+		final Collection<Application> res = this.applicationRepository.findByProblem(problem.getId());
 		return res;
 	}
 
+	public Collection<Application> findByPosition(final Position position) {
+		Assert.notNull(position);
+		final Collection<Application> res = this.applicationRepository.findByPosition(position.getId());
+		return res;
+	}
+	public void delete(final Integer entity) {
+		this.applicationRepository.delete(entity);
+	}
+
+	public Integer maxApplicationsPerHacker(){
+
+		return  this.applicationRepository.maxApplicationsPerHacker();
+	}
+
+	public Integer minApplicationsPerHacker(){
+
+		return  this.applicationRepository.minApplicationsPerHacker();
+	}
+
+	public Double avgApplicationsPerHacker(){
+
+		return this.applicationRepository.avgApplicationsPerHacker();
+	}
+	public Double sttdevApplicationsPerHacker(){
+
+		return this.applicationRepository.stddevApplicationsPerHacker();
+	}
 
 
+	protected void deleteApp(final Hacker hacker) {
+		Collection<Application> apps;
+		apps=this.applicationRepository.findApplicationPerHacker(hacker.getId());
 
+		this.applicationRepository.deleteInBatch(apps);
 
-
+	}
+	public void deleteAppPerPos(Application app){
+		this.applicationRepository.delete(app);
+	}
 
 }

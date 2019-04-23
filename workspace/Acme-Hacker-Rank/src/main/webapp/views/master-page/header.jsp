@@ -52,6 +52,38 @@
 								code="master.page.register.hacker" /></a></li>
 				</ul></li>
 
+		</security:authorize>
+		<li><a class="fNiv"><spring:message
+					code="master.page.position" /></a>
+			<ul>
+				<li class="arrow"></li>
+				<li><a href="position/listAll.do"><spring:message
+							code="master.page.position.list" /></a></li>
+				<security:authorize access="hasRole('COMPANY')">
+
+					<li><a href="position/create.do"><spring:message
+								code="master.page.position.edit" /></a></li>
+				</security:authorize>
+
+			</ul></li>
+		<security:authorize access="hasRole('COMPANY')">
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.problem" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="problem/list.do"><spring:message
+								code="master.page.problem.list" /></a></li>
+					<security:authorize access="hasRole('COMPANY')">
+
+						<li><a href="problem/create.do"><spring:message
+									code="master.page.problem.edit" /></a></li>
+					</security:authorize>
+
+				</ul></li>
+		</security:authorize>
+
+		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message
 						code="master.page.login" /></a></li>
 		</security:authorize>
@@ -69,9 +101,11 @@
 					<security:authorize access="hasRole('ADMIN')">
 					<li><a  href="statistics/administrator/display.do"><spring:message
 						code="master.page.dashboard" /></a></li>
+						
 						<li><a href="administrator/display.do"><spring:message
 									code="actor.view" /></a></li>
-									
+									<li><a href="administrator/export.do"><spring:message
+								code="export" /></a></li>
 						<li><a href="administrator/administrator/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
 									
@@ -79,6 +113,8 @@
 					<security:authorize access="hasRole('COMPANY')">
 						<li><a href="company/display.do"><spring:message
 									code="actor.view" /></a></li>
+									<li><a href="company/export.do"><spring:message
+								code="export" /></a></li>
 						<li><a href="company/company/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
 					</security:authorize>
@@ -86,7 +122,8 @@
 					
 					<li><a  href="finder/hacker/search.do"><spring:message
 						code="master.page.finder" /></a></li>
-						
+						<li><a href="hacker/export.do"><spring:message
+								code="export" /></a></li>
 						<li><a href="hacker/display.do"><spring:message
 									code="actor.view" /></a></li>
 						<li><a href="hacker/hacker/edit.do"><spring:message

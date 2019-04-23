@@ -47,7 +47,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="userHacker2" class="security.UserAccount">
 		<property name="username" value="hacker2" />
 		<property name="password" value="91af68b69a50a98dbc0800942540342c" />
@@ -59,7 +58,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="userHacker3" class="security.UserAccount">
 		<property name="username" value="hacker3" />
 		<property name="password" value="c6ae6edca1ad45f42e619ec91a32b636" />
@@ -71,7 +69,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="userHacker4" class="security.UserAccount">
 		<property name="username" value="hacker4" />
 		<property name="password" value="a0ba178a7585a3b3575613351aa76ef7" />
@@ -83,7 +80,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="userHacker5" class="security.UserAccount">
 		<property name="username" value="hacker5" />
 		<property name="password" value="c788cf2e81a407a2d33ee178ed79de3e" />
@@ -107,7 +103,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="userCompany2" class="security.UserAccount">
 		<property name="username" value="company2" />
 		<property name="password" value="d196a28097115067fefd73d25b0c0be8" />
@@ -119,7 +114,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean id="userCompany3" class="security.UserAccount">
 		<property name="username" value="company3" />
 		<property name="password" value="e828ae3339b8d80b3902c1564578804e" />
@@ -135,14 +129,14 @@
 	<!-- ADMINISTRATOR -->
 
 	<bean id="administrator1" class="domain.Administrator">
-		<property name="name" value="José" />
+		<property name="name" value="JosÃ©" />
 		<property name="surname" value="Gamiz Redondo" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="josgamred@mail.com" />
 		<property name="phoneNumber" value="+34611987654" />
-		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
+		<property name="address" value="C/ AtlÃ¡ntica sex, 1 (MÃ¡laga)" />
 		<property name="creditCard" ref="creditCard1" />
 		<property name="userAccount" ref="userAdmin1" />
 	</bean>
@@ -150,7 +144,7 @@
 	<bean id="administrator2" class="domain.Administrator">
 		<property name="name" value="Carlos" />
 		<property name="surname" value="Albalat Heredia" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES23456789" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/ima76305daddfsj132.340aaaa0/flat,5.u1.jpg" />
 		<property name="email" value="carlo12@mail.com" />
@@ -159,13 +153,12 @@
 		<property name="creditCard" ref="creditCard2" />
 		<property name="userAccount" ref="userAdmin2" />
 	</bean>
-
 	<!-- HACKERS -->
 
 	<bean id="hacker1" class="domain.Hacker">
 		<property name="name" value="Alberto" />
-		<property name="surname" value="Ramírez" />
-		<property name="VAT" value="0.21" />
+		<property name="surname" value="RamÃ­rez" />
+		<property name="VAT" value="ES34567891" />
 		<property name="photo"
 			value="https://psmag.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cg_faces:center%2Cq_auto:good%2Cw_768/MTI3OTA2NzM5Mjk0MDk1Mzcw/binary-code-greenjpg.jpg" />
 		<property name="email" value="alramirez@mail.com" />
@@ -179,7 +172,7 @@
 	<bean id="hacker2" class="domain.Hacker">
 		<property name="name" value="Joseph" />
 		<property name="surname" value="Cuadrado" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES45678912" />
 		<property name="photo"
 			value="https://www.hoax-slayer.net/wp-content/uploads/2017/06/Depositphotos_38625283_m-2015.jpg" />
 		<property name="email" value="joscuadrado@mail.com" />
@@ -190,16 +183,15 @@
 		<property name="finder" ref="finderH2" />
 		<property name="userAccount" ref="userHacker2" />
 	</bean>
-
 	<bean id="hacker3" class="domain.Hacker">
-		<property name="name" value="María" />
-		<property name="surname" value="Rodríguez Perez" />
-		<property name="VAT" value="0.21" />
+		<property name="name" value="MarÃ­a" />
+		<property name="surname" value="RodrÃ­guez Perez" />
+		<property name="VAT" value="ES56789123" />
 		<property name="photo"
 			value="http://www.internetlab.org.br/wp-content/uploads/2017/07/policial_hacker.png" />
 		<property name="email" value="marrodper@mail.com" />
 		<property name="phoneNumber" value="+34611987654" />
-		<property name="address" value="C/ Atlántica, 71 (Málaga)" />
+		<property name="address" value="C/ AtlÃ¡ntica, 71 (MÃ¡laga)" />
 		<property name="creditCard" ref="creditCard5" />
 		<property name="finder" ref="finderH3" />
 		<property name="userAccount" ref="userHacker3" />
@@ -207,8 +199,8 @@
 
 	<bean id="hacker4" class="domain.Hacker">
 		<property name="name" value="Pedro" />
-		<property name="surname" value="Marín López" />
-		<property name="VAT" value="0.21" />
+		<property name="surname" value="MarÃ­n LÃ³pez" />
+		<property name="VAT" value="ES67891234" />
 		<property name="email" value="pedmarlop@mail.com" />
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="Sin nombre, 1" />
@@ -216,11 +208,10 @@
 		<property name="finder" ref="finderH4" />
 		<property name="userAccount" ref="userHacker4" />
 	</bean>
-
 	<bean id="hacker5" class="domain.Hacker">
 		<property name="name" value="Paula" />
-		<property name="surname" value="Montero Galán" />
-		<property name="VAT" value="0.21" />
+		<property name="surname" value="Montero GalÃ¡n" />
+		<property name="VAT" value="ES78912345" />
 		<property name="photo"
 			value="https://www.definicionabc.com/wp-content/uploads/hacker1.jpg" />
 		<property name="email" value="paumongal@mail.com" />
@@ -230,13 +221,12 @@
 		<property name="finder" ref="finderH5" />
 		<property name="userAccount" ref="userHacker5" />
 	</bean>
-
 	<!-- COMPANIES -->
 
 	<bean id="company1" class="domain.Company">
 		<property name="name" value="Gustavo" />
 		<property name="surname" value="Rana Verde" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES89123456" />
 		<property name="photo"
 			value="https://carmesi.files.wordpress.com/2018/11/rana-gustavo-barrio-sesamo-256x300.jpg?w=809" />
 		<property name="email" value="gusranver@mail.com" />
@@ -249,36 +239,34 @@
 
 	<bean id="company2" class="domain.Company">
 		<property name="name" value="Mari Luz" />
-		<property name="surname" value="Carmona Viñas" />
-		<property name="VAT" value="0.21" />
+		<property name="surname" value="Carmona ViÃ±as" />
+		<property name="VAT" value="ES91234567" />
 		<property name="photo"
 			value="https://www.eff.org/files/banner_library/google-spy-eye.png" />
-		<property name="email" value="marcarviñ@mail.com" />
+		<property name="email" value="marcarviÃ±@mail.com" />
 		<property name="phoneNumber" value="+34611987654" />
-		<property name="address" value="C/ Asunción, 0" />
+		<property name="address" value="C/ AsunciÃ³n, 0" />
 		<property name="creditCard" ref="creditCard9" />
 		<property name="commercialName" value="Google" />
 		<property name="userAccount" ref="userCompany2" />
 	</bean>
-
 	<bean id="company3" class="domain.Company">
 		<property name="name" value="Donald" />
 		<property name="surname" value="Pato VC" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="IT12345678" />
 		<property name="photo"
 			value="https://revistadiners.com.co/wp-content/uploads/2016/08/patodonald_800x669.jpg" />
 		<property name="email" value="gusranver@mail.com" />
 		<property name="phoneNumber" value="+34611987654" />
-		<property name="address" value="Los Ángeles" />
+		<property name="address" value="Los Ãngeles" />
 		<property name="creditCard" ref="creditCard10" />
 		<property name="commercialName" value="Disney" />
 		<property name="userAccount" ref="userCompany3" />
 	</bean>
-
 	<!-- CREDIT CARD -->
 
 	<bean id="creditCard1" class="domain.CreditCard">
-		<property name="holder" value="José Gamiz Redondo" />
+		<property name="holder" value="JosÃ© Gamiz Redondo" />
 		<property name="make" value="VISA" />
 		<property name="number" value="1234567891234567" />
 		<property name="expirationMonth" value="07" />
@@ -295,8 +283,10 @@
 		<property name="CVV" value="223" />
 	</bean>
 
+	<!-- HACKERS -->
+
 	<bean id="creditCard3" class="domain.CreditCard">
-		<property name="holder" value="Alberto Ramírez" />
+		<property name="holder" value="Alberto RamÃ­rez" />
 		<property name="make" value="VISA" />
 		<property name="number" value="6572143692013651" />
 		<property name="expirationMonth" value="06" />
@@ -313,8 +303,10 @@
 		<property name="CVV" value="165" />
 	</bean>
 
+	<!-- COMPANIES -->
+
 	<bean id="creditCard5" class="domain.CreditCard">
-		<property name="holder" value="María Rodríguez Perez" />
+		<property name="holder" value="MarÃ­a RodrÃ­guez Perez" />
 		<property name="make" value="VISA" />
 		<property name="number" value="6354120125896547" />
 		<property name="expirationMonth" value="03" />
@@ -322,8 +314,10 @@
 		<property name="CVV" value="136" />
 	</bean>
 
+	<!-- CREDIT CARD -->
+
 	<bean id="creditCard6" class="domain.CreditCard">
-		<property name="holder" value="Pedro Marín López" />
+		<property name="holder" value="Pedro MarÃ­n LÃ³pez" />
 		<property name="make" value="MASTERCARD" />
 		<property name="number" value="5632145789654123" />
 		<property name="expirationMonth" value="01" />
@@ -332,7 +326,7 @@
 	</bean>
 
 	<bean id="creditCard7" class="domain.CreditCard">
-		<property name="holder" value="Paula Montero Galán" />
+		<property name="holder" value="Paula Montero GalÃ¡n" />
 		<property name="make" value="VISA" />
 		<property name="number" value="6572143692013651" />
 		<property name="expirationMonth" value="08" />
@@ -376,34 +370,10 @@
 		<property name="linkCode" value="https://www.linktocodeofapp1.com/" />
 		<property name="submitMoment" value="08/01/2019 10:00" />
 		<property name="status" value="ACCEPTED" />
-		<property name="problem" ref="problem3_c1" />
+		<property name="problem" ref="problem4_c1" />
 		<property name="hacker" ref="hacker1" />
-		<property name="position" ref="position2_c1" />
+		<property name="position" ref="position1c1" />
 		<property name="copyCurricula" ref="curricula1_copy" />
-	</bean>
-	<bean id="application1_h2" class="domain.Application">
-		<property name="applicationMoment" value="08/11/2018 10:00" />
-		<property name="explanation" value="This is my second great application" />
-		<property name="linkCode" value="https://www.linktocodeofapp1.com/" />
-		<property name="submitMoment" value="08/11/2019 10:00" />
-		<property name="status" value="ACCEPTED" />
-		<property name="problem" ref="problem1_c1" />
-		<property name="hacker" ref="hacker2" />
-		<property name="position" ref="position1_c1" />
-		<property name="copyCurricula" ref="curricula1" />
-	</bean>
-	
-	<bean id="application2_h2" class="domain.Application">
-		<property name="applicationMoment" value="08/11/2018 10:00" />
-		<property name="explanation" value="This is my 
-		second great application" />
-		<property name="linkCode" value="https://www.linktocodeofapp1.com/" />
-		<property name="submitMoment" value="08/11/2019 10:00" />
-		<property name="status" value="ACCEPTED" />
-		<property name="problem" ref="problem3_c2" />
-		<property name="hacker" ref="hacker2" />
-		<property name="position" ref="position1_c2" />
-		<property name="copyCurricula" ref="curricula3" />
 	</bean>
 
 	<!-- CURRICULA -->
@@ -673,7 +643,7 @@
 	<bean id="personalData1" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
 		<property name="linkedIn" value="https://es.linkedin.com/" />
-		<property name="fullName" value="Alberto Ramírez" />
+		<property name="fullName" value="Alberto RamÃ­rez" />
 		<property name="statement" value="Statement of personalData 1" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
@@ -681,7 +651,7 @@
 	<bean id="personalData1_copy" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
 		<property name="linkedIn" value="https://es.linkedin.com/" />
-		<property name="fullName" value="Alberto Ramírez" />
+		<property name="fullName" value="Alberto RamÃ­rez" />
 		<property name="statement" value="Statement of personalData 1" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
@@ -697,7 +667,7 @@
 	<bean id="personalData3" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
 		<property name="linkedIn" value="https://es.linkedin.com/" />
-		<property name="fullName" value="María Rodríguez Perez" />
+		<property name="fullName" value="MarÃ­a RodrÃ­guez Perez" />
 		<property name="statement" value="Statement of personalData 3" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
@@ -705,7 +675,7 @@
 	<bean id="personalData4" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
 		<property name="linkedIn" value="https://es.linkedin.com/" />
-		<property name="fullName" value="Pedro Marín López" />
+		<property name="fullName" value="Pedro MarÃ­n LÃ³pez" />
 		<property name="statement" value="Statement of personalData 4" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
@@ -713,7 +683,7 @@
 	<bean id="personalData5" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
 		<property name="linkedIn" value="https://es.linkedin.com/" />
-		<property name="fullName" value="Paula Montero Galán" />
+		<property name="fullName" value="Paula Montero GalÃ¡n" />
 		<property name="statement" value="Statement of personalData 5" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
@@ -721,7 +691,7 @@
 	<bean id="personalData6" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
 		<property name="linkedIn" value="https://es.linkedin.com/" />
-		<property name="fullName" value="Paula Montero Galán" />
+		<property name="fullName" value="Paula Montero GalÃ¡n" />
 		<property name="statement" value="Statement of personalData 6" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
@@ -729,7 +699,7 @@
 	<bean id="personalData7" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
 		<property name="linkedIn" value="https://es.linkedin.com/" />
-		<property name="fullName" value="Paula Montero Galán" />
+		<property name="fullName" value="Paula Montero GalÃ¡n" />
 		<property name="statement" value="Statement of personalData 7" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
@@ -737,7 +707,7 @@
 	<bean id="personalData8" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
 		<property name="linkedIn" value="https://es.linkedin.com/" />
-		<property name="fullName" value="Paula Montero Galán" />
+		<property name="fullName" value="Paula Montero GalÃ¡n" />
 		<property name="statement" value="Statement of personalData 8" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
@@ -856,7 +826,7 @@
 
 	<!-- POSITION -->
 
-	<bean id="position1_c1" class="domain.Position">
+	<bean id="position1c1" class="domain.Position">
 		<property name="title" value="Position 1 of company 1" />
 		<property name="description" value="Your next position" />
 		<property name="deadline" value="01/08/2019 19:48" />
@@ -867,10 +837,12 @@
 		<property name="skillsRequired" value="Be desperate enough to work here" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
+		<property name="isCancelled" value="false" />
+
 		<property name="problems">
 			<list>
 				<ref bean="problem1_c1" />
-				<ref bean="problem2_c1" />
+				<ref bean="problem2c1" />
 			</list>
 		</property>
 	</bean>
@@ -886,6 +858,8 @@
 		<property name="skillsRequired" value="Be lucky enough to work here" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
+		<property name="isCancelled" value="true" />
+
 		<property name="problems">
 			<list>
 				<ref bean="problem1_c1" />
@@ -895,7 +869,7 @@
 		</property>
 	</bean>
 
-	<bean id="position3_c1" class="domain.Position">
+	<bean id="position3c1" class="domain.Position">
 		<property name="title" value="Position 3 of company 1" />
 		<property name="description" value="Your next position" />
 		<property name="deadline" value="06/12/2019 19:48" />
@@ -906,14 +880,16 @@
 		<property name="skillsRequired" value="Be tall enough to work here" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="true" />
+		<property name="isCancelled" value="false" />
+
 		<property name="problems">
 			<list>
-				<ref bean="problem2_c1" />
+				<ref bean="problem2c1" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="position1_c2" class="domain.Position">
+	<bean id="position1c2" class="domain.Position">
 		<property name="title" value="Position 1 of company 2" />
 		<property name="description" value="Your position" />
 		<property name="deadline" value="07/07/2019 19:48" />
@@ -924,6 +900,8 @@
 		<property name="skillsRequired" value="Be good enough to work here" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="true" />
+		<property name="isCancelled" value="false" />
+
 		<property name="problems">
 			<list>
 				<ref bean="problem3_c2" />
@@ -942,6 +920,8 @@
 		<property name="skillsRequired" value="Be smart enough to work here" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="false" />
+		<property name="isCancelled" value="true" />
+
 		<property name="problems">
 			<list>
 				<ref bean="problem3_c2" />
@@ -956,42 +936,43 @@
 		<property name="title" value="Problem 1 of company 1" />
 		<property name="statement" value="Solve this problem now" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="Attachment 1" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
 	</bean>
-
-	<bean id="problem2_c1" class="domain.Problem">
+	<bean id="problem2c1" class="domain.Problem">
 		<property name="title" value="Problem 2 of company 1" />
 		<property name="statement" value="Solve this problem please" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="Attachment 1" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
 	</bean>
-
 	<bean id="problem3_c1" class="domain.Problem">
 		<property name="title" value="Problem 3 of company 1" />
 		<property name="statement" value="Don't solve this problem now" />
-		<property name="attachments" value="Attachment 1" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
 	</bean>
-
 	<bean id="problem4_c1" class="domain.Problem">
 		<property name="title" value="Problem 4 of company 1" />
 		<property name="statement" value="Don't solve this problem please" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="Attachment 50" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="true" />
 	</bean>
-
 	<bean id="problem5_c1" class="domain.Problem">
 		<property name="title" value="Problem 5 of company 1" />
 		<property name="statement" value="We'll hire you anyways" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="Attachment 1" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
 	</bean>
@@ -999,7 +980,8 @@
 	<bean id="problem6_c1" class="domain.Problem">
 		<property name="title" value="Problem 6 of company 1" />
 		<property name="statement" value="We'll never hire you" />
-		<property name="attachments" value="Attachment 0" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="true" />
 	</bean>
@@ -1008,7 +990,8 @@
 		<property name="title" value="Problem 1 of company 2" />
 		<property name="statement" value="Solve this problem now" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="Attachment 1" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="true" />
 	</bean>
@@ -1017,7 +1000,8 @@
 		<property name="title" value="Problem 2 of company 2" />
 		<property name="statement" value="See ya" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="Attachment 1" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="true" />
 	</bean>
@@ -1026,7 +1010,8 @@
 		<property name="title" value="Problem 3  of company 2" />
 		<property name="statement" value="Solve this if you can" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="Attachment 1" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="false" />
 	</bean>
@@ -1035,7 +1020,8 @@
 		<property name="title" value="Problem 4  of company 2" />
 		<property name="statement" value="Solve this problem now" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="Attachment 1" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="false" />
 	</bean>
@@ -1044,16 +1030,18 @@
 		<property name="title" value="Problem 5 of company 2" />
 		<property name="statement" value="Is this even a problem?" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="Attachment 1" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="true" />
 	</bean>
 
-	<bean id="problem1_c3" class="domain.Problem">
+	<bean id="problem1c3" class="domain.Problem">
 		<property name="title" value="Problem 1 of company 3" />
 		<property name="statement" value="Hello problem" />
 		<property name="optionalHint" value="Good luck" />
-		<property name="attachments" value="Attachment 1" />
+		<property name="attachments"
+			value="https://www.almaobservatory.org/wp-content/uploads/2018/06/20180620-Dong-et-al-header-680x311.jpg" />
 		<property name="company" ref="company3" />
 		<property name="isDraft" value="true" />
 	</bean>
@@ -1061,20 +1049,20 @@
 	<!-- SYSTEM CONFIGURATION -->
 
 	<bean id="sysConf" class="domain.SystemConfiguration">
-		<property name="systemName" value="Acme Madrugá" />
+		<property name="systemName" value="Acme MadrugÃ¡" />
 		<property name="welcomeMessage">
 			<util:map id="utilmap0" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
-				<entry key="Español"
-					value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar procesiones." />
+				<entry key="EspaÃ±ol"
+					value="Â¡Bienvenidos a Acme MadrugÃ¡! Tu sitio para organizar procesiones." />
 				<entry key="English"
-					value="Welcome to Acme Madrugá, the site to organise your parades." />
+					value="Welcome to Acme MadrugÃ¡, the site to organise your parades." />
 			</util:map>
 		</property>
 		<property name="breachNotification">
 			<util:map id="utilmap10" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
-				<entry key="Español" value="" />
+				<entry key="EspaÃ±ol" value="" />
 				<entry key="English" value="" />
 			</util:map>
 		</property>

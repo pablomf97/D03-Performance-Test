@@ -3,7 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
+
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -185,7 +185,10 @@ public class FinderService {
 		maximumDeadline= finder.getMaximumDeadline() == null ? maxDefaultDate : finder
 				.getMaximumDeadline();
 
-		if(finder.getDeadline()==null&&finder.getKeyWord().isEmpty()&&finder.getMinimumSalary()==null&&finder.getMaximumDeadline()==null){
+		if(finder.getDeadline()==null&&
+				(finder.getKeyWord()==null||finder.getKeyWord().isEmpty())&& //Cambiado isEmpty()
+				finder.getMinimumSalary()==null&&
+				finder.getMaximumDeadline()==null){
 			results=this.finderRepository.AllPositions();
 		}else{
 			if(finder.getDeadline()==null){
@@ -230,88 +233,42 @@ public class FinderService {
 
 	}
 	public Double ratioFinders() {
-		Double emptys = this.FindersEmpty();
-		Double all = (double) this.findAll().size();
-		Double res=0.;
-		if(!this.findAll().isEmpty()){
-			res = (emptys / all);
-		}
-		
 
-		return res;
+		return this.finderRepository.RatioFindersEmpty();
 
 	}
-	public Double FindersEmpty() {
-		Double res;
-		res = (double) this.finderRepository.FindersEmpty().size();
-		return res;
-	}
 
-	public List<Long> numberCurriculaPerHacker(){
-		return this.finderRepository.numberCurriculaPerHacker();
-	}
 
-	public Long MaxCurriculaPerHacker(){
-		List<Long> l = this.numberCurriculaPerHacker();
-		Long res=(long) 0;
-		if (!l.isEmpty()){
-			res=Collections.max(this.numberCurriculaPerHacker());
-		}
-		return  res;
+	public Integer MaxCurriculaPerHacker(){
+		return this.finderRepository.MaxCurriculaPerHacker();
 	}
-	public Long MinCurriculaPerHacker(){
-		List<Long> l = this.numberCurriculaPerHacker();
-		Long res=(long) 0;
-		if (!l.isEmpty()){
-			res=Collections.min(this.numberCurriculaPerHacker());
-		}
-		return  res;
+	public Integer MinCurriculaPerHacker(){
+
+		return  this.finderRepository.MinCurriculaPerHacker();
 	}
 
 	public Double AvgCurriculaPerHacker(){
 
-		int total=0;
-		double avg=0.;
-		if(this.numberCurriculaPerHacker().isEmpty()){
 
-		}else{
-			for(int i = 0; i < this.numberCurriculaPerHacker().size(); i++){
-				total += this.numberCurriculaPerHacker().get(i);
-			}
-			avg = (total / (double)this.numberCurriculaPerHacker().size());
-		}
-		return avg;
+		return this.finderRepository.AvgCurriculaPerHacker();
 	}
 	public Double stdevCurriculaPerHacker()
 	{
-		List<Long> cvsPerHacker=(List<Long>) this.numberCurriculaPerHacker();
-		double mean = this.AvgCurriculaPerHacker();
-		double temp = 0;
-		Double res=0.;
-		if(this.numberCurriculaPerHacker().isEmpty() ){
-			
-		}else{
-		for (int i = 0; i < cvsPerHacker.size(); i++)
-		{
-			Long val = cvsPerHacker.get(i);
 
-
-			double squrDiffToMean = Math.pow(val - mean, 2);
-
-			temp += squrDiffToMean;
-		}
-
-
-		double meanOfDiffs = (double) temp / (double) (cvsPerHacker.size());
-		res=Math.sqrt(meanOfDiffs);
-		}
-		return res;
+		return this.finderRepository.StddevCurriculaPerHacker();
 
 	}
 	public Double[] StatsFinder(){
 		return this.finderRepository.StatsFinder();
 	}
-
+	public void flush() {
+		this.finderRepository.flush();
+	}
+	
+	protected void deleteFinder(final Hacker hacker) {
+		
+		this.finderRepository.delete(hacker.getFinder());
+	}
 }
 
 

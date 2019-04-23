@@ -11,6 +11,7 @@ import domain.Curricula;
 @Repository
 public interface CurriculaRepository extends JpaRepository<Curricula, Integer> {
 
+
 	@Query("select c from Curricula c where c.hacker.id=?1")
 	Collection<Curricula> getCurriculasByHacker(int hackerId);
 	
@@ -25,5 +26,11 @@ public interface CurriculaRepository extends JpaRepository<Curricula, Integer> {
 	
 	@Query("select c from Curricula c where c.personalData.id=?1")
 	Curricula getCurriculaByPersonalData(int dataId);
+
+
+	
+	@Query("select c from Curricula c where c.hacker.id= ?1")
+	Collection<Curricula> findCVPerHacker(int hackerId);
+	
 
 }

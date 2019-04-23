@@ -94,7 +94,7 @@
 		<!-- Action links -->
 
 		<display:column>
-			<a href="position/display.do?positionId=${row.id}"> <spring:message
+			<a href="position/display.do?Id=${row.id}"> <spring:message
 					code="position.display" />
 			</a>
 		</display:column>

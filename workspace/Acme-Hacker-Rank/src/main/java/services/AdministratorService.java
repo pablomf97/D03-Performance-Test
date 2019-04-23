@@ -1,6 +1,5 @@
 package services;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 
 import repositories.AdministratorRepository;
 import security.Authority;
@@ -43,6 +41,9 @@ public class AdministratorService {
 
 	@Autowired
 	private CreditCardService creditCardService;
+
+	@Autowired
+	private UtilityService utilityService;
 
 	/* Simple CRUD methods */
 
@@ -135,7 +136,7 @@ public class AdministratorService {
 			/* Managing email */
 			// String email = administrator.getEmail();
 			// Assert.isTrue(
-			// this.actorService.checkEmail(email, principal
+			// this.actorService.checkEmail(email, administrator
 			// .getUserAccount().getAuthorities().iterator()
 			// .next().toString()), "actor.email.error");
 
@@ -162,11 +163,11 @@ public class AdministratorService {
 			}
 
 			/* Managing email */
-			String email = administrator.getEmail();
-			Assert.isTrue(
-					!this.actorService.checkEmail(email, principal
-							.getUserAccount().getAuthorities().iterator()
-							.next().toString()), "actor.email.error");
+			// String email = administrator.getEmail();
+			// Assert.isTrue(
+			// this.actorService.checkEmail(email, administrator
+			// .getUserAccount().getAuthorities().iterator()
+			// .next().toString()), "actor.email.error");
 
 			/* Managing photo */
 			Assert.isTrue(ResourceUtils.isUrl(administrator.getPhoto()),
@@ -236,12 +237,10 @@ public class AdministratorService {
 		/* VAT */
 		if (form.getVAT() != null) {
 			try {
-
-				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+				Assert.isTrue(this.utilityService.checkVAT(form.getVAT()),
 						"VAT.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("editionFormObject", "VAT",
-						form.getPassword(), false, null, null, "VAT.error"));
+				binding.rejectValue("VAT", "VAT.error");
 			}
 		}
 
@@ -252,9 +251,7 @@ public class AdministratorService {
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("editionFormObject", "number",
-						form.getNumber(), false, null, null,
-						"card.number.error"));
+				binding.rejectValue("number", "number.error");
 			}
 		}
 
@@ -267,10 +264,8 @@ public class AdministratorService {
 								creditCard.getExpirationMonth(),
 								creditCard.getExpirationYear()),
 						"card.date.error");
-			} catch (ParseException pe) {
-				binding.addError(new FieldError("editionFormObject",
-						"expirationMonth", form.getExpirationMonth(), false,
-						null, null, "card.date.error"));
+			} catch (Throwable oops) {
+				binding.rejectValue("expirationMonth", "card.date.error");
 			}
 
 			if (form.getCVV() != null) {
@@ -278,12 +273,10 @@ public class AdministratorService {
 					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
 							"CVV.error");
 				} catch (Throwable oops) {
-					binding.addError(new FieldError("editionFormObject", "CVV",
-							form.getCVV(), false, null, null, "CVV.error"));
+					binding.rejectValue("CVV", "CVV.error");
 				}
 			}
 		}
-
 		return res;
 	}
 
@@ -342,26 +335,21 @@ public class AdministratorService {
 		/* VAT */
 		if (form.getVAT() != null) {
 			try {
-
-				Assert.isTrue(form.getVAT() < 1. && form.getVAT() > 0,
+				Assert.isTrue(this.utilityService.checkVAT(form.getVAT()),
 						"VAT.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("registerObjectForm", "VAT",
-						form.getPassword(), false, null, null, "VAT.error"));
+				binding.rejectValue("VAT", "VAT.error");
 			}
 		}
 
 		/* Password confirmation */
 		if (form.getPassword() != null) {
 			try {
-
 				Assert.isTrue(
 						form.getPassword().equals(form.getPassConfirmation()),
 						"pass.confirm.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("registerObjectForm",
-						"password", form.getPassword(), false, null, null,
-						"pass.confirm.error"));
+				binding.rejectValue("password", "pass.confirm.error");
 			}
 		}
 
@@ -370,9 +358,7 @@ public class AdministratorService {
 			try {
 				Assert.isTrue((form.getTermsAndConditions()), "terms.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("registerObjectForm",
-						"termsAndConditions", form.getTermsAndConditions(),
-						false, null, null, "terms.error"));
+				binding.rejectValue("termsAndConditions", "terms.error");
 			}
 		}
 
@@ -383,9 +369,7 @@ public class AdministratorService {
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("registerObjectForm", "number",
-						form.getNumber(), false, null, null,
-						"card.number.error"));
+				binding.rejectValue("number", "number.error");
 			}
 		}
 
@@ -399,9 +383,7 @@ public class AdministratorService {
 								creditCard.getExpirationYear()),
 						"card.date.error");
 			} catch (Throwable oops) {
-				binding.addError(new FieldError("registerObjectForm",
-						"expirationMonth", form.getExpirationMonth(), false,
-						null, null, "card.date.error"));
+				binding.rejectValue("expirationMonth", "card.date.error");
 			}
 
 			if (form.getCVV() != null) {
@@ -409,13 +391,20 @@ public class AdministratorService {
 					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
 							"CVV.error");
 				} catch (Throwable oops) {
-					binding.addError(new FieldError("registerObjectForm",
-							"CVV", form.getCVV(), false, null, null,
-							"CVV.error"));
+					binding.rejectValue("CVV", "CVV.error");
 				}
 			}
 		}
 
 		return res;
+	}
+	
+	public Administrator findByUsername(String username){
+		return this.administratorRepository.findByUsername(username);
+		
+	}
+
+	public void flush() {
+		this.administratorRepository.flush();
 	}
 }

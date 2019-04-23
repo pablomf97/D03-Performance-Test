@@ -239,7 +239,9 @@
 		<!-- Buttons -->
 		<input type="submit" name="save"
 			value="<spring:message code="form.save" />" />
-
+		
+		<input type="submit" name="deleteCompany" value="<spring:message code="actor.delete"/>" onclick="return confirm('<spring:message code="actor.confirm.delete"/>')"/>
+		
 		<button type="button" onclick="javascript: relativeRedir('/')">
 			<spring:message code="form.cancel" />
 		</button>
