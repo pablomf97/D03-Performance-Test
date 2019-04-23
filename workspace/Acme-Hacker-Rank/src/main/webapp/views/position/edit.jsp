@@ -21,27 +21,49 @@
 		<form:hidden path="isDraft" />
 		<form:hidden path="isCancelled" />
 
-		<acme:textbox code="position.title" path="title" />
-		<br /> <br />
 
-		<acme:textarea code="position.description" path="description" />
-		<br /> <br />
+		<form:label path="title">
+			<spring:message code="position.title" />:*</form:label>
+		<form:input type="text" path="title" />
+		<form:errors path="title" cssClass="error" />
+		<br />
 
-		<acme:textbox code="position.deadline" path="deadline" />
-		<br /> <br />
+		<form:label path="description">
+			<spring:message code="position.description" />:*</form:label>
+		<form:textarea type="text" path="description" />
+		<form:errors path="description" cssClass="error" />
+		<br />
 
-		<acme:textarea code="position.profileRequired" path="profileRequired" />
-		<br /> <br />
+		<form:label path="deadline">
+			<spring:message code="position.deadline" />:*</form:label>
+		<form:input type="text" path="deadline" placeholder="dd/mm/yyyy hh:mm" />
+		<form:errors path="deadline" cssClass="error" />
+		<br />
 
-		<acme:textarea code="position.technologiesRequired"
-			path="technologiesRequired" />
-		<br /> <br />
+		<form:label path="profileRequired">
+			<spring:message code="position.profileRequired" />:*</form:label>
+		<form:textarea type="text" path="profileRequired" />
+		<form:errors path="profileRequired" cssClass="error" />
+		<br />
 
-		<acme:textbox code="position.salary" path="salary" />
-		<br /> <br />
+		<form:label path="technologiesRequired">
+			<spring:message code="position.technologiesRequired" />:*</form:label>
+		<form:textarea type="text" path="technologiesRequired" />
+		<form:errors path="technologiesRequired" cssClass="error" />
+		<br />
 
-		<acme:textarea code="position.skillsRequired" path="skillsRequired" />
-		<br /> <br />
+		<form:label path="salary">
+			<spring:message code="position.salary" />:*</form:label>
+		<form:input type="number" step="0.01" path="salary" min="0.00" />
+		<form:errors path="salary" cssClass="error" />
+		<br />
+
+		<form:label path="skillsRequired">
+			<spring:message code="position.skillsRequired" />:*</form:label>
+		<form:textarea type="text" path="skillsRequired" />
+		<form:errors path="skillsRequired" cssClass="error" />
+		<br />
+
 	</fieldset>
 	<fieldset>
 

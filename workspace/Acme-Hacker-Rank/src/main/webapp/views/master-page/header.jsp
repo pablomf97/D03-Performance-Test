@@ -58,8 +58,11 @@
 			<ul>
 				<li class="arrow"></li>
 				<li><a href="position/listAll.do"><spring:message
-							code="master.page.position.list" /></a></li>
+							code="master.page.position.list.all" /></a></li>
 				<security:authorize access="hasRole('COMPANY')">
+					<li><a href="position/list.do"><spring:message
+								code="master.page.position.list" /></a></li>
+
 
 					<li><a href="position/create.do"><spring:message
 								code="master.page.position.edit" /></a></li>

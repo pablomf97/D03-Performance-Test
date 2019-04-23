@@ -20,9 +20,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<%
-	String name = (String) pageContext.getAttribute("user", PageContext.SESSION_SCOPE);
-%>
+
 <%-- <jstl:if test="${name == problem.company.userAccount.username}">
  --%>
 <table class="displayStyle">

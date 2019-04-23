@@ -19,11 +19,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
-<%
-	String name = (String) pageContext.getAttribute("name", PageContext.SESSION_SCOPE);
-out.print("Hello "+pageContext.getResponse().toString());  
 
-%>
 <table class="displayStyle">
 	<tr>
 		<td><strong> <spring:message code="position.title" /> :
@@ -116,7 +112,7 @@ out.print("Hello "+pageContext.getResponse().toString());
 		</jstl:forEach>
 	</jstl:if>
 </table>
-<jstl:if test="${position.isDraft == true }">
+<jstl:if test="${name == position.company.userAccount.username }">
 
 	<button
 		onClick="window.location.href='position/delete.do?Id=${position.id}'">

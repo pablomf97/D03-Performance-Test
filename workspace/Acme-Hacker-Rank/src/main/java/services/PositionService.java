@@ -25,7 +25,6 @@ import org.springframework.validation.Validator;
 
 
 import domain.Actor;
-import domain.Application;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
@@ -98,6 +97,8 @@ public class PositionService {
 
 		Assert.isTrue(this.actorService.checkAuthority(principal, "COMPANY"), "not.allowed");
 		Assert.isTrue(position.getCompany().equals(principal), "not.allowed");
+		if (position.getIsDraft() == false)
+			Assert.isTrue(position.getProblems().size() >= 2, "problems.error");
 		if (position.getId() == 0) {
 			result = position;
 			result.setTicker(this.generateTicker(position));
@@ -106,7 +107,7 @@ public class PositionService {
 			Assert.isTrue(result.getIsDraft());
 			if (position.getIsCancelled() == true) {
 				result.setIsCancelled(true);
-				result.setIsDraft(true);
+				result.setIsDraft(false);
 			} else {
 				Assert.isTrue(result.getCompany().equals(principal), "not.allowed");
 				result.setIsDraft(position.getIsDraft());
@@ -136,12 +137,6 @@ public class PositionService {
 		final Position orig = this.findOne(position.getId());
 		Assert.isTrue(position.getCompany().getId() == principal.getId(), "not.allowed");
 		Assert.isTrue(orig.getId() == position.getId());
-		final Collection<Application> applies = this.applicationService.findByPosition(position);
-		for (final Application a : applies) {
-			this.applicationService.delete(a.getId());
-			this.curriculaService.delete(a.getCopyCurricula().getId());
-		}
-
 		this.positionRepository.delete(position.getId());
 
 	}
@@ -194,6 +189,7 @@ public class PositionService {
 		this.checkProblems(position, binding);
 		return result;
 	}
+
 	public void checkProblems(final Position position, final BindingResult binding) {
 		final Collection<Problem> newProblems = position.getProblems();
 		final Actor actor = this.actorService.findByPrincipal();
@@ -209,7 +205,7 @@ public class PositionService {
 
 	public String generateTicker(final Position position) {
 		String res = "";
-		String name = position.getTitle() + "XXXX";
+		String name = position.getCompany().getCommercialName() + "XXXX";
 		name = name.substring(0, 4);
 		res = name + "-";
 		boolean b = true;
@@ -219,7 +215,7 @@ public class PositionService {
 			rand.setSeed(d.getTime());
 			final int i = (1000 + rand.nextInt(9000));
 			final String result = res + i;
-			if (this.positionRepository.findByTicker(result) != null) {
+			if (this.positionRepository.findByTicker(result) == null) {
 				res = result;
 				b = false;
 			}
