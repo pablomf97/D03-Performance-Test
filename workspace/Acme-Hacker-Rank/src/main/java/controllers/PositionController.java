@@ -42,12 +42,17 @@ public class PositionController extends AbstractController {
 		ModelAndView result;
 		try {
 			Collection<Position> positions = new ArrayList<>();
+			result = new ModelAndView("position/list");
 			if (id != null) {
 				final Actor actor = this.actorService.findOne(id);
 				positions = this.positionService.findByOwner(actor);
+				try {
+					final Actor actor2 = this.actorService.findByPrincipal();
+					result.addObject("name", actor2.getUserAccount().getUsername());
+				} catch (final Throwable opps) {
+				}
 			} else
 				positions = this.positionService.findAllFinal();
-			result = new ModelAndView("position/list");
 			result.addObject("requestURI", "/position/list.do");
 			result.addObject("positions", positions);
 		} catch (final Throwable opps) {
@@ -82,6 +87,10 @@ public class PositionController extends AbstractController {
 		try {
 			result = new ModelAndView("position/list");
 			final Actor actor = this.actorService.findByPrincipal();
+			try {
+				result.addObject("name", actor.getUserAccount().getUsername());
+			} catch (final Throwable opps) {
+			}
 			final Collection<Position> positions = this.positionService.findByOwner(actor);
 			result.addObject("requestURI", "/position/list.do");
 			result.addObject("positions", positions);
@@ -110,12 +119,11 @@ public class PositionController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
-	public ModelAndView savePositionFinal(Position position, final BindingResult binding) {
+	public ModelAndView savePositionFinal(final Position position, final BindingResult binding) {
 		ModelAndView result;
-
+		Position res = null;
 		try {
-
-			position = this.positionService.reconstruct(position, binding);
+			res = this.positionService.reconstruct(position, binding);
 			if (binding.hasErrors()) {
 				result = new ModelAndView("position/edit");
 				result.addObject("position", position);
@@ -124,8 +132,8 @@ public class PositionController extends AbstractController {
 				result.addObject("problems", problems);
 			} else
 				try {
-					position.setIsDraft(false);
-					this.positionService.save(position);
+					res.setIsDraft(false);
+					this.positionService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
 					opps.printStackTrace();
@@ -144,11 +152,12 @@ public class PositionController extends AbstractController {
 		return result;
 	}
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView savePosition(Position position, final BindingResult binding) {
+	public ModelAndView savePosition(final Position position, final BindingResult binding) {
 		ModelAndView result;
+		Position res = null;
 		try {
 
-			position = this.positionService.reconstruct(position, binding);
+			res = this.positionService.reconstruct(position, binding);
 			if (binding.hasErrors()) {
 				result = new ModelAndView("position/edit");
 				result.addObject("position", position);
@@ -157,7 +166,7 @@ public class PositionController extends AbstractController {
 				result.addObject("problems", problems);
 			} else
 				try {
-					this.positionService.save(position);
+					this.positionService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
 					opps.printStackTrace();
@@ -199,10 +208,17 @@ public class PositionController extends AbstractController {
 		ModelAndView result;
 		Position position;
 		try {
-			position = this.positionService.findOne(Id);
 			result = new ModelAndView("position/display");
+			try {
+
+				final Actor actor = this.actorService.findByPrincipal();
+				result.addObject("name", actor.getUserAccount().getUsername());
+			} catch (final Throwable opps) {
+			}
+			position = this.positionService.findOne(Id);
 			result.addObject(position);
 		} catch (final Throwable opps) {
+			opps.printStackTrace();
 			result = new ModelAndView("redirect:list.do");
 			result.addObject("messageCode", "position.commit.error");
 		}

@@ -1,5 +1,6 @@
 package controllers;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -218,4 +219,28 @@ public class AdministratorController extends AbstractController {
 
 		return result;
 	}
+	
+	@RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "deleteAdmin")
+	public ModelAndView deleteAdministrator(final EditionFormObject editionFormObject, final BindingResult binding, final HttpSession session) {
+		ModelAndView result;
+		Administrator administrator;
+
+		administrator = this.administratorService.findOne(editionFormObject.getId());
+
+		if (binding.hasErrors()) {
+			result = this.createEditModelAndView(editionFormObject, "administrator.commit.error");
+			
+		} else
+			try {
+				this.administratorService.delete(administrator);
+				session.invalidate();
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(editionFormObject, "administrator.commit.error");
+				
+			}
+
+		return result;
+	}
+
 }

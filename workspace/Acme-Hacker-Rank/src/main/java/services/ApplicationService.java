@@ -3,9 +3,11 @@ package services;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
 
 import javax.transaction.Transactional;
 
@@ -19,9 +21,11 @@ import repositories.ApplicationRepository;
 import domain.Actor;
 import domain.Application;
 import domain.Company;
+import domain.Curricula;
 import domain.Hacker;
 import domain.Position;
 import domain.Problem;
+
 
 @Transactional
 @Service
@@ -39,10 +43,7 @@ public class ApplicationService {
 		private ActorService	actorService;
 		
 		@Autowired
-		private ProblemService 	problemService;
-		
-//		@Autowired
-//		private CurriculaService 	curriculaService;
+		private CurriculaService 	curriculaService;
 		
 		@Autowired
 		private Validator	validator;
@@ -110,16 +111,16 @@ public class ApplicationService {
 					
 					Assert.isTrue(application.getApplicationMoment().before(application.getSubmitMoment()));
 					
-//					Curricula copy = this.curriculaService.create();
-//					copy.setPersonalData(application.getCopyCurricula().getPersonalData());
-//					copy.setEducationData(application.getCopyCurricula().getEducationData());
-//					copy.setMiscellaneousData(application.getCopyCurricula().getMiscellaneousData());
-//					copy.setPositionData(application.getCopyCurricula().getPositionData());
-//					copy.setHacker(application.getCopyCurricula().getHacker());
-//					copy.setIsCopy(true);
-//					res = this.curriculaService.save(copy);
-//					
-//					application.setCopyCurricula(res);
+					Curricula copy = this.curriculaService.create();
+					copy.setPersonalData(application.getCopyCurricula().getPersonalData());
+					copy.setEducationData(application.getCopyCurricula().getEducationData());
+					copy.setMiscellaneousData(application.getCopyCurricula().getMiscellaneousData());
+					copy.setPositionData(application.getCopyCurricula().getPositionData());
+					copy.setHacker(application.getCopyCurricula().getHacker());
+					copy.setIsCopy(true);
+					copy = this.curriculaService.save(copy);
+					
+					application.setCopyCurricula(copy);
 				}
 
 			} else if (this.actorService.checkAuthority(principal, "COMPANY")) {
@@ -229,4 +230,34 @@ public class ApplicationService {
 			final Collection<Application> res = this.applicationRepository.findByPosition(position.getId());
 			return res;
 		}
+	public Integer maxApplicationsPerHacker(){
+
+		return  this.applicationRepository.maxApplicationsPerHacker();
+	}
+
+	public Integer minApplicationsPerHacker(){
+
+		return  this.applicationRepository.minApplicationsPerHacker();
+	}
+
+	public Double avgApplicationsPerHacker(){
+
+		return this.applicationRepository.avgApplicationsPerHacker();
+	}
+	public Double sttdevApplicationsPerHacker(){
+
+		return this.applicationRepository.stddevApplicationsPerHacker();
+	}
+
+	protected void deleteApp(final Hacker hacker) {
+		Collection<Application> apps;
+		apps=this.applicationRepository.findApplicationPerHacker(hacker.getId());
+
+		this.applicationRepository.deleteInBatch(apps);
+
+	}
+	public void deleteAppPerPos(Application app){
+		this.applicationRepository.delete(app);
+	}
+
 }

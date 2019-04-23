@@ -16,7 +16,10 @@ import org.springframework.validation.BindingResult;
 import repositories.HackerRepository;
 import security.Authority;
 import security.UserAccount;
+import domain.Actor;
+import domain.Administrator;
 import domain.CreditCard;
+import domain.Finder;
 import domain.Hacker;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -43,6 +46,15 @@ public class HackerService {
 
 	@Autowired
 	private UtilityService utilityService;
+	
+	@Autowired
+	private FinderService finderService;
+	
+	@Autowired
+	private CurriculaService curriculaService;
+	
+	@Autowired
+	private ApplicationService applicationService;
 
 	/* Simple CRUD methods */
 
@@ -281,7 +293,7 @@ public class HackerService {
 		Md5PasswordEncoder encoder;
 		encoder = new Md5PasswordEncoder();
 		userAccount
-				.setPassword(encoder.encodePassword(form.getPassword(), null));
+		.setPassword(encoder.encodePassword(form.getPassword(), null));
 
 		res.setUserAccount(userAccount);
 
@@ -352,11 +364,46 @@ public class HackerService {
 		return res;
 	}
 
+	public String hackerWithMoreApplications(){
+
+		String res=this.hackerRepository.hackerWithMoreApplications();
+		if(res==null){
+			res="";
+		}
+		return res;
+
+	}
+
 	public void flush() {
 		this.hackerRepository.flush();
 	}
 
 	public Hacker findByUsername(String username) {
 		return this.hackerRepository.findByUsername(username);
+
+	}
+	
+
+	public void delete(Hacker hacker) {
+		Actor principal;
+		
+		Assert.notNull(hacker);
+
+		principal = this.actorService.findByPrincipal();
+
+		Assert.isTrue(principal.getId() == hacker.getId(),
+				"no.permission");	
+		
+		this.applicationService.deleteApp(hacker);
+		
+		this.curriculaService.deleteCV(hacker);
+		
+		
+		
+		this.finderService.deleteFinder(hacker);
+		
+		
+
+		this.hackerRepository.delete(hacker);
 	}
 }

@@ -64,17 +64,18 @@ public class ProblemController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
-	public ModelAndView saveProblemFinal(Problem problem, final BindingResult binding) {
+	public ModelAndView saveProblemFinal(final Problem problem, final BindingResult binding) {
 		ModelAndView result;
+		Problem res = null;
 		try {
-			problem = this.problemService.reconstruct(problem, binding);
+			res = this.problemService.reconstruct(problem, binding);
 			if (binding.hasErrors()) {
 				result = new ModelAndView("problem/edit");
 				result.addObject("problem", problem);
 			} else
 				try {
 					problem.setIsDraft(false);
-					this.problemService.save(problem);
+					this.problemService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
 					opps.printStackTrace();
@@ -90,16 +91,17 @@ public class ProblemController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView saveProblem(Problem problem, final BindingResult binding) {
+	public ModelAndView saveProblem(final Problem problem, final BindingResult binding) {
 		ModelAndView result;
+		Problem res = null;
 		try {
-			problem = this.problemService.reconstruct(problem, binding);
+			res = this.problemService.reconstruct(problem, binding);
 			if (binding.hasErrors()) {
 				result = new ModelAndView("problem/edit");
 				result.addObject("problem", problem);
 			} else
 				try {
-					this.problemService.save(problem);
+					this.problemService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
 					opps.printStackTrace();
@@ -121,7 +123,7 @@ public class ProblemController extends AbstractController {
 		try {
 			problem = this.problemService.findOne(Id);
 			result = new ModelAndView("problem/edit");
-			result.addObject(problem);
+			result.addObject("problem", problem);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:list.do");
 			result.addObject("messageCode", "problem.commit.error");
@@ -141,6 +143,11 @@ public class ProblemController extends AbstractController {
 			final Collection<String> attachments = this.problemService.checkSplitPictures(problem.getAttachments(), binding);
 			result.addObject("attachments", attachments);
 			result.addObject(problem);
+			try {
+				final Actor actor2 = this.actorService.findByPrincipal();
+				result.addObject("name", actor2.getUserAccount().getUsername());
+			} catch (final Throwable opps) {
+			}
 		} catch (final Throwable opps) {
 			opps.printStackTrace();
 			result = new ModelAndView("redirect:list.do");

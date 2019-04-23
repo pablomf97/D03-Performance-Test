@@ -21,6 +21,7 @@ import domain.Company;
 import domain.Position;
 import domain.Problem;
 
+
 @Transactional
 @Service
 public class PositionService {
@@ -88,6 +89,8 @@ public class PositionService {
 
 		Assert.isTrue(this.actorService.checkAuthority(principal, "COMPANY"), "not.allowed");
 		Assert.isTrue(position.getCompany().equals(principal), "not.allowed");
+		if (position.getIsDraft() == false)
+			Assert.isTrue(position.getProblems().size() >= 2, "problems.error");
 		if (position.getId() == 0) {
 			result = position;
 			result.setTicker(this.generateTicker(position));
@@ -96,7 +99,7 @@ public class PositionService {
 			Assert.isTrue(result.getIsDraft());
 			if (position.getIsCancelled() == true) {
 				result.setIsCancelled(true);
-				result.setIsDraft(true);
+				result.setIsDraft(false);
 			} else {
 				Assert.isTrue(result.getCompany().equals(principal), "not.allowed");
 				result.setIsDraft(position.getIsDraft());
@@ -184,6 +187,7 @@ public class PositionService {
 		this.checkProblems(position, binding);
 		return result;
 	}
+
 	public void checkProblems(final Position position, final BindingResult binding) {
 		final Collection<Problem> newProblems = position.getProblems();
 		final Actor actor = this.actorService.findByPrincipal();
@@ -199,7 +203,7 @@ public class PositionService {
 
 	public String generateTicker(final Position position) {
 		String res = "";
-		String name = position.getTitle() + "XXXX";
+		String name = position.getCompany().getCommercialName() + "XXXX";
 		name = name.substring(0, 4);
 		res = name + "-";
 		boolean b = true;
@@ -209,7 +213,7 @@ public class PositionService {
 			rand.setSeed(d.getTime());
 			final int i = (1000 + rand.nextInt(9000));
 			final String result = res + i;
-			if (this.positionRepository.findByTicker(result) != null) {
+			if (this.positionRepository.findByTicker(result) == null) {
 				res = result;
 				b = false;
 			}
@@ -234,6 +238,76 @@ public class PositionService {
 		result = this.positionRepository.findAllToApply();
 
 		return result;
+	}
+
+
+	public Double minSalarayPositions(){
+		return this.positionRepository.minSalarayPositions();
+
+	}
+	public Double maxSalaryPositions(){
+		return this.positionRepository.maxSalaryPositions();
+
+	}
+	public Double AVGSalaryPositions(){
+		return this.positionRepository.AVGSalaryPositions();
+	}
+	public Double STDDEVSalaryPositions(){
+		return this.positionRepository.STDDEVSalaryPositions();
+	}
+
+	public String bestPositionSalary(){
+		String res=this.positionRepository.bestPositionSalary();
+		if(res==null){
+			res="";
+		}
+		return res;
+	}
+	public String worstPositionSalary(){
+		String res=this.positionRepository.worstPositionSalary();
+		if(res==null){
+			res="";
+		}
+		return res;
+	}
+	public String  companyWithMorePositions(){
+		String res=this.positionRepository.companyWithMorePositions();
+		if(res==null){
+			res="";
+		}
+		return res;
+	}
+
+	public Integer maxPositionPerCompany(){
+
+		return  this.positionRepository.maxPositionPerCompany();
+	}
+
+	public Integer minPositionPerCompany(){
+		return this.positionRepository.minPositionPerCompany();
+	}
+
+	public Double avgPositionPerCompany(){
+
+		return this.positionRepository.avgPositionPerCompany();
+	}
+	public Double sttdevPositionPerCompany(){
+
+		return this.positionRepository.stddevPositionPerCompany();
+	}
+	
+	public void DeletePositionPerCompany(Company c){
+		
+		Collection<Position> positions= this.findByOwner(c);
+		
+		for (Position p:positions){
+			for(Application app:this.applicationService.findByPosition(p)){
+				this.applicationService.deleteAppPerPos(app);
+			}
+			
+		}
+		this.positionRepository.deleteInBatch(positions);
+		
 	}
 
 }

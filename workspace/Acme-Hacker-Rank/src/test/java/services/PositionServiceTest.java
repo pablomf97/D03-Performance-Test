@@ -42,7 +42,7 @@ public class PositionServiceTest extends AbstractTest {
 
 	@Test
 	public void driver() {
-		final Collection<Problem> problems = new ArrayList<>();
+		Collection<Problem> problems = new ArrayList<>();
 		final Collection<Problem> problems2 = new ArrayList<>();
 
 		problems2.add(this.problemService.findOne(this.getEntityId("problem2c1")));
@@ -50,34 +50,26 @@ public class PositionServiceTest extends AbstractTest {
 
 		final Object testingData[][] = {
 			{
-				"Test 1", "Test 1", "22/06/2019 00:00", "Test", "Test", 100.00, "pru-7890", "test", "company1", problems, true, false, null
+				"Test 1", "Test 1", "Test", "Test", 100.00, "prue-7890", "test", "company1", true, false, null
 			},// Positivo:crear
 				// normal
-
+				//
 			{
-				"", "Test 1", "22/06/2019 00:00", "Test", "Test", 100.00, "pru-7892", "test", "company1", problems, true, false, IllegalArgumentException.class
+				"", "Test 1", "Test", "Test", 100.00, "prue-7892", "test", "company1", true, false, NullPointerException.class
 			},// Negativo->RN:Title
 				// no puedes ser
 				// notBlank
 			{
-				null, "Test 1", "22/06/2019 00:00", "Test", "Test", 100.00, "pru-7893", "test", "company1", problems, true, false, NullPointerException.class
+				null, "Test 1", "Test", "Test", 100.00, "prue-7893", "test", "company1", true, false, NullPointerException.class
 			},// Negativo->RN:Title
 				// no puedes ser
 				// notNull
 			{
-				"Test 1", "Test 1", "22/06-2019 00:00", "Test", "Test", 100.00, "pru-7894", "test", "company1", problems, true, false, IllegalArgumentException.class
-			},// Negativo->RN:fecha
-				// no
-				// tiene
-				// el
-				// formato
-				// adecuado
-			{
-				"Test 1", null, "22/06/2019 00:00", "Test", "Test", null, "pru-7895", null, "company1", problems, true, false, NullPointerException.class
+				"Test 1", null, "Test", "Test", null, "prue-7895", null, "company1", true, false, NullPointerException.class
 			},// Negativo->RN:nombre,
 				// datos nulos
 			{
-				"Test 1", "Test 1", "22/06/2019 00:00", "Test", "Test", 100.00, "pru-7896", "test", "company100", problems, true, false, NullPointerException.class
+				"Test 1", "Test 1", "Test", "Test", 100.00, "prue-7896", "test", "company100", true, false, IllegalArgumentException.class
 			},// Negativo->Intento de
 				// registro logueado
 				// como un actor no
@@ -85,24 +77,28 @@ public class PositionServiceTest extends AbstractTest {
 				// DB
 			{
 
-				"Test 1", "Test 1", "22/06/2019 00:00", "Test", "Test", -100.00, "pru-7897", "test", "company1", problems, true, false, IllegalArgumentException.class
+				"Test 1", "Test 1", "Test", "Test", -100.00, "prue-7897", "test", "company1", true, false, NullPointerException.class
 			},// Negativo->salario negativo
 			{
 
-				"Test 1", "Test 1", "22/06/2019 00:00", "Test", "Test", -100.00, "pru-7898", "test", "company1", problems, false, false, IllegalArgumentException.class
+				"Test 1", "Test 1", "Test", "Test", 100.00, "prue-7898", "test", "company1", false, false, IllegalArgumentException.class
 			},// Negativo->final con menos de 2 problemas
 
 			{
 
-				"Test 1", "Test 1", "22/06/2019 00:00", "Test", "Test", -100.00, "pru-7898", "test", "company2", problems2, false, false, IllegalArgumentException.class
+				"Test 1", "Test 1", "Test", "Test", 100.00, "prue-7899", "test", "company2", false, false, IllegalArgumentException.class
 			},// Negativo->guardar con problemas que no le pertenecen
 		};
 
-		for (int i = 0; i < testingData.length; i++)
-			this.template((String) testingData[i][0], (String) testingData[i][1], (Date) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Double) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7],
-				(String) testingData[i][8], (Collection<Problem>) testingData[i][9], (Boolean) testingData[i][10], (Boolean) testingData[i][11], (Class<?>) testingData[i][12]);
+		for (int i = 0; i < testingData.length; i++) {
+			final Date d = new Date();
+			if (i == 8)
+				problems = problems2;
+			this.template((String) testingData[i][0], (String) testingData[i][1], d, (String) testingData[i][2], (String) testingData[i][3], (Double) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7],
+				problems, (Boolean) testingData[i][8], (Boolean) testingData[i][9], (Class<?>) testingData[i][10]);
+		}
 	}
-	private void template(final String title, final String description, final Date deadline, final String profileRequired, final String technologiesRequired, final Double salary, final String ticker, final String skillsRequired, final String company,
+	private void template(final String title, final String description, final Date date, final String profileRequired, final String technologiesRequired, final Double salary, final String ticker, final String skillsRequired, final String company,
 		final Collection<Problem> problems, final Boolean isDraft, final Boolean isCancelled, final Class<?> expected) {
 		Class<?> caught;
 
@@ -111,9 +107,10 @@ public class PositionServiceTest extends AbstractTest {
 		try {
 			this.authenticate(company);
 
-			this.saveProblem(title, description, deadline, profileRequired, technologiesRequired, salary, ticker, skillsRequired, company, problems, isDraft, isCancelled);
+			this.saveProblem(title, description, date, profileRequired, technologiesRequired, salary, ticker, skillsRequired, company, problems, isDraft, isCancelled);
 			this.unauthenticate();
 		} catch (final Throwable oops) {
+			oops.printStackTrace();
 			caught = oops.getClass();
 		}
 
@@ -135,10 +132,8 @@ public class PositionServiceTest extends AbstractTest {
 		result.setSkillsRequired(skillsRequired);
 		result.setTechnologiesRequired(technologiesRequired);
 		result.setTitle(title);
+
 		final BindingResult binding = null;
-
-		result.setTitle(title);
-
 		this.validator.validate(result, binding);
 		this.positionService.save(result);
 		this.positionService.flush();
@@ -157,16 +152,14 @@ public class PositionServiceTest extends AbstractTest {
 			},// Negativo:borrar
 				// no pertenece
 			{
-				"position1c1", "company1", IllegalArgumentException.class
+				"position1c1", "company2", IllegalArgumentException.class
 			},// Negativo:borrar
 				// usado
 
 		};
 
-		for (int i = 0; i < testingData.length; i++) {
-			System.out.println(i);
+		for (int i = 0; i < testingData.length; i++)
 			this.template2((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
-		}
 	}
 
 	private void template2(final String id, final String company, final Class<?> expected) {
@@ -181,7 +174,6 @@ public class PositionServiceTest extends AbstractTest {
 			this.deletePosition(idEntity);
 			this.unauthenticate();
 		} catch (final Throwable oops) {
-			oops.printStackTrace();
 			caught = oops.getClass();
 		}
 

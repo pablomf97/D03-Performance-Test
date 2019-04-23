@@ -168,6 +168,13 @@ public class ProblemService {
 	public void flush() {
 		this.problemRepository.flush();
 	}
+	
+	public void DeleteProblemPerCompany(Company company){
+		Collection<Problem>col=this.findByOwner(company);
+		
+		this.problemRepository.deleteInBatch(col);
+		
+	}
 
 
 }

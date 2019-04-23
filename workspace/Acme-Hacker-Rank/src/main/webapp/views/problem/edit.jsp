@@ -35,6 +35,7 @@
 		<acme:textbox code="problem.optionalHint" path="optionalHint" />
 		<br> <br>
 
+
 		<%-- 		<acme:textbox code="problem.attachments" path="attachments" />
  --%>
 		<spring:message code="problem.attachments.add" />
@@ -56,14 +57,15 @@
 		<acme:submit code="problem.save" name="save" />&nbsp;
 					<acme:submit code="problem.save.final" name="saveFinal" />&nbsp; 
 				</jstl:if>
-	<jstl:if test="${problem.id != 0}">
-		<button
-			onClick="window.location.href='problem/delete.do?Id=${problem.id}'">
-			<spring:message code="position.confirm.delete" />
-		</button>
-	</jstl:if>
-	<acme:cancel code="problem.cancel" url="problem/list.do" />
-	<br />
-	<br />
+
 
 </form:form>
+<jstl:if test="${problem.id != 0}">
+	<button
+		onClick="window.location.href='problem/delete.do?Id=${problem.id}'">
+		<spring:message code="position.confirm.delete" />
+	</button>
+</jstl:if>
+<acme:cancel code="problem.cancel" url="problem/list.do" />
+<br />
+<br />
