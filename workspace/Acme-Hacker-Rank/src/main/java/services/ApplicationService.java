@@ -2,8 +2,10 @@
 package services;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -16,6 +18,7 @@ import org.springframework.validation.Validator;
 import repositories.ApplicationRepository;
 import domain.Actor;
 import domain.Application;
+import domain.Company;
 import domain.Hacker;
 import domain.Position;
 import domain.Problem;
@@ -87,32 +90,25 @@ public class ApplicationService {
 			Assert.notNull(application.getPosition());
 			Assert.notNull(application.getHacker());
 			Assert.notNull(application.getApplicationMoment());
-			Assert.isTrue(application.getHacker().equals((Hacker) principal));
 			
-			if (this.actorService.checkAuthority(principal, "MEMBER")) {
+			if (this.actorService.checkAuthority(principal, "HACKER")) {
+				
+				Assert.isTrue(application.getHacker().equals((Hacker) principal));
 				
 				if(application.getId() == 0) {
-					Collection<Problem> problems;
-					Problem toSolve;
 		
 					Assert.isTrue(application.getStatus() == "PENDING");
-					
-					problems = this.problemService.findProblemsByPositionId(application.getPosition().getId());
-					
-					toSolve = this.selectProblem(problems);
-					
-					application.setProblem(toSolve);					
 					
 				} else {
 					
 					Assert.notNull(application.getExplanation());
 					Assert.notNull(application.getLinkCode());
 					Assert.notNull(application.getCopyCurricula());
-					Assert.isTrue(application.getStatus() == "PENDING");
-					Assert.isTrue(application.getApplicationMoment().before(application.getSubmitMoment()));
+					Assert.isTrue(application.getStatus() == "SUBMITTED");
 					
-					application.setStatus("SUBMITTED");
 					application.setSubmitMoment(new Date(System.currentTimeMillis() - 1));
+					
+					Assert.isTrue(application.getApplicationMoment().before(application.getSubmitMoment()));
 					
 //					Curricula copy = this.curriculaService.create();
 //					copy.setPersonalData(application.getCopyCurricula().getPersonalData());
@@ -127,11 +123,14 @@ public class ApplicationService {
 				}
 
 			} else if (this.actorService.checkAuthority(principal, "COMPANY")) {
+				
+				Assert.isTrue(application.getPosition().getCompany().equals((Company) principal));
 
-				Assert.isTrue(application.getId() == 0);
+				Assert.isTrue(application.getId() != 0);
 				Assert.notNull(application.getExplanation());
 				Assert.notNull(application.getLinkCode());
 				Assert.notNull(application.getCopyCurricula());
+				
 			}
 
 			result = this.applicationRepository.save(application);
@@ -168,6 +167,10 @@ public class ApplicationService {
 			} else {				
 				result = this.findOne(application.getId());
 
+				Assert.isTrue(!application.getExplanation().isEmpty(), "explanation.needed");
+				Assert.isTrue(!application.getLinkCode().isEmpty(), "link.needed");
+				Assert.notNull(application.getCopyCurricula());
+				
 				result.setExplanation(application.getExplanation());
 				result.setLinkCode(application.getLinkCode());
 				result.setCopyCurricula(application.getCopyCurricula());
@@ -195,17 +198,17 @@ public class ApplicationService {
 			return applications;
 		}
 		
-		private Problem selectProblem (Collection<Problem> problems) {
+		public Problem selectProblem (Collection<Problem> problems) {
 			Problem result;
 			final SecureRandom rnd = new SecureRandom();
-			Problem[] arrayProblems = (Problem[]) problems.toArray();
+			List<Problem> listProblems = new ArrayList<>(problems);
 			
 			Integer a = (rnd.nextInt() % 10);
-			while(a > problems.size()) {
+			while(a < 0 || a > problems.size()) {
 				a = (rnd.nextInt() % 10);
 			}
 			
-			result = arrayProblems[a];			
+			result = listProblems.get(a);			
 			
 			return result;
 		}

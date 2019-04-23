@@ -20,5 +20,11 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 
 	@Query("select p from Position p where p.isDraft = false")
 	Collection<Position> findAllFinal();
+	
+	@Query("select p from Position p where p.isDraft = false and p.isCancelled = false")
+	Collection<Position> findAllToApply();
+	
+	@Query("select p from Application a join a.position p where a.hacker.id = ?1")
+	Collection<Position> findAllAppliedPositionsByHackerId(int hackerId);
 
 }

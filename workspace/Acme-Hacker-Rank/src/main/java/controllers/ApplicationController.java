@@ -14,9 +14,13 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.ApplicationService;
 import services.CurriculaService;
+import services.PositionService;
+import services.ProblemService;
 import domain.Actor;
 import domain.Application;
 import domain.Curricula;
+import domain.Position;
+import domain.Problem;
 
 @Controller
 @RequestMapping("/application")
@@ -32,6 +36,12 @@ public class ApplicationController extends AbstractController {
 
 	@Autowired
 	private CurriculaService	curriculaService;
+	
+	@Autowired
+	private ProblemService	problemService;
+	
+	@Autowired
+	private PositionService	positionService;
 
 	// Display
 
@@ -91,7 +101,7 @@ public class ApplicationController extends AbstractController {
 	}
 
 	/* List of enrollments of a brotherhood */
-	@RequestMapping(value = "/company/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/listCompany", method = RequestMethod.GET)
 	public ModelAndView listCompany() {
 		ModelAndView res;
 		Actor principal;
@@ -125,9 +135,12 @@ public class ApplicationController extends AbstractController {
 	// Creation 
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam final int positionId) {
 		ModelAndView result;
 		Application application;
+		Collection<Problem> problems;
+		Problem toSolve;
+		Position position;
 
 		Actor principal;
 		Boolean error;
@@ -137,13 +150,22 @@ public class ApplicationController extends AbstractController {
 			Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
 
 			application = this.applicationService.create();
-
-			result = this.createEditModelAndView(application);
+			
+			position = this.positionService.findOne(positionId);
+			application.setPosition(position);
+			
+			problems = this.problemService.findProblemsByPositionId(application.getPosition().getId());
+			toSolve = this.applicationService.selectProblem(problems);
+			application.setProblem(toSolve);
+			
+			application = this.applicationService.save(application);
+			
+			result = new ModelAndView("redirect:/application/listHacker.do");
 		} catch (final IllegalArgumentException oops) {
 			result = new ModelAndView("misc/403");
 		} catch (final Throwable oopsie) {
 
-			result = new ModelAndView("application/listHacker");
+			result = new ModelAndView("redirect:/application/listHacker.do");
 			error = true;
 
 			result.addObject("oopsie", oopsie);
@@ -170,21 +192,40 @@ public class ApplicationController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(Application application, final BindingResult binding) {
+	public ModelAndView save(Application application, BindingResult binding) {
 		ModelAndView result;
 
-			try {
-				application = this.applicationService.reconstruct(application, binding);
-				
-				Assert.notNull(application.getExplanation(), "explanation.needed");
-				Assert.isTrue(application.getLinkCode().contains("."), "link.needed");
-				Assert.notNull(application.getCopyCurricula());
-				
-				this.applicationService.save(application);
-				result = new ModelAndView("redirect:application/listHacker.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(application, oops.getMessage());
-			}
+		try {
+			application = this.applicationService.reconstruct(application, binding);
+			if (binding.hasErrors()) {
+				result = new ModelAndView("application/edit");
+				result.addObject("application", application);
+			} else
+				try {
+					
+					this.applicationService.save(application);
+					result = new ModelAndView("redirect:/application/listHacker.do");
+				} catch (final Throwable oops) {
+					result = new ModelAndView("application/edit");
+					result.addObject("application", application);
+					result.addObject("messageCode", oops.getMessage());
+				}
+		} catch (final Throwable oops) {
+			application = this.applicationService.findOne(application.getId());
+			result = this.createEditModelAndView(application, oops.getMessage());
+		}
+//			try {
+//				application = this.applicationService.reconstruct(application, binding);
+//				
+//				Assert.notNull(application.getExplanation(), "explanation.needed");
+//				Assert.isTrue(application.getLinkCode().contains("."), "link.needed");
+//				Assert.notNull(application.getCopyCurricula());
+//				
+//				this.applicationService.save(application);
+//				result = new ModelAndView("redirect:application/listHacker.do");
+//			} catch (final Throwable oops) {
+//				result = this.createEditModelAndView(application, oops.getMessage());
+//			}
 		return result;
 	}
 
@@ -207,14 +248,13 @@ public class ApplicationController extends AbstractController {
 
 				application.setStatus("ACCEPTED");
 				this.applicationService.save(application);
-				res = this.createEditModelAndView(application);
+				res = new ModelAndView("redirect:/application/listCompany.do");
 
 			} else if (action.equals("reject")) {
 
 				application.setStatus("REJECTED");
 				this.applicationService.save(application);
-				res = this.createEditModelAndView(application);
-
+				res = new ModelAndView("redirect:/application/listCompany.do");
 			} else {
 
 				res = new ModelAndView("misc/403");
@@ -223,7 +263,7 @@ public class ApplicationController extends AbstractController {
 		} catch (IllegalArgumentException oops) {
 			res = new ModelAndView("misc/403");
 		} catch (Throwable oopsie) {
-			res = new ModelAndView("redirect:application/listCompany.do");
+			res = new ModelAndView("redirect:/application/listCompany.do");
 		}
 		return res;
 	}

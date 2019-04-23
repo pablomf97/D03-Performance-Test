@@ -10,8 +10,6 @@
 
 <!-- Listing grid -->
 
-
-
 <display:table pagesize="5" class="displaytag" name="positions"
 	requestURI="${requestURI}" id="row">
 	<!-- Attributes-->
@@ -36,21 +34,27 @@
 	</display:column>
 	<%-- 	<jstl:if test="${name == row.company.commercialName} }">
  --%>
-	<display:column titleKey="position.isDraft" sortable="true">
-		<jstl:out value="${row.isDraft }"></jstl:out>
-	</display:column>
+
 	<display:column titleKey="position.isCancelled" sortable="true">
 		<jstl:out value="${row.isCancelled }"></jstl:out>
 	</display:column>
 
-	<!-- Action links -->
-	<display:column titleKey="position.edit" sortable="true">
+	 <security:authorize access="hasRole('COMPANY')">
+		<display:column titleKey="position.isDraft" sortable="true">
+			<jstl:out value="${row.isDraft }"></jstl:out>
+		</display:column>
+		
+			<display:column titleKey="position.edit" sortable="true">
 		<jstl:if test="${row.isDraft eq true}">
 			<a href="position/edit.do?Id=${row.id}"> <spring:message
 					code="position.edit" />
 			</a>
 		</jstl:if>
 	</display:column>
+	</security:authorize>
+	
+	<!-- Action links -->
+
 	<%-- 	</jstl:if>
  --%>
 	<display:column>
@@ -58,5 +62,13 @@
 				code="position.display" />
 		</a>
 	</display:column>
+	
+	<security:authorize access="hasRole('HACKER')">
+		<display:column>
+			<a href="application/create.do?positionId=${row.id}"> <spring:message
+					code="position.apply" />
+			</a>
+		</display:column>
+	</security:authorize>
 
 </display:table>

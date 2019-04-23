@@ -45,6 +45,11 @@
 					</jstl:choose>
 				</display:column>
 				
+				<display:column>
+					<a href="problem/display.do?Id=${app.problem.id}"> <jstl:out value="${app.problem.title}" />
+					</a>
+				</display:column>
+				
 				<display:column titleKey="application.submitMoment">
 					<jstl:if test="${application.status != 'PENDING'}">
 						<jstl:out value="${app.submitMoment}" />

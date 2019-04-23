@@ -56,6 +56,25 @@ public class PositionController extends AbstractController {
 		}
 		return result;
 	}
+	
+	@RequestMapping(value = "/hacker/listAll", method = RequestMethod.GET)
+	public ModelAndView listAllHacker() {
+		ModelAndView result;
+		try {
+			Collection<Position> applied, positions = new ArrayList<>();
+			Actor principal = this.actorService.findByPrincipal();
+			applied = this.positionService.findAllAppliedPositionsByHackerId(principal.getId());
+			positions = this.positionService.findAllToApply();
+			positions.removeAll(applied);
+			
+			result = new ModelAndView("position/list");
+			result.addObject("requestURI", "/position/list.do");
+			result.addObject("positions", positions);
+		} catch (final Throwable opps) {
+			result = new ModelAndView("redirect:/");
+		}
+		return result;
+	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listLoged() {

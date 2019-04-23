@@ -56,9 +56,17 @@
 		<li><a class="fNiv"><spring:message
 					code="master.page.position" /></a>
 			<ul>
-				<li class="arrow"></li>
-				<li><a href="position/listAll.do"><spring:message
-							code="master.page.position.list" /></a></li>
+				<security:authorize access="!hasRole('HACKER')">
+					<li class="arrow"></li>
+					<li><a href="position/listAll.do"><spring:message
+								code="master.page.position.list" /></a></li>
+				</security:authorize>
+								<security:authorize access="hasRole('HACKER')">
+					<li class="arrow"></li>
+					<li><a href="position/hacker/listAll.do"><spring:message
+								code="master.page.position.list" /></a></li>
+				</security:authorize>
+				
 				<security:authorize access="hasRole('COMPANY')">
 
 					<li><a href="position/create.do"><spring:message

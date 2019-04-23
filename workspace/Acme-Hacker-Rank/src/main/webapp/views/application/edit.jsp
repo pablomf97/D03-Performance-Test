@@ -19,7 +19,7 @@
 		<spring:message code="application.explanation" />
 		<br>
 		<form:textarea code="application.explanation"
-			path="explanation" required="true"/>
+			path="explanation"/>
 		<form:errors path="explanation" cssClass="error" />
 		<br><br>
 
@@ -34,7 +34,7 @@
 		<acme:cancel url="application/listHacker.do"
 			code="application.cancel" />
 
-		<br/><br/>
+		<br/>
 
 	</form:form>
 
