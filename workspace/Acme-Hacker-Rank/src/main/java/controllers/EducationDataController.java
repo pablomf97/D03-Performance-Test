@@ -18,10 +18,10 @@ import domain.Curricula;
 import domain.EducationData;
 
 @Controller
-@RequestMapping(value="educationData/hacker")
-public class EducationDataController extends AbstractController{
+@RequestMapping(value = "educationData/hacker")
+public class EducationDataController extends AbstractController {
 
-	//Services
+	// Services
 
 	@Autowired
 	private EducationDataService educationDataService;
@@ -29,16 +29,13 @@ public class EducationDataController extends AbstractController{
 	@Autowired
 	private CurriculaService curriculaService;
 
+	// Listing
 
-
-	//Listing
-
-	@RequestMapping(value="/list", method=RequestMethod.GET)
-	public ModelAndView list(@RequestParam int curriculaId){
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam int curriculaId) {
 		ModelAndView result;
 		Curricula currentCurricula;
 		Collection<EducationData> educationData;
-
 
 		currentCurricula = this.curriculaService.findOne(curriculaId);
 
@@ -52,10 +49,11 @@ public class EducationDataController extends AbstractController{
 		return result;
 	}
 
-	//Display
+	// Display
 
-	@RequestMapping(value="/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam int dataId,@RequestParam int curriculaId){
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam int dataId,
+			@RequestParam int curriculaId) {
 		ModelAndView result;
 		EducationData data;
 
@@ -68,75 +66,83 @@ public class EducationDataController extends AbstractController{
 
 		return result;
 
-
 	}
 
-	//Edition
+	// Edition
 
-	@RequestMapping(value="/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam int dataId, @RequestParam int curriculaId){
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam int dataId,
+			@RequestParam int curriculaId) {
 		ModelAndView result = null;
 		EducationData data;
 
-		try{
+		try {
 
 			data = this.educationDataService.findOne(dataId);
 
-			result = this.createEditModelAndView(data,curriculaId);
+			result = this.createEditModelAndView(data, curriculaId);
 
-		}catch(Throwable oops){
+		} catch (Throwable oops) {
 
 		}
 
 		return result;
 	}
 
-	@RequestMapping(value="/edit", method = RequestMethod.POST, params="save")
-	public ModelAndView save(@Valid EducationData data,int curriculaId, final BindingResult binding){
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid EducationData data, int curriculaId,
+			final BindingResult binding) {
 		ModelAndView result;
 
-		if(binding.hasErrors()){
-			result = this.createEditModelAndView(data,curriculaId);
-		}else{
-			try{
-				this.educationDataService.save(data,curriculaId);
-				Curricula currentCurricula = this.curriculaService.findOne(curriculaId);
+		if (binding.hasErrors()) {
+			result = this.createEditModelAndView(data, curriculaId,
+					"md.commit.error");
+		} else {
+			try {
+				this.educationDataService.save(data, curriculaId);
+				Curricula currentCurricula = this.curriculaService
+						.findOne(curriculaId);
 
-				result = new ModelAndView("redirect:list.do?curriculaId="+ currentCurricula.getId());
-			}catch(Throwable oops){
-				result = this.createEditModelAndView(data,curriculaId, "md.commit.error");
+				result = new ModelAndView("redirect:list.do?curriculaId="
+						+ currentCurricula.getId());
+			} catch (Throwable oops) {
+				result = this.createEditModelAndView(data, curriculaId,
+						"md.commit.error");
 			}
 		}
 		return result;
 
 	}
 
-	@RequestMapping(value="/edit", method = RequestMethod.POST, params="delete")
-	public ModelAndView delete(@Valid EducationData data,final BindingResult binding){
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(EducationData data, final BindingResult binding) {
 		ModelAndView result;
 
-		if(binding.hasErrors()){
-			result = this.createEditModelAndView(data,null,null);
-		}else{
-			try{
-				Curricula currentCurricula = this.curriculaService.getCurriculaByEducationData(data.getId());
+		if (binding.hasErrors()) {
+			result = this.createEditModelAndView(data, null, "md.commit.error");
+		} else {
+			try {
+				Curricula currentCurricula = this.curriculaService
+						.getCurriculaByEducationData(data.getId());
 				this.educationDataService.delete(data);
-				result = new ModelAndView("redirect:list.do?curriculaId="+ currentCurricula.getId());
-			}catch(Throwable oops){
-				result = this.createEditModelAndView(data,null, "md.commit.error");
+				result = new ModelAndView("redirect:list.do?curriculaId="
+						+ currentCurricula.getId());
+			} catch (Throwable oops) {
+				result = this.createEditModelAndView(data, null,
+						"md.commit.error");
 			}
 		}
 		return result;
 
 	}
 
-	@RequestMapping(value="/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam int curriculaId){
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create(@RequestParam int curriculaId) {
 		ModelAndView result = null;
-		try{
+		try {
 			EducationData data = this.educationDataService.create();
-			result = this.createEditModelAndView(data,curriculaId);
-		}catch(Throwable oops){
+			result = this.createEditModelAndView(data, curriculaId);
+		} catch (Throwable oops) {
 			System.out.println(oops.getMessage());
 		}
 
@@ -144,9 +150,10 @@ public class EducationDataController extends AbstractController{
 
 	}
 
-	//Ancillary methods
+	// Ancillary methods
 
-	protected ModelAndView createEditModelAndView(final EducationData data,int curriculaId) {
+	protected ModelAndView createEditModelAndView(final EducationData data,
+			int curriculaId) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(data, curriculaId, null);
@@ -155,19 +162,17 @@ public class EducationDataController extends AbstractController{
 
 	}
 
-	protected ModelAndView createEditModelAndView(final EducationData data, Integer curriculaId,final String messageError) {
+	protected ModelAndView createEditModelAndView(final EducationData data,
+			Integer curriculaId, final String messageError) {
 		ModelAndView result;
 		Curricula currentCurricula;
 
 		result = new ModelAndView("educationData/edit");
 
-		if(!(curriculaId==null)){
+		if (!(curriculaId == null)) {
 			currentCurricula = this.curriculaService.findOne(curriculaId);
 			result.addObject("currentCurricula", currentCurricula);
 		}
-
-
-
 
 		result.addObject("educationData", data);
 		result.addObject("messageError", messageError);
