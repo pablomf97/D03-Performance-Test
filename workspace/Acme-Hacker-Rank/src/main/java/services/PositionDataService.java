@@ -140,5 +140,8 @@ public class PositionDataService {
 	public void flush(){
 		this.positionDataRepository.flush();
 	}
-
+	
+	public void deletePosHacker(PositionData pd){
+		this.positionDataRepository.delete(pd);
+	}
 }

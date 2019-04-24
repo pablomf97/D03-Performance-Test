@@ -38,6 +38,14 @@ public class CurriculaService {
 	@Autowired
 	private PersonalDataService personalDataService;
 	
+	@Autowired
+	private MiscellaneousDataService miscellaneousDataService;
+	
+	@Autowired
+	private PositionDataService positionDataService;
+	
+	@Autowired
+	private EducationDataService educationDataService;
 
 	//Create
 	public Curricula create(){
@@ -158,14 +166,7 @@ public class CurriculaService {
 	}
 	
 	
-	@Autowired
-	private MiscellaneousDataRepository miscellaneousDataRepository;
 	
-	@Autowired
-	private PositionDataRepository positionDataRepository;
-	
-	@Autowired
-	private EducationDataRepository educationDataRepository;
 
 
 	public void delete(final Integer entity) {
@@ -179,12 +180,12 @@ public class CurriculaService {
 			for (Curricula cv :cvs){
 				
 		
-				this.miscellaneousDataRepository.deleteInBatch(cv.getMiscellaneousData());
+				this.miscellaneousDataService.deleteMiscHacker(cv.getMiscellaneousData());
 				for (EducationData ed: cv.getEducationData()){
-					this.educationDataRepository.delete(ed);
+					this.educationDataService.deleteEDHacker(ed);
 				}
 				for (PositionData pd : cv.getPositionData()){
-					this.positionDataRepository.delete(pd);
+					this.positionDataService.deletePosHacker(pd);
 				}
 
 				
