@@ -140,7 +140,22 @@ public class CurriculaService {
 		return result;
 	}
 	
-
+	public Curricula copy(Curricula curricula){
+		Curricula copy;
+		
+		copy = new Curricula();
+		
+		copy.setEducationData(curricula.getEducationData());
+		copy.setHacker(curricula.getHacker());
+		copy.setIsCopy(true);
+		copy.setMiscellaneousData(curricula.getMiscellaneousData());
+		copy.setPositionData(curricula.getPositionData());
+		copy.setPersonalData(curricula.getPersonalData());
+		
+		this.curriculaRepository.save(copy);
+		
+		return copy;
+	}
 	
 	
 	@Autowired
