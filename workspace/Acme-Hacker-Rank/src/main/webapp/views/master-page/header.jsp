@@ -173,9 +173,10 @@
 								code="actor.view" /></a></li>
 					<li><a href="hacker/hacker/edit.do"><spring:message
 								code="master.page.actor.edit" /></a></li>
+					<li><a href="j_spring_security_logout"><spring:message
+								code="master.page.logout" /> </a></li>
 		</security:authorize>
-		<li><a href="j_spring_security_logout"><spring:message
-					code="master.page.logout" /> </a></li>
+
 	</ul>
 
 </div>
