@@ -8,12 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
-<%
-	String name = (String) pageContext.getAttribute("user", PageContext.SESSION_SCOPE);
-%>
 
-<%-- <jstl:if
-	test="${(isPrincipal || position.id ==0) && not empty actorBrother.zone}"> --%>
 <form:form modelAttribute="position" action="position/edit.do" id="form">
 	<fieldset>
 		<br>
@@ -74,6 +69,10 @@
 		<form:select multiple="true" path="problems" items="${problems}"
 			itemLabel="title" />
 		<br> <br>
+		
+		<jstl:if test="${problemUsed eq 'problemUsed'}">
+			<a class="error"><spring:message code="error.probl" /></a>
+		</jstl:if>
 	</fieldset>
 	<br />
 	<jstl:if test="${position.isDraft == true || position.id == 0}">
@@ -93,8 +92,7 @@
 			</jstl:if>
 		</button>
 	</jstl:if>
-	<acme:cancel code="position.cancel" url="position/list.do" />
+	<acme:cancel code="position.back" url="position/list.do" />
 	<br />
 
 </form:form>
-<%-- </jstl:if> --%>

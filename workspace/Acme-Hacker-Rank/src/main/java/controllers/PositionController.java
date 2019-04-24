@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -117,17 +118,22 @@ public class PositionController extends AbstractController {
 					this.positionService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
-					opps.printStackTrace();
-					result = new ModelAndView("position/edit");
 					final Actor actor = this.actorService.findByPrincipal();
 					final Collection<Problem> problems = this.problemService.findByOwner(actor);
-					result.addObject("problems", problems);
-					result.addObject("position", position);
-					result.addObject("messageCode", "position.commit.error");
+					if (opps.getMessage().equals("problems.error")) {
+
+						result = new ModelAndView("position/edit");
+						result.addObject("problemUsed", "problemUsed");
+						result.addObject("position", position);
+						result.addObject("problems", problems);
+					} else {
+						result = new ModelAndView("position/edit");
+						result.addObject("position", position);
+						result.addObject("messageCode", "position.commit.error");
+					}
 				}
 		} catch (final Throwable opps) {
 			//TODO: pantalla de error
-			opps.printStackTrace();
 			result = new ModelAndView("redirect:misc/error");
 		}
 		return result;
@@ -150,22 +156,26 @@ public class PositionController extends AbstractController {
 					this.positionService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
-					opps.printStackTrace();
 					result = new ModelAndView("position/edit");
 					final Actor actor = this.actorService.findByPrincipal();
 					final Collection<Problem> problems = this.problemService.findByOwner(actor);
 					result.addObject("problems", problems);
-					result.addObject("position", position);
-					result.addObject("messageCode", "position.commit.error");
+					if (opps.getMessage().equals("problems.error")) {
+						result = new ModelAndView("problem/edit");
+						result.addObject("problemUsed", "problemUsed");
+						result.addObject("position", position);
+						result.addObject("problems", problems);
+					} else {
+						result.addObject("position", position);
+						result.addObject("messageCode", "position.commit.error");
+					}
 				}
 		} catch (final Throwable opps) {
 			//TODO: pantalla de error
-			opps.printStackTrace();
 			result = new ModelAndView("redirect:misc/error");
 		}
 		return result;
 	}
-
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView editPosition(@RequestParam final int Id) {
 		ModelAndView result;
@@ -176,6 +186,7 @@ public class PositionController extends AbstractController {
 			result.addObject(position);
 			final Actor actor = this.actorService.findByPrincipal();
 			final Collection<Problem> problems = this.problemService.findByOwner(actor);
+			Assert.isTrue(position.getCompany().equals(actor));
 			result.addObject("problems", problems);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:list.do");
@@ -199,7 +210,6 @@ public class PositionController extends AbstractController {
 			position = this.positionService.findOne(Id);
 			result.addObject(position);
 		} catch (final Throwable opps) {
-			opps.printStackTrace();
 			result = new ModelAndView("redirect:list.do");
 			result.addObject("messageCode", "position.commit.error");
 		}
