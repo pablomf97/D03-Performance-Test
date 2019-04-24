@@ -178,4 +178,11 @@ public class EducationDataService {
 		this.educationDataRepository.flush();
 	}
 
+	
+	public void deleteEDHacker(EducationData ed){
+		this.educationDataRepository.delete(ed);
+		
+	}
+	
+
 }

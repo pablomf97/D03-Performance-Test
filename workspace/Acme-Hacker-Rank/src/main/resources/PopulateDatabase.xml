@@ -1112,7 +1112,7 @@
 		<property name="welcomeMessage">
 			<util:map id="utilmap0" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
-				<entry key="EspaÃ±ol"
+				<entry key="Español"
 					value="Â¡Bienvenidos a Acme MadrugÃ¡! Tu sitio para organizar procesiones." />
 				<entry key="English"
 					value="Welcome to Acme MadrugÃ¡, the site to organise your parades." />

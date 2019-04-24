@@ -17,17 +17,16 @@
 		<value>/views/security/tiles.xml</value>
 		<value>/views/welcome/tiles.xml</value>
 		<value>/views/terms/tiles.xml</value>
-	
 
-
-
-		<!-- Problem views-->
+		<!-- Problem views -->
 		<value>/views/problem/tiles.xml</value>
-		<!-- Position views-->
+
+		<!-- Position views -->
 		<value>/views/position/tiles.xml</value>
 
 		<!-- Admin views -->
 		<value>/views/administrator/tiles.xml</value>
+		<value>/views/system-configuration/tiles.xml</value>
 
 		<!-- Hacker views -->
 		<value>/views/hacker/tiles.xml</value>
@@ -37,6 +36,7 @@
 		<value>/views/positionData/tiles.xml</value>
 		<value>/views/educationData/tiles.xml</value>
 		<value>/views/personalData/tiles.xml</value>
+
 		<!-- Company views -->
 		<value>/views/company/tiles.xml</value>
 		

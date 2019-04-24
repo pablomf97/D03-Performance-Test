@@ -159,5 +159,12 @@ public class MiscellaneousDataService {
 	public void flush(){
 		this.miscellaneousDataRepository.flush();
 	}
-
+	
+	public void deleteMiscHacker(Collection<MiscellaneousData> col){
+		
+		this.miscellaneousDataRepository.deleteInBatch(col);
+		
+	}
+	
+	
 }
