@@ -39,6 +39,13 @@
 			<td><jstl:out value="${application.status}">
 				</jstl:out></td>
 		</tr>
+		
+		<tr>
+			<td><strong> <spring:message code="application.position.company" /> :
+			</strong></td>
+			<td><jstl:out value="${application.position.company.commercialName}">
+				</jstl:out></td>
+		</tr>
 
 		<jstl:if test="${application.status != 'PENDING'}">
 		
@@ -69,6 +76,41 @@
 
 	</table>
 	<div></div>
+	
+	<jstl:if test="${application.status != 'PENDING'}">
+	
+	<h3><spring:message code="application.problem" /></h3>
+
+	<table class="displayStyle">
+		
+			<tr>
+				<td><strong> <spring:message code="application.problem.title" /> :
+				</strong></td>
+				<td><jstl:out value="${application.problem.title}">
+					</jstl:out></td>
+			</tr>
+			<tr>
+				<td><strong> <spring:message code="application.problem.statement" /> :
+				</strong></td>
+				<td><jstl:out value="${application.problem.statement}">
+					</jstl:out></td>
+			</tr>
+			<jstl:if test="${not empty application.problem.optionalHint}">
+			<tr>
+				<td><strong> <spring:message code="application.problem.optionalHint" /> :
+				</strong></td>
+				<td><jstl:out value="${application.problem.optionalHint}">
+					</jstl:out></td>
+			</tr>
+			</jstl:if>
+			<tr>
+				<td><strong> <spring:message code="application.problem.attachments" /> :
+				</strong></td>
+				<td><jstl:out value="${application.problem.attachments}">
+					</jstl:out></td>
+			</tr>
+	</table>
+	</jstl:if>
 
 	<input type="button" name="back"
 		value="<spring:message code="application.back" />"

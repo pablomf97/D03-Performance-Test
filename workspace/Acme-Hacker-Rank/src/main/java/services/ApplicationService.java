@@ -3,11 +3,9 @@ package services;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
-
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 
 import javax.transaction.Transactional;
 
@@ -22,8 +20,12 @@ import domain.Actor;
 import domain.Application;
 import domain.Company;
 import domain.Curricula;
+import domain.EducationData;
 import domain.Hacker;
+import domain.MiscellaneousData;
+import domain.PersonalData;
 import domain.Position;
+import domain.PositionData;
 import domain.Problem;
 
 
@@ -44,6 +46,18 @@ public class ApplicationService {
 		
 		@Autowired
 		private CurriculaService 	curriculaService;
+		
+		@Autowired
+		private PersonalDataService 	personalDataService;
+		
+		@Autowired
+		private EducationDataService 	educationDataService;
+		
+		@Autowired
+		private MiscellaneousDataService 	miscellaneousDataService;
+		
+		@Autowired
+		private PositionDataService 	positionDataService;
 		
 		@Autowired
 		private Validator	validator;
@@ -95,32 +109,83 @@ public class ApplicationService {
 			if (this.actorService.checkAuthority(principal, "HACKER")) {
 				
 				Assert.isTrue(application.getHacker().equals((Hacker) principal));
+				Assert.isTrue(application.getStatus().equalsIgnoreCase("PENDING"));
 				
 				if(application.getId() == 0) {
 		
-					Assert.isTrue(application.getStatus() == "PENDING");
+					Collection<Application> alreadyApplied = this.findApplicationsByHackerId(principal.getId());
+					for(Application app : alreadyApplied) {
+						Assert.isTrue(!application.getPosition().equals(app.getPosition()), "already.applied");
+					}
 					
 				} else {
 					
 					Assert.notNull(application.getExplanation());
 					Assert.notNull(application.getLinkCode());
 					Assert.notNull(application.getCopyCurricula());
-					Assert.isTrue(application.getStatus() == "SUBMITTED");
 					
 					application.setSubmitMoment(new Date(System.currentTimeMillis() - 1));
+					application.setStatus("SUBMITTED");
 					
 					Assert.isTrue(application.getApplicationMoment().before(application.getSubmitMoment()));
 					
-					Curricula copy = this.curriculaService.create();
-					copy.setPersonalData(application.getCopyCurricula().getPersonalData());
-					copy.setEducationData(application.getCopyCurricula().getEducationData());
-					copy.setMiscellaneousData(application.getCopyCurricula().getMiscellaneousData());
-					copy.setPositionData(application.getCopyCurricula().getPositionData());
-					copy.setHacker(application.getCopyCurricula().getHacker());
-					copy.setIsCopy(true);
-					copy = this.curriculaService.save(copy);
+					Curricula curriculaCopy = this.curriculaService.createCopy();
 					
-					application.setCopyCurricula(copy);
+					try {
+						PersonalData personalDataCopy = this.personalDataService.createCopy();
+						personalDataCopy = application.getCopyCurricula().getPersonalData().clone();
+						personalDataCopy = this.personalDataService.saveCopy(personalDataCopy);
+						
+						curriculaCopy.setPersonalData(personalDataCopy);
+						
+						if(!application.getCopyCurricula().getEducationData().isEmpty()) {
+							
+							Collection<EducationData> auxEdCopy = new ArrayList<>(application.getCopyCurricula().getEducationData());
+							Collection<EducationData> educationCopy = new ArrayList<EducationData>();
+							
+							for(EducationData edData : auxEdCopy) {
+								EducationData educationDataCopy = this.educationDataService.createCopy();
+								educationDataCopy = edData.clone();
+								educationDataCopy = this.educationDataService.saveCopy(educationDataCopy);
+								educationCopy.add(educationDataCopy);
+							}
+							curriculaCopy.setEducationData(educationCopy);
+						}
+						
+						if(!application.getCopyCurricula().getMiscellaneousData().isEmpty()) {
+				
+							Collection<MiscellaneousData> auxMiscCopy = new ArrayList<>(application.getCopyCurricula().getMiscellaneousData());
+							Collection<MiscellaneousData> miscellaneousCopy = new ArrayList<MiscellaneousData>();
+							
+							for(MiscellaneousData miscData : auxMiscCopy) {
+								MiscellaneousData miscellaneousDataCopy = this.miscellaneousDataService.createCopy();
+								miscellaneousDataCopy = miscData.clone();
+								miscellaneousDataCopy = this.miscellaneousDataService.saveCopy(miscellaneousDataCopy);
+								miscellaneousCopy.add(miscellaneousDataCopy);
+							}
+							curriculaCopy.setMiscellaneousData(miscellaneousCopy);
+						}
+						
+						if(!application.getCopyCurricula().getPositionData().isEmpty()) {
+							
+							Collection<PositionData> auxPosCopy = new ArrayList<>(application.getCopyCurricula().getPositionData());
+							Collection<PositionData> positionCopy = new ArrayList<PositionData>();
+							
+							for(PositionData posData : auxPosCopy) {
+								PositionData positionDataCopy = this.positionDataService.createCopy();
+								positionDataCopy = posData.clone();
+								positionDataCopy = this.positionDataService.saveCopy(positionDataCopy);
+								positionCopy.add(positionDataCopy);
+							}
+							curriculaCopy.setPositionData(positionCopy);
+						}
+						
+					} catch (CloneNotSupportedException e) {
+						e.printStackTrace();
+					}
+					curriculaCopy = this.curriculaService.save(curriculaCopy);
+					
+					application.setCopyCurricula(curriculaCopy);
 				}
 
 			} else if (this.actorService.checkAuthority(principal, "COMPANY")) {
@@ -175,7 +240,6 @@ public class ApplicationService {
 				result.setExplanation(application.getExplanation());
 				result.setLinkCode(application.getLinkCode());
 				result.setCopyCurricula(application.getCopyCurricula());
-				result.setStatus("SUBMITTED");
 			}
 			
 			this.validator.validate(result, binding);

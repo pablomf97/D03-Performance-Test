@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.MiscellaneousDataRepository;
+import domain.Actor;
 import domain.Curricula;
 import domain.Hacker;
 import domain.MiscellaneousData;
@@ -123,6 +124,34 @@ public class MiscellaneousDataService {
 
 	public Collection<MiscellaneousData> findAll(){
 		Collection<MiscellaneousData>result = this.miscellaneousDataRepository.findAll();
+
+		return result;
+	}
+	
+	
+	public MiscellaneousData createCopy(){
+		Actor principal;
+		MiscellaneousData result;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+
+		result = new MiscellaneousData();
+
+		return result;
+	}
+	
+	public MiscellaneousData saveCopy(MiscellaneousData data){
+		Actor principal;
+		MiscellaneousData result;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+
+		Assert.notNull(data.getText());
+
+		result = this.miscellaneousDataRepository.save(data);
+		Assert.notNull(result);
 
 		return result;
 	}

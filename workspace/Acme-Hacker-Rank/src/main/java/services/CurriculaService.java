@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.CurriculaRepository;
-import domain.Curricula;
 import repositories.EducationDataRepository;
 import repositories.MiscellaneousDataRepository;
 import repositories.PositionDataRepository;
+import domain.Actor;
+import domain.Curricula;
 import domain.EducationData;
 import domain.Hacker;
+import domain.MiscellaneousData;
 import domain.PositionData;
 
 @Transactional
@@ -61,7 +63,7 @@ public class CurriculaService {
 
 	//Save
 	public Curricula save(final Curricula curricula){
-		Curricula result;
+		Curricula result, aux = null;
 		Hacker principal;
 
 		//Checking curricula owner
@@ -75,11 +77,16 @@ public class CurriculaService {
 			Assert.notNull(curricula.getPersonalData());
 			Assert.notEmpty(curricula.getEducationData());
 			Assert.notEmpty(curricula.getPositionData());
+			aux = this.findOne(curricula.getId());
 
 		}
 
 		result = this.curriculaRepository.save(curricula);
-
+		
+		if(aux != null){
+			this.personalDataService.delete(aux.getPersonalData().getId());
+		}
+		
 		return result;
 	}
 
@@ -140,6 +147,45 @@ public class CurriculaService {
 		return result;
 	}
 	
+	public Curricula createCopy(){
+		Curricula result;
+		Actor principal;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+
+		result = new Curricula();
+		result.setEducationData(new ArrayList<EducationData>());
+		result.setPositionData(new ArrayList<PositionData>());
+		result.setMiscellaneousData(new ArrayList<MiscellaneousData>());
+		result.setIsCopy(true);
+		result.setHacker((Hacker) principal);
+				
+		return result;
+	}
+	
+	//Save
+	public Curricula saveCopy(Curricula curricula){
+		Curricula result;
+		Actor principal;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+		Assert.isTrue(curricula.getHacker().getId() == principal.getId());
+
+		//Checking persistence
+		if(curricula.getId()==0){
+			Assert.notNull(curricula.getPersonalData());
+		}else{
+			Assert.notNull(curricula.getPersonalData());
+			Assert.notEmpty(curricula.getEducationData());
+			Assert.notEmpty(curricula.getPositionData());
+		}
+		result = this.curriculaRepository.save(curricula);
+		
+		return result;
+	}
+	
 
 	
 	
@@ -183,10 +229,7 @@ public class CurriculaService {
 				
 				this.curriculaRepository.delete(cv);
 			}
-			
-		
-		
 	}
-
+	
 
 }

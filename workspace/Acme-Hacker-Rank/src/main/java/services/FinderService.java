@@ -28,8 +28,6 @@ import repositories.FinderRepository;
 
 
 
-
-
 @Transactional
 @Service
 public class FinderService {
@@ -229,15 +227,37 @@ public class FinderService {
 
 
 		return resultsPageables;
-
-
+		
 	}
+
+	public Collection<Position> searchAnon(String keyWord){
+
+		Collection<Position> results, resultsPageables =new ArrayList<Position>();
+		int nResults;
+
+		nResults = this.systemConfigurationService.findMySystemConfiguration()
+				.getMaxResults();
+		keyWord = (keyWord == null || keyWord.isEmpty()) ? ""
+				: keyWord;
+
+		results=this.finderRepository.searchAnon(keyWord);
+
+		int count=0;
+		for(Position p : results){
+			resultsPageables.add(p);
+			count++;
+			if(count>=nResults){
+				break;
+			}
+		}
+		return resultsPageables;
+	}
+	
 	public Double ratioFinders() {
 
 		return this.finderRepository.RatioFindersEmpty();
 
 	}
-
 
 	public Integer MaxCurriculaPerHacker(){
 		return this.finderRepository.MaxCurriculaPerHacker();

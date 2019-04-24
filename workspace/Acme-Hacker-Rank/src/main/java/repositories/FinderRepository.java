@@ -16,6 +16,10 @@ public interface FinderRepository extends JpaRepository<Finder, Integer> {
 
 	@Query("select p from Position p where p.salary >= ?1 and p.isDraft=0 and p.deadline <= ?2 and (p.ticker like %?3% or p.description like %?3% or p.title like %?3% or p.profileRequired like %?3% or p.technologiesRequired like %?3% or p.skillsRequired like %?3% )")
 	Collection<Position> search(Double minimumSalary,Date maximumDeadline,String keyWord);
+	
+	@Query("select p from Position p where p.isDraft = false and (p.ticker like %?1% or p.description like %?1% or p.title like %?1% or p.profileRequired like %?1% or p.technologiesRequired like %?1% or p.skillsRequired like %?1% )")
+	Collection<Position> searchAnon(String keyWord);
+	
 	@Query("select p from Position p where p.isDraft=0 ")
 	Collection<Position> AllPositions();
 	

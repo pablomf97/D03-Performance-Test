@@ -16,16 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
+import services.FinderService;
+import services.SystemConfigurationService;
 import domain.Finder;
 import domain.Hacker;
 import domain.Position;
 
-import services.ActorService;
-import services.FinderService;
-import services.SystemConfigurationService;
-
 @Controller
-@RequestMapping("/finder/hacker")
+@RequestMapping("/finder")
 public class FinderController extends AbstractController{
 
 
@@ -48,7 +47,7 @@ public class FinderController extends AbstractController{
 	}
 	// /list
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/hacker/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result;
 		Finder finder;
@@ -70,7 +69,7 @@ public class FinderController extends AbstractController{
 		return result;
 	}
 	// DELETE
-	@RequestMapping(value = "/search", method = RequestMethod.POST, params = "delete")
+	@RequestMapping(value = "/hacker/search", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final Finder finder, final BindingResult binding) {
 
 		ModelAndView result;
@@ -85,7 +84,7 @@ public class FinderController extends AbstractController{
 		return result;
 	}
 	// search
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	@RequestMapping(value = "/hacker/search", method = RequestMethod.GET)
 	public ModelAndView search() {
 		ModelAndView result;
 		Finder finder;
@@ -98,8 +97,6 @@ public class FinderController extends AbstractController{
 				this.actorService.checkAuthority(principal, "HACKER"),
 				"not.allowed");
 		Date maxLivedMoment = new Date();
-
-
 
 		finder = principal.getFinder();
 		if (finder.getSearchMoment() != null) {
@@ -118,7 +115,34 @@ public class FinderController extends AbstractController{
 		result.addObject("requestUri", "finder/hacker/search.do");
 		return result;
 	}
-	@RequestMapping(value = "/search", method = RequestMethod.POST, params = "save")
+	
+	// searchAnon
+//		@RequestMapping(value = "/anon/search", method = RequestMethod.GET)
+//		public ModelAndView searchAnon(@RequestParam (required = false) String keyWord) {
+//			ModelAndView result;
+//			Collection<Position> positions = new ArrayList<>();
+//			
+//			try {
+//				result = new ModelAndView("finder/search");
+//
+//				positions = this.finderService.searchAnon(keyWord);
+//				
+//				result.addObject("positions", positions);
+//
+//				result.addObject("requestUri", "finder/anon/search.do");
+//			} catch (Throwable oopsie) {
+//				res = new ModelAndView("application/listHacker");
+//				permission = false;
+//
+//				res.addObject("errMsg", oopsie);
+//				res.addObject("permission", permission);
+//			}
+//			return result;
+//			
+//		}
+		
+		
+	@RequestMapping(value = "/hacker/search", method = RequestMethod.POST, params = "save")
 	public ModelAndView search(@Valid final Finder finder, final BindingResult binding) {
 		ModelAndView result;
 

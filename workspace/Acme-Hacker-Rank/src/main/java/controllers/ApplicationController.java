@@ -202,7 +202,7 @@ public class ApplicationController extends AbstractController {
 				result.addObject("application", application);
 			} else
 				try {
-					
+	
 					this.applicationService.save(application);
 					result = new ModelAndView("redirect:/application/listHacker.do");
 				} catch (final Throwable oops) {
@@ -214,18 +214,6 @@ public class ApplicationController extends AbstractController {
 			application = this.applicationService.findOne(application.getId());
 			result = this.createEditModelAndView(application, oops.getMessage());
 		}
-//			try {
-//				application = this.applicationService.reconstruct(application, binding);
-//				
-//				Assert.notNull(application.getExplanation(), "explanation.needed");
-//				Assert.isTrue(application.getLinkCode().contains("."), "link.needed");
-//				Assert.notNull(application.getCopyCurricula());
-//				
-//				this.applicationService.save(application);
-//				result = new ModelAndView("redirect:application/listHacker.do");
-//			} catch (final Throwable oops) {
-//				result = this.createEditModelAndView(application, oops.getMessage());
-//			}
 		return result;
 	}
 

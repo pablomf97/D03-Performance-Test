@@ -61,7 +61,7 @@
 					<li><a href="position/listAll.do"><spring:message
 								code="master.page.position.list.all" /></a></li>
 					<li><a  href="finder/anon/search.do"><spring:message
-						code="master.page.finder" /></a></li>
+						code="master.page.finder" /></a></li> 
 				</security:authorize>
 				<security:authorize access="hasRole('HACKER')">
 					<li class="arrow"></li>
