@@ -16,9 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.CompanyService;
 import domain.Company;
-import domain.Hacker;
 import forms.EditionCompanyFormObject;
-import forms.EditionFormObject;
 import forms.RegisterCompanyFormObject;
 
 @Controller
@@ -254,25 +252,29 @@ public class CompanyController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/company/edit", method = RequestMethod.POST, params = "deleteCompany")
-	public ModelAndView deleteCompany(final EditionCompanyFormObject editionCompanyFormObject, final BindingResult binding, final HttpSession session) {
+	public ModelAndView deleteCompany(
+			final EditionCompanyFormObject editionCompanyFormObject,
+			final BindingResult binding, final HttpSession session) {
 		ModelAndView result;
 		Company company;
 
 		company = this.companyService.findOne(editionCompanyFormObject.getId());
 
 		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(editionCompanyFormObject, "administrator.commit.error");
-			
+			result = this.createEditModelAndView(editionCompanyFormObject,
+					"administrator.commit.error");
+
 		} else
 			try {
 				this.companyService.delete(company);
 				session.invalidate();
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(editionCompanyFormObject, "administrator.commit.error");
-				
+				result = this.createEditModelAndView(editionCompanyFormObject,
+						"administrator.commit.error");
+
 			}
 
 		return result;

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.EducationDataRepository;
+import domain.Actor;
 import domain.Curricula;
 import domain.EducationData;
 import domain.Hacker;
@@ -139,14 +140,49 @@ public class EducationDataService {
 		return result;
 	}
 	
-	public void flush(){
+
+	
+	
+	
+	public EducationData createCopy(){
+		Actor principal;
+		EducationData result;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+
+		result = new EducationData();
+
+		return result;
+	}
+	
+	public EducationData saveCopy(EducationData data){
+		Actor principal;
+		EducationData result;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+
+		Assert.notNull(data.getDegree());
+		Assert.notNull(data.getInstitution());
+		Assert.notNull(data.getStartDate());
+
+		result = this.educationDataRepository.save(data);
+		Assert.notNull(result);
+
+		return result;
 		
+	}
+	
+	public void flush(){
 		this.educationDataRepository.flush();
 	}
+
 	
 	public void deleteEDHacker(EducationData ed){
 		this.educationDataRepository.delete(ed);
 		
 	}
 	
+
 }

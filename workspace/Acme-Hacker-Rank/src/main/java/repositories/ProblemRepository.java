@@ -11,6 +11,9 @@ import domain.Problem;
 
 @Repository
 public interface ProblemRepository extends JpaRepository<Problem, Integer> {
+	
+	@Query("select p from Position pos join pos.problems p where pos.id = ?1")
+	Collection<Problem> findProblemsByPositionId(int positionId);
 
 	@Query("select p from Problem p where p.company.id = ?1")
 	Collection<Problem> findByOwner(int id);

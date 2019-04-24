@@ -101,3 +101,45 @@
 	</display:table>
 	</jstl:if>
 </security:authorize>
+
+<security:authorize access="!hasRole('HACKER')">
+
+		
+		
+		<input type="text" name="keyWord" />
+		
+		<jstl:set var = "keyWord" value="${keyWord}"/>
+		
+		<a id="search" href="finder/anon/search.do?keyWord=${keyWord}"> <spring:message
+								code="finder.showResults" /></a>
+		
+	<jstl:if test="${not empty positions}">
+		<display:table name="positions" id="row"
+		requestURI="finder/hacker/list.do" pagesize="10" class="displaytag">
+
+		<!-- Attributes-->
+
+		<display:column titleKey="position.title" sortable="true">
+			<jstl:out value="${row.title}" />
+		</display:column>
+		<display:column titleKey="position.deadline" sortable="true">
+			<jstl:out value="${row.deadline}" />
+		</display:column>
+		<display:column property="salary"
+			titleKey="position.salary" sortable="true">
+			<jstl:out value="${row.description}" />
+		</display:column>
+		<display:column titleKey="position.ticker" sortable="true">
+			<jstl:out value="${row.ticker}" />
+		</display:column>
+
+		<!-- Action links -->
+
+		<display:column>
+			<a href="position/display.do?Id=${row.id}"> <spring:message
+					code="position.display" />
+			</a>
+		</display:column>
+	</display:table>
+	</jstl:if>
+</security:authorize>

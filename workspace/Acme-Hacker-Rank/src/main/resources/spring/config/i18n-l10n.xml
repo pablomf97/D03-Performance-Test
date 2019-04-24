@@ -16,20 +16,16 @@
 		<value>/views/misc/messages</value>
 		<value>/views/security/messages</value>
 		<value>/views/welcome/messages</value>
-
 		<value>/views/terms/messages</value>
-
 
 		<!-- Problem messages -->
 		<value>/views/problem/messages</value>
 		<!-- Position messages -->
 		<value>/views/position/messages</value>
-	
-
 
 		<!-- Admin messages -->
 		<value>/views/administrator/messages</value>
-
+		<value>/views/system-configuration/messages</value>
 
 		<!-- Hacker messages -->
 		<value>/views/hacker/messages</value>
@@ -39,8 +35,12 @@
 		<value>/views/positionData/messages</value>
 		<value>/views/educationData/messages</value>
 		<value>/views/personalData/messages</value>
+
 		<!-- Company messages -->
 		<value>/views/company/messages</value>
+		
+		<!-- Application messages -->
+		<value>/views/application/messages</value>
 
 	</util:list>
 

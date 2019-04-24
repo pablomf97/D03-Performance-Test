@@ -46,7 +46,6 @@ public class Application extends DomainEntity {
 		this.applicationMoment = applicationMoment;
 	}
 
-	@NotBlank
 	public String getExplanation() {
 		return explanation;
 	}
@@ -55,7 +54,6 @@ public class Application extends DomainEntity {
 		this.explanation = explanation;
 	}
 
-	@NotBlank
 	@URL
 	public String getLinkCode() {
 		return linkCode;
@@ -65,7 +63,6 @@ public class Application extends DomainEntity {
 		this.linkCode = linkCode;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getSubmitMoment() {
@@ -120,8 +117,7 @@ public class Application extends DomainEntity {
 	}
 
 	@Valid
-	@NotNull
-	@OneToOne(optional = false)
+	@OneToOne(optional = true)
 	public Curricula getCopyCurricula() {
 		return copyCurricula;
 	}

@@ -370,10 +370,26 @@
 		<property name="linkCode" value="https://www.linktocodeofapp1.com/" />
 		<property name="submitMoment" value="08/01/2019 10:00" />
 		<property name="status" value="ACCEPTED" />
-		<property name="problem" ref="problem4_c1" />
+		<property name="problem" ref="problem3_c1" />
 		<property name="hacker" ref="hacker1" />
 		<property name="position" ref="position1c1" />
 		<property name="copyCurricula" ref="curricula1_copy" />
+	</bean>
+	
+	<bean id="application2_h1" class="domain.Application">
+		<property name="applicationMoment" value="08/12/2018 10:00" />
+		<property name="status" value="PENDING" />
+		<property name="problem" ref="problem1_c1" />
+		<property name="hacker" ref="hacker1" />
+		<property name="position" ref="position2_c1" />
+	</bean>
+	
+	<bean id="application3_h1" class="domain.Application">
+		<property name="applicationMoment" value="08/12/2018 10:00" />
+		<property name="status" value="PENDING" />
+		<property name="problem" ref="problem3_c2" />
+		<property name="hacker" ref="hacker1" />
+		<property name="position" ref="position1c2" />
 	</bean>
 
 	<!-- CURRICULA -->
@@ -888,6 +904,28 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="position4_c1" class="domain.Position">
+		<property name="title" value="Position 4 of company 1" />
+		<property name="description" value="Your position" />
+		<property name="deadline" value="03/01/2022 19:48" />
+		<property name="profileRequired" value="Master in problems of frogs" />
+		<property name="technologiesRequired" value="Java 6" />
+		<property name="salary" value="26.2" />
+		<property name="ticker" value="GUST-9132" />
+		<property name="skillsRequired" value="Please work here" />
+		<property name="company" ref="company1" />
+		<property name="isDraft" value="false" />
+		<property name="isCancelled" value="false" />
+
+		<property name="problems">
+			<list>
+				<ref bean="problem1_c1" />
+				<ref bean="problem3_c1" />
+				<ref bean="problem5_c1" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="position1c2" class="domain.Position">
 		<property name="title" value="Position 1 of company 2" />
@@ -921,6 +959,27 @@
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="false" />
 		<property name="isCancelled" value="true" />
+
+		<property name="problems">
+			<list>
+				<ref bean="problem3_c2" />
+				<ref bean="problem4_c2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="position3_c2" class="domain.Position">
+		<property name="title" value="Position 3 of company 2" />
+		<property name="description" value="The position position you'll never get out off" />
+		<property name="deadline" value="20/04/2020 19:48" />
+		<property name="profileRequired" value="Master in problems of Google" />
+		<property name="technologiesRequired" value="A++ in DT" />
+		<property name="salary" value="150.1" />
+		<property name="ticker" value="GOOG-0094" />
+		<property name="skillsRequired" value="Be smart enough to work here" />
+		<property name="company" ref="company2" />
+		<property name="isDraft" value="false" />
+		<property name="isCancelled" value="false" />
 
 		<property name="problems">
 			<list>
@@ -1053,7 +1112,7 @@
 		<property name="welcomeMessage">
 			<util:map id="utilmap0" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
-				<entry key="EspaÃ±ol"
+				<entry key="Español"
 					value="Â¡Bienvenidos a Acme MadrugÃ¡! Tu sitio para organizar procesiones." />
 				<entry key="English"
 					value="Welcome to Acme MadrugÃ¡, the site to organise your parades." />

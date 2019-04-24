@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class MiscellaneousData extends DomainEntity {
+public class MiscellaneousData extends DomainEntity implements Cloneable {
 
 	// Attributes
 
@@ -34,6 +34,14 @@ public class MiscellaneousData extends DomainEntity {
 
 	public void setAttachements(String attachements) {
 		this.attachements = attachements;
+	}
+	
+	@Override
+	public MiscellaneousData clone() throws CloneNotSupportedException {
+		MiscellaneousData miscellaneousClone = (MiscellaneousData) super.clone();
+		miscellaneousClone.setId(0);
+		miscellaneousClone.setVersion(0);
+		return miscellaneousClone;
 	}
 
 }

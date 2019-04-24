@@ -8,6 +8,8 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<!-- Listing grid -->
+
 <display:table pagesize="5" class="displaytag" name="positions"
 	requestURI="${requestURI}" id="row">
 
@@ -40,6 +42,11 @@
 		<jstl:out value="${row.isCancelled }"></jstl:out>
 	</display:column>
 
+	 <security:authorize access="hasRole('COMPANY')">
+		<display:column titleKey="position.isDraft" sortable="true">
+			<jstl:out value="${row.isDraft }"></jstl:out>
+		</display:column>
+		
 	<!-- Action links -->
 	<display:column titleKey="position.edit" sortable="true">
 		<jstl:if
@@ -49,12 +56,21 @@
 			</a>
 		</jstl:if>
 	</display:column>
+	</security:authorize>
 
 	<display:column>
 		<a href="position/display.do?Id=${row.id}"> <spring:message
 				code="position.display" />
 		</a>
 	</display:column>
+	
+	<security:authorize access="hasRole('HACKER')">
+		<display:column>
+			<a href="application/create.do?positionId=${row.id}"> <spring:message
+					code="position.apply" />
+			</a>
+		</display:column>
+	</security:authorize>
 	<display:column>
 		<jstl:if
 			test="${row.isDraft eq true and row.company.userAccount.username == name}">

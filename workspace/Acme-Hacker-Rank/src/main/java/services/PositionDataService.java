@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-
 import repositories.PositionDataRepository;
+import domain.Actor;
 import domain.Curricula;
 import domain.Hacker;
 import domain.PositionData;
@@ -59,14 +59,14 @@ public class PositionDataService {
 
 		principal = (Hacker) this.actorService.findByPrincipal();
 
-		
+
 
 		principalCurriculas = this.curriculaService.getCurriculasByHacker(principal.getId());
 
 		if(data.getId()!=0){
-			
+
 			currentCurricula = this.curriculaService.getCurriculaByPositionData(data.getId());
-			
+
 			Assert.isTrue(principalCurriculas.contains(currentCurricula));
 			Assert.isTrue(currentCurricula.getHacker().getId() == principal.getId());
 			Assert.isTrue(currentCurricula.getPositionData().contains(data));
@@ -85,14 +85,14 @@ public class PositionDataService {
 			Assert.notNull(data.getTitle());
 			Assert.notNull(data.getDescription());
 			Assert.notNull(data.getStartDate());
-			
+
 			if(!(data.getEndDate()==null)){
 				Assert.isTrue(data.getStartDate().before(data.getEndDate()));
 			}
 			result = this.positionDataRepository.save(data);
-			
+
 			currentCurricula = this.curriculaService.findOne(curriculaId);
-			
+
 			currentCurricula.getPositionData().add(data);
 		}
 
@@ -107,9 +107,9 @@ public class PositionDataService {
 		Collection<Curricula> principalCurriculas;
 		Curricula currentCurricula;
 		PositionData db = new PositionData();
-		
+
 		db = this.positionDataRepository.findOne(data.getId());
-		
+
 		principal = (Hacker) this.actorService.findByPrincipal();
 
 		principalCurriculas = this.curriculaService.getCurriculasByHacker(principal.getId());
@@ -121,7 +121,7 @@ public class PositionDataService {
 		Assert.isTrue(currentCurricula.getPositionData().contains(db));
 
 		currentCurricula.getPositionData().remove(db);
-			
+
 		this.positionDataRepository.delete(db);
 	}
 
@@ -137,11 +137,41 @@ public class PositionDataService {
 
 		return result;
 	}
+
 	public void flush(){
 		this.positionDataRepository.flush();
 	}
-	
+
 	public void deletePosHacker(PositionData pd){
 		this.positionDataRepository.delete(pd);
+	}
+	public PositionData createCopy(){
+		Actor principal;
+		PositionData result;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+
+		result = new PositionData();
+
+		return result;
+	}
+
+	public PositionData saveCopy(PositionData data){
+		Actor principal;
+		PositionData result;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+
+		Assert.notNull(data.getTitle());
+		Assert.notNull(data.getDescription());
+		Assert.notNull(data.getStartDate());
+
+		result = this.positionDataRepository.save(data);
+		Assert.notNull(result);
+
+		return result;
+
 	}
 }

@@ -30,8 +30,6 @@ public class ProblemService {
 	@Autowired
 	private ApplicationService	applicationService;
 
-	@Autowired
-	private PositionService		poisitionService;
 	// Supporting services -----------------------------------
 
 	@Autowired
@@ -159,6 +157,14 @@ public class ProblemService {
 		return res;
 	}
 
+	public Collection<Problem> findProblemsByPositionId (int positionId) {
+		Collection<Problem> problems;
+		
+		problems = this.problemRepository.findProblemsByPositionId(positionId);
+		
+		return problems;
+	}
+	
 	public void flush() {
 		this.problemRepository.flush();
 	}
@@ -169,5 +175,6 @@ public class ProblemService {
 		this.problemRepository.deleteInBatch(col);
 		
 	}
+
 
 }
