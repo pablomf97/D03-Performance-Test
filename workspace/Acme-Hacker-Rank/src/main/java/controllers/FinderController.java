@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
@@ -117,29 +119,27 @@ public class FinderController extends AbstractController{
 	}
 	
 	// searchAnon
-//		@RequestMapping(value = "/anon/search", method = RequestMethod.GET)
-//		public ModelAndView searchAnon(@RequestParam (required = false) String keyWord) {
-//			ModelAndView result;
-//			Collection<Position> positions = new ArrayList<>();
-//			
-//			try {
-//				result = new ModelAndView("finder/search");
-//
-//				positions = this.finderService.searchAnon(keyWord);
-//				
-//				result.addObject("positions", positions);
-//
-//				result.addObject("requestUri", "finder/anon/search.do");
-//			} catch (Throwable oopsie) {
-//				res = new ModelAndView("application/listHacker");
-//				permission = false;
-//
-//				res.addObject("errMsg", oopsie);
-//				res.addObject("permission", permission);
-//			}
-//			return result;
-//			
-//		}
+		@RequestMapping(value = "/anon/search", method = RequestMethod.GET)
+		public ModelAndView searchAnon(@RequestParam (required = false) String keyWord) {
+			ModelAndView result;
+			Collection<Position> positions = new ArrayList<>();
+			
+			try {
+				result = new ModelAndView("finder/anon/search");
+
+				positions = this.finderService.searchAnon(keyWord);
+				
+				result.addObject("positions", positions);
+
+				result.addObject("requestUri", "finder/anon/search.do");
+			} catch (Throwable oopsie) {
+				result = new ModelAndView("application/listHacker");
+
+				result.addObject("errMsg", oopsie);
+			}
+			return result;
+			
+		}
 		
 		
 	@RequestMapping(value = "/hacker/search", method = RequestMethod.POST, params = "save")

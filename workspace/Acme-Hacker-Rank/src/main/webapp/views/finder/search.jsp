@@ -104,15 +104,20 @@
 
 <security:authorize access="!hasRole('HACKER')">
 
+		<form>
+		<b>Enter a keyword to search by:&#160;</b>
+        <input id="test" type="text" name="keyWord" size="20" />
+        
+		<script>
+		    var keyWord = "";
+		    document.getElementById("test").value = keyWord;
+		</script>
+	
+        <input type="submit" value="Search" name="submit"/>
+
+      	</form>
 		
-		
-		<input type="text" name="keyWord" />
-		
-		<jstl:set var = "keyWord" value="${keyWord}"/>
-		
-		<a id="search" href="finder/anon/search.do?keyWord=${keyWord}"> <spring:message
-								code="finder.showResults" /></a>
-		
+		<br><br>
 	<jstl:if test="${not empty positions}">
 		<display:table name="positions" id="row"
 		requestURI="finder/hacker/list.do" pagesize="10" class="displaytag">

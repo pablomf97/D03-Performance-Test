@@ -268,19 +268,19 @@
 	<bean id="creditCard1" class="domain.CreditCard">
 		<property name="holder" value="JosÃ© Gamiz Redondo" />
 		<property name="make" value="VISA" />
-		<property name="number" value="1234567891234567" />
-		<property name="expirationMonth" value="07" />
+		<property name="number" value="4764042457713154" />
+		<property name="expirationMonth" value="02" />
 		<property name="expirationYear" value="22" />
-		<property name="CVV" value="123" />
+		<property name="CVV" value="177" />
 	</bean>
 
 	<bean id="creditCard2" class="domain.CreditCard">
 		<property name="holder" value="Carlos Albalat Heredia" />
 		<property name="make" value="MASTERCARD" />
-		<property name="number" value="1234567891234999" />
-		<property name="expirationMonth" value="02" />
+		<property name="number" value="4544963188930071" />
+		<property name="expirationMonth" value="11" />
 		<property name="expirationYear" value="20" />
-		<property name="CVV" value="223" />
+		<property name="CVV" value="366" />
 	</bean>
 
 	<!-- HACKERS -->
@@ -288,19 +288,19 @@
 	<bean id="creditCard3" class="domain.CreditCard">
 		<property name="holder" value="Alberto RamÃ­rez" />
 		<property name="make" value="VISA" />
-		<property name="number" value="6572143692013651" />
-		<property name="expirationMonth" value="06" />
-		<property name="expirationYear" value="21" />
-		<property name="CVV" value="861" />
+		<property name="number" value="4582276213483252" />
+		<property name="expirationMonth" value="01" />
+		<property name="expirationYear" value="28" />
+		<property name="CVV" value="707" />
 	</bean>
 
 	<bean id="creditCard4" class="domain.CreditCard">
 		<property name="holder" value="Pepe Viyuela" />
 		<property name="make" value="AMERICAN EXPRESS" />
-		<property name="number" value="6301248569785641" />
-		<property name="expirationMonth" value="08" />
-		<property name="expirationYear" value="21" />
-		<property name="CVV" value="165" />
+		<property name="number" value="4354197982162289" />
+		<property name="expirationMonth" value="02" />
+		<property name="expirationYear" value="28" />
+		<property name="CVV" value="479" />
 	</bean>
 
 	<!-- COMPANIES -->
@@ -308,10 +308,10 @@
 	<bean id="creditCard5" class="domain.CreditCard">
 		<property name="holder" value="MarÃ­a RodrÃ­guez Perez" />
 		<property name="make" value="VISA" />
-		<property name="number" value="6354120125896547" />
-		<property name="expirationMonth" value="03" />
-		<property name="expirationYear" value="21" />
-		<property name="CVV" value="136" />
+		<property name="number" value="4448552245719630" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="23" />
+		<property name="CVV" value="112" />
 	</bean>
 
 	<!-- CREDIT CARD -->
@@ -319,46 +319,46 @@
 	<bean id="creditCard6" class="domain.CreditCard">
 		<property name="holder" value="Pedro MarÃ­n LÃ³pez" />
 		<property name="make" value="MASTERCARD" />
-		<property name="number" value="5632145789654123" />
-		<property name="expirationMonth" value="01" />
-		<property name="expirationYear" value="21" />
-		<property name="CVV" value="133" />
+		<property name="number" value="4248139401623715" />
+		<property name="expirationMonth" value="08" />
+		<property name="expirationYear" value="24" />
+		<property name="CVV" value="999" />
 	</bean>
 
 	<bean id="creditCard7" class="domain.CreditCard">
 		<property name="holder" value="Paula Montero GalÃ¡n" />
 		<property name="make" value="VISA" />
-		<property name="number" value="6572143692013651" />
-		<property name="expirationMonth" value="08" />
-		<property name="expirationYear" value="23" />
-		<property name="CVV" value="161" />
+		<property name="number" value="4017359522310013" />
+		<property name="expirationMonth" value="09" />
+		<property name="expirationYear" value="25" />
+		<property name="CVV" value="525" />
 	</bean>
 
 	<bean id="creditCard8" class="domain.CreditCard">
 		<property name="holder" value="Gustavos S.A." />
 		<property name="make" value="AMERICAN EXPRESS" />
-		<property name="number" value="6301248569785641" />
-		<property name="expirationMonth" value="02" />
-		<property name="expirationYear" value="20" />
-		<property name="CVV" value="115" />
+		<property name="number" value="4786794545649162" />
+		<property name="expirationMonth" value="07" />
+		<property name="expirationYear" value="27" />
+		<property name="CVV" value="458" />
 	</bean>
 
 	<bean id="creditCard9" class="domain.CreditCard">
 		<property name="holder" value="Google" />
 		<property name="make" value="VISA" />
-		<property name="number" value="6354124445896547" />
-		<property name="expirationMonth" value="03" />
-		<property name="expirationYear" value="24" />
-		<property name="CVV" value="404" />
+		<property name="number" value="4288676013366200" />
+		<property name="expirationMonth" value="09" />
+		<property name="expirationYear" value="25" />
+		<property name="CVV" value="140" />
 	</bean>
 
 	<bean id="creditCard10" class="domain.CreditCard">
 		<property name="holder" value="Pato Donald" />
 		<property name="make" value="MASTERCARD" />
-		<property name="number" value="5632145789654123" />
-		<property name="expirationMonth" value="01" />
-		<property name="expirationYear" value="21" />
-		<property name="CVV" value="001" />
+		<property name="number" value="4735502658425730" />
+		<property name="expirationMonth" value="03" />
+		<property name="expirationYear" value="20" />
+		<property name="CVV" value="808" />
 	</bean>
 
 
@@ -912,7 +912,7 @@
 		<property name="profileRequired" value="Master in problems of frogs" />
 		<property name="technologiesRequired" value="Java 6" />
 		<property name="salary" value="26.2" />
-		<property name="ticker" value="GUST-9132" />
+		<property name="ticker" value="GUST-9932" />
 		<property name="skillsRequired" value="Please work here" />
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
@@ -975,7 +975,7 @@
 		<property name="profileRequired" value="Master in problems of Google" />
 		<property name="technologiesRequired" value="A++ in DT" />
 		<property name="salary" value="150.1" />
-		<property name="ticker" value="GOOG-0094" />
+		<property name="ticker" value="GOOG-4994" />
 		<property name="skillsRequired" value="Be smart enough to work here" />
 		<property name="company" ref="company2" />
 		<property name="isDraft" value="false" />

@@ -255,6 +255,14 @@ public class ApplicationService {
 			return applications;
 		}
 		
+		public Collection<Application> findApplicationsNotRejectedByHackerId(int hackerId) {
+			Collection<Application> applications;
+			
+			applications = this.applicationRepository.findApplicationsNotRejectedByHackerId(hackerId);
+			
+			return applications;
+		}
+		
 		public Collection<Application> findApplicationsByCompanyId(int companyId) {
 			Collection<Application> applications;
 			

@@ -268,7 +268,7 @@ public class ApplicationController extends AbstractController {
 		toDelete = this.applicationService.findOne(applicationId);
 		this.applicationService.delete(toDelete);
 
-		applications = this.applicationService.findApplicationsByHackerId(principal.getId());
+		applications = this.applicationService.findApplicationsNotRejectedByHackerId(principal.getId());
 
 		final String requestURI = "application/listHacker.do";
 		result = new ModelAndView("application/listHacker");

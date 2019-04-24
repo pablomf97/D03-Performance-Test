@@ -71,13 +71,19 @@
 					</jstl:out></td>
 
 			</tr>
+			
+			<tr>
+				<td><strong> <spring:message code="application.copyCurricula" /> :
+				</strong></td>
+				<td><a href="curricula/hacker/display.do?curriculaId=${application.copyCurricula.id}"> <spring:message
+						code="curricula.display" /></a></td>
+
+			</tr>
 		</jstl:if>
 
 
 	</table>
 	<div></div>
-	
-	<jstl:if test="${application.status != 'PENDING'}">
 	
 	<h3><spring:message code="application.problem" /></h3>
 
@@ -110,7 +116,7 @@
 					</jstl:out></td>
 			</tr>
 	</table>
-	</jstl:if>
+	
 
 	<input type="button" name="back"
 		value="<spring:message code="application.back" />"
