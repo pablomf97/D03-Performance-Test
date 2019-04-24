@@ -20,7 +20,6 @@ import security.UserAccount;
 import domain.Actor;
 import domain.Company;
 import domain.CreditCard;
-import domain.Hacker;
 import forms.EditionCompanyFormObject;
 import forms.RegisterCompanyFormObject;
 
@@ -46,10 +45,10 @@ public class CompanyService {
 
 	@Autowired
 	private UtilityService utilityService;
-	
+
 	@Autowired
 	private ProblemService problemService;
-	
+
 	@Autowired
 	private PositionService positionService;
 
@@ -360,29 +359,25 @@ public class CompanyService {
 	}
 
 	public Company findByUsername(String username) {
-		return this.companyRepository.findByUsername(username); 
+		return this.companyRepository.findByUsername(username);
 	}
-	
+
 	public void delete(Company company) {
 		Actor principal;
-		
+
 		Assert.notNull(company);
-	
+
 		Assert.isTrue(company.getId() != 0);
-		
+
 		principal = this.actorService.findByPrincipal();
 
-		Assert.isTrue(principal.getId() == company.getId(),
-				"no.permission");
-		
-		
-		
+		Assert.isTrue(principal.getId() == company.getId(), "no.permission");
+
 		this.positionService.DeletePositionPerCompany(company);
-		
+
 		this.problemService.DeleteProblemPerCompany(company);
 
 		this.companyRepository.delete(company);
 	}
-	
-	
+
 }

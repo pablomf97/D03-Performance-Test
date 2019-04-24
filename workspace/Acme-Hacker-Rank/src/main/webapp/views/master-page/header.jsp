@@ -11,13 +11,18 @@
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+
 
 <div>
-	<a href="#"><img src="images/logo.png"
-		alt="Acme-Hacker-Rank Co., Inc." style="margin-bottom: 0.5em;" /></a>
+	<a href="#"><img src="${banner}" alt="Acme-Hacker-Rank Co., Inc."
+		style="margin-bottom: 0.5em;" /></a>
 </div>
 
 <div>
@@ -99,34 +104,37 @@
 						code="master.page.profile" /> (<security:authentication
 						property="principal.username" />)
 			</a>
-		 		<ul>
+				<ul>
 					<li class="arrow"></li>
 					<security:authorize access="hasRole('ADMIN')">
-					<li><a  href="statistics/administrator/display.do"><spring:message
-						code="master.page.dashboard" /></a></li>
-						
+						<li><a href="statistics/administrator/display.do"><spring:message
+									code="master.page.dashboard" /></a></li>
+
+						<li><a href="sysconfig/administrator/display.do"><spring:message
+									code="master.page.system" /></a></li>
+
 						<li><a href="administrator/display.do"><spring:message
 									code="actor.view" /></a></li>
-									<li><a href="administrator/export.do"><spring:message
-								code="export" /></a></li>
+						<li><a href="administrator/export.do"><spring:message
+									code="export" /></a></li>
 						<li><a href="administrator/administrator/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
-									
+
 					</security:authorize>
 					<security:authorize access="hasRole('COMPANY')">
 						<li><a href="company/display.do"><spring:message
 									code="actor.view" /></a></li>
-									<li><a href="company/export.do"><spring:message
-								code="export" /></a></li>
+						<li><a href="company/export.do"><spring:message
+									code="export" /></a></li>
 						<li><a href="company/company/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
 					</security:authorize>
 					<security:authorize access="hasRole('HACKER')">
-					
-					<li><a  href="finder/hacker/search.do"><spring:message
-						code="master.page.finder" /></a></li>
+
+						<li><a href="finder/hacker/search.do"><spring:message
+									code="master.page.finder" /></a></li>
 						<li><a href="hacker/export.do"><spring:message
-								code="export" /></a></li>
+									code="export" /></a></li>
 						<li><a href="hacker/display.do"><spring:message
 									code="actor.view" /></a></li>
 						<li><a href="hacker/hacker/edit.do"><spring:message
@@ -135,7 +143,7 @@
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
 				</ul></li>
-				
+
 		</security:authorize>
 	</ul>
 </div>
@@ -144,3 +152,18 @@
 	<a href="?language=en">en</a> | <a href="?language=es">es</a>
 </div>
 
+<security:authorize access="isAuthenticated()">
+	<jstl:if test="${pageContext.response.locale.language == 'es'}">
+		<h2>
+			<strong style="color: red;"><jstl:out
+					value="${breachNotification.get('Español')}"></jstl:out><br /> </strong>
+		</h2>
+	</jstl:if>
+	<jstl:if test="${pageContext.response.locale.language == 'en'}">
+		<h2>
+			<strong style="color: red;"> <jstl:out
+					value="${breachNotification.get('English')}"></jstl:out><br />
+			</strong>
+		</h2>
+	</jstl:if>
+</security:authorize>
