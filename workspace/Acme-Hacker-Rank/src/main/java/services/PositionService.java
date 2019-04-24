@@ -21,7 +21,6 @@ import domain.Company;
 import domain.Position;
 import domain.Problem;
 
-
 @Transactional
 @Service
 public class PositionService {
@@ -118,7 +117,6 @@ public class PositionService {
 
 		return result;
 	}
-
 	public void delete(final Position position) {
 		Actor principal;
 
@@ -178,7 +176,8 @@ public class PositionService {
 		result.setDescription(position.getDescription());
 		result.setIsDraft(position.getIsDraft());
 		result.setProfileRequired(position.getProfileRequired());
-		result.setProblems(position.getProblems());
+		if (position.getProblems() == null)
+			result.setProblems(position.getProblems());
 		result.setSalary(position.getSalary());
 		result.setSkillsRequired(position.getSkillsRequired());
 		result.setTechnologiesRequired(position.getTechnologiesRequired());
@@ -197,7 +196,7 @@ public class PositionService {
 			try {
 				Assert.isTrue(orig.containsAll(newProblems), "problems.error");
 			} catch (final Throwable oops) {
-				binding.rejectValue("problems", "problems.error.notAllow");
+				binding.rejectValue("problems", "problems.error");
 			}
 	}
 
@@ -240,74 +239,66 @@ public class PositionService {
 		return result;
 	}
 
-
-	public Double minSalarayPositions(){
+	public Double minSalarayPositions() {
 		return this.positionRepository.minSalarayPositions();
 
 	}
-	public Double maxSalaryPositions(){
+	public Double maxSalaryPositions() {
 		return this.positionRepository.maxSalaryPositions();
 
 	}
-	public Double AVGSalaryPositions(){
+	public Double AVGSalaryPositions() {
 		return this.positionRepository.AVGSalaryPositions();
 	}
-	public Double STDDEVSalaryPositions(){
+	public Double STDDEVSalaryPositions() {
 		return this.positionRepository.STDDEVSalaryPositions();
 	}
 
-	public String bestPositionSalary(){
-		String res=this.positionRepository.bestPositionSalary();
-		if(res==null){
-			res="";
-		}
+	public String bestPositionSalary() {
+		String res = this.positionRepository.bestPositionSalary();
+		if (res == null)
+			res = "";
 		return res;
 	}
-	public String worstPositionSalary(){
-		String res=this.positionRepository.worstPositionSalary();
-		if(res==null){
-			res="";
-		}
+	public String worstPositionSalary() {
+		String res = this.positionRepository.worstPositionSalary();
+		if (res == null)
+			res = "";
 		return res;
 	}
-	public String  companyWithMorePositions(){
-		String res=this.positionRepository.companyWithMorePositions();
-		if(res==null){
-			res="";
-		}
+	public String companyWithMorePositions() {
+		String res = this.positionRepository.companyWithMorePositions();
+		if (res == null)
+			res = "";
 		return res;
 	}
 
-	public Integer maxPositionPerCompany(){
+	public Integer maxPositionPerCompany() {
 
-		return  this.positionRepository.maxPositionPerCompany();
+		return this.positionRepository.maxPositionPerCompany();
 	}
 
-	public Integer minPositionPerCompany(){
+	public Integer minPositionPerCompany() {
 		return this.positionRepository.minPositionPerCompany();
 	}
 
-	public Double avgPositionPerCompany(){
+	public Double avgPositionPerCompany() {
 
 		return this.positionRepository.avgPositionPerCompany();
 	}
-	public Double sttdevPositionPerCompany(){
+	public Double sttdevPositionPerCompany() {
 
 		return this.positionRepository.stddevPositionPerCompany();
 	}
-	
-	public void DeletePositionPerCompany(Company c){
-		
-		Collection<Position> positions= this.findByOwner(c);
-		
-		for (Position p:positions){
-			for(Application app:this.applicationService.findByPosition(p)){
+
+	public void DeletePositionPerCompany(final Company c) {
+
+		final Collection<Position> positions = this.findByOwner(c);
+
+		for (final Position p : positions)
+			for (final Application app : this.applicationService.findByPosition(p))
 				this.applicationService.deleteAppPerPos(app);
-			}
-			
-		}
 		this.positionRepository.deleteInBatch(positions);
-		
 	}
 
 }

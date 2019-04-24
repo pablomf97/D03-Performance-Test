@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,6 +41,10 @@ public class ProblemController extends AbstractController {
 			final Collection<Problem> problems = this.problemService.findByOwner(actor);
 			result.addObject("requestURI", "/problem/list.do");
 			result.addObject("problems", problems);
+			try {
+				result.addObject("name", actor.getUserAccount().getUsername());
+			} catch (final Throwable opps) {
+			}
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
@@ -74,7 +79,7 @@ public class ProblemController extends AbstractController {
 				result.addObject("problem", problem);
 			} else
 				try {
-					problem.setIsDraft(false);
+					res.setIsDraft(false);
 					this.problemService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
@@ -105,9 +110,11 @@ public class ProblemController extends AbstractController {
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
 					opps.printStackTrace();
+
 					result = new ModelAndView("problem/edit");
 					result.addObject("problem", problem);
 					result.addObject("messageCode", "problem.commit.error");
+
 				}
 		} catch (final Throwable opps) {
 			//TODO: pantalla de error
@@ -122,6 +129,8 @@ public class ProblemController extends AbstractController {
 		Problem problem;
 		try {
 			problem = this.problemService.findOne(Id);
+			final Actor actor = this.actorService.findByPrincipal();
+			Assert.isTrue(problem.getCompany().equals(actor));
 			result = new ModelAndView("problem/edit");
 			result.addObject("problem", problem);
 		} catch (final Throwable opps) {

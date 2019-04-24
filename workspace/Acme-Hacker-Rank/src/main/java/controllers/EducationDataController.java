@@ -2,11 +2,10 @@ package controllers;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +28,8 @@ public class EducationDataController extends AbstractController {
 	@Autowired
 	private CurriculaService curriculaService;
 
+	@Autowired
+	private Validator validator;
 	// Listing
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -90,10 +91,12 @@ public class EducationDataController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid EducationData data, int curriculaId,
+	public ModelAndView save(EducationData data, int curriculaId,
 			final BindingResult binding) {
 		ModelAndView result;
-
+		
+		this.validator.validate(data, binding);
+		
 		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(data, curriculaId,
 					"md.commit.error");

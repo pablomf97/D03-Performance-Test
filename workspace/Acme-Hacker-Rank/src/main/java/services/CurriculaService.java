@@ -147,6 +147,9 @@ public class CurriculaService {
 		return result;
 	}
 	
+	
+	
+	
 	public Curricula createCopy(){
 		Curricula result;
 		Actor principal;
@@ -185,7 +188,6 @@ public class CurriculaService {
 		
 		return result;
 	}
-	
 
 	
 	

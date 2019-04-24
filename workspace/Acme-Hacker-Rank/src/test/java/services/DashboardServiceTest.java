@@ -22,6 +22,28 @@ import domain.Actor;
 @Transactional
 public class DashboardServiceTest extends AbstractTest {
 
+	
+	
+	
+	/*
+	 * Total coverage of all tests
+	 * 
+	 * 
+	 * Coverage of the total project (%):
+	 * 
+	 * 
+	 * Coverage of the total project (lines of codes):
+	 * 
+	 * ################################################################
+	 * 
+	 * Total coverage by exclusively executing this test class
+	 * 
+	 * 
+	 * Coverage of the total project (%):15,8%
+	 * 
+	 * 
+	 * Coverage of the total project (lines of codes):3835
+	 */
 
 
 	@Autowired
@@ -136,7 +158,7 @@ public class DashboardServiceTest extends AbstractTest {
 
 	@Test
 	public void avgPositionPerCompanyDriver() {
-		Object testingData[][] = { { "admin",1.25, null },// Positive
+		Object testingData[][] = { { "admin",1.66667, null },// Positive
 				{ "admin", 5., IllegalArgumentException.class },//non expected
 
 				{ "hacker1", 0., IllegalArgumentException.class } //non authorized actor
@@ -183,7 +205,7 @@ public class DashboardServiceTest extends AbstractTest {
 
 	@Test
 	public void stddevPositionPerCompanyDriver() {
-		Object testingData[][] = { { "admin", 1.29904, null },// Positive
+		Object testingData[][] = { { "admin", 1.24722, null },// Positive
 				{ "admin", 5., IllegalArgumentException.class },//non expected
 
 				{ "hacker1", 0., IllegalArgumentException.class } //non authorized actor

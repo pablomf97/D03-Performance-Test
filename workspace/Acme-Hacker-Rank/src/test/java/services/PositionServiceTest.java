@@ -40,6 +40,7 @@ public class PositionServiceTest extends AbstractTest {
 	private ProblemService	problemService;
 
 
+	//Sentence coverage 55.1%
 	@Test
 	public void driver() {
 		Collection<Problem> problems = new ArrayList<>();
@@ -207,7 +208,7 @@ public class PositionServiceTest extends AbstractTest {
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.template3((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][1], (Class<?>) testingData[i][3]);
+			this.template3((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
 	}
 
 	private void template3(final String id, final String company, final String title, final Class<?> expected) {
@@ -233,6 +234,92 @@ public class PositionServiceTest extends AbstractTest {
 		p.setTitle(title);
 
 		this.positionService.save(p);
+		this.positionService.flush();
+
+	}
+
+	@Test
+	public void driver4() {
+		final Object testingData[][] = {
+
+			{
+				"company1", null
+			},// Positivo:editar
+				// normal
+			{
+				"company2", null
+			},// Positivo:editar
+				// no pertenece
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.template4((String) testingData[i][0], (Class<?>) testingData[i][1]);
+	}
+
+	private void template4(final String company, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			this.authenticate(company);
+			final Integer idEntity = this.getEntityId("company1");
+
+			this.listProblem(idEntity);
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.checkExceptions(expected, caught);
+	}
+
+	public void listProblem(final Integer idEntity) {
+
+		final Collection<Position> p = this.positionService.findByOwner(this.actorService.findOne(idEntity));
+		this.positionService.flush();
+
+	}
+
+	@Test
+	public void driver5() {
+		final Object testingData[][] = {
+
+			{
+				"position3c1", "company1", null
+			},// Positivo:editar
+				// normal
+			{
+				"position3c1", "company2", null
+			},// Positivo:editar
+				// no pertenece
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.template5((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	private void template5(final String position, final String company, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			this.authenticate(company);
+			final Integer idEntity = this.getEntityId(position);
+
+			this.displayProblem(idEntity);
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.checkExceptions(expected, caught);
+	}
+
+	public void displayProblem(final Integer idEntity) {
+
+		final Position p = this.positionService.findOne(idEntity);
 		this.positionService.flush();
 
 	}

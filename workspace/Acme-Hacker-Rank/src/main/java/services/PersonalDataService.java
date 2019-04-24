@@ -66,7 +66,7 @@ public class PersonalDataService {
 		
 
 		if(data.getId()!=0){
-			currentCurricula = this.curriculaService.getCurriculaByPositionData(data.getId());
+			currentCurricula = this.curriculaService.getCurriculaByPersonalData(data.getId());
 			
 			Assert.isTrue(currentCurricula.getPersonalData().getId() == data.getId());
 			Assert.isTrue(principalCurriculas.contains(currentCurricula));
@@ -165,4 +165,9 @@ public class PersonalDataService {
 		return result;
 
 	}
+	public void flush(){
+		
+		 this.personalDataRepository.flush();
+	}
+	
 }

@@ -35,13 +35,37 @@ public class FinderServiceTest extends AbstractTest{
 	private FinderService finderService;
 	
 	
+	/*
+	 * Total coverage of all tests
+	 * 
+	 * 
+	 * Coverage of the total project (%):
+	 * 
+	 * 
+	 * Coverage of the total project (lines of codes):
+	 * 
+	 * ################################################################
+	 * 
+	 * Total coverage by exclusively executing this test class
+	 * 
+	 * 
+	 * Coverage of the total project (%):5.8%
+	 * 
+	 * 
+	 * Coverage of the total project (lines of codes):1405
+	 */
+	
+	
+	
+	
+	//C.U: 17.2
 	@Test
 	public void searchDriver(){
 		Object testingData[][]={
 				{"hacker1",3,"position",null,null,null,null},//positive
 				{"hacker1",0,"rwer",null,null,null,null},//positive
-				{null,3,"position",null,null,null,IllegalArgumentException.class},//negative: 
-				{"admin",3,"position",null,null,null,ClassCastException.class},//negative: Admin 
+				{null,3,"position",null,null,null,IllegalArgumentException.class},//negative: non authorize
+				{"admin",3,"position",null,null,null,ClassCastException.class},//negative: non authorize 
 				{"hacker1",1,null,null,100.0,null,null},//positive
 				{"hacker2",3,null,null,null,null,null},//positive
 				{"hacker1",3,null,null,null,new GregorianCalendar(2050, Calendar.JANUARY, 1)
@@ -99,8 +123,8 @@ public class FinderServiceTest extends AbstractTest{
 		
 		Object testingData[][]={
 				
-				{"hacker1", new Date(),null},
-				{"hacker1", date,IllegalArgumentException.class},
+				{"hacker1", new Date(),null},//positive
+				{"hacker1", date,IllegalArgumentException.class},//Negative:date past
 			
 		};
 		

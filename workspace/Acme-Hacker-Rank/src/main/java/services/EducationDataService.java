@@ -140,6 +140,7 @@ public class EducationDataService {
 		return result;
 	}
 	
+
 	
 	
 	
@@ -170,5 +171,11 @@ public class EducationDataService {
 		Assert.notNull(result);
 
 		return result;
+		
 	}
+	
+	public void flush(){
+		this.educationDataRepository.flush();
+	}
+
 }

@@ -12,7 +12,6 @@
 
 <display:table pagesize="5" class="displaytag" name="positions"
 	requestURI="${requestURI}" id="row">
-	<!-- Attributes-->
 
 	<display:column titleKey="position.title" sortable="true">
 		<jstl:out value="${row.title }"></jstl:out>
@@ -30,11 +29,15 @@
 		<jstl:out value="${row.ticker }"></jstl:out>
 	</display:column>
 	<display:column titleKey="position.company" sortable="true">
-		<a href="company/display.do?Id=${row.id}"><jstl:out value="${row.company.commercialName }"></jstl:out></a>
+		<a href="company/display.do?id=${row.company.id}"><jstl:out
+				value="${row.company.commercialName }"></jstl:out></a>
 	</display:column>
-	<%-- 	<jstl:if test="${name == row.company.commercialName} }">
- --%>
 
+	<jstl:if test="${name == row.company.userAccount.username }">
+		<display:column titleKey="position.isDraft" sortable="true">
+			<jstl:out value="${row.isDraft }"></jstl:out>
+		</display:column>
+	</jstl:if>
 	<display:column titleKey="position.isCancelled" sortable="true">
 		<jstl:out value="${row.isCancelled }"></jstl:out>
 	</display:column>
@@ -44,19 +47,17 @@
 			<jstl:out value="${row.isDraft }"></jstl:out>
 		</display:column>
 		
-			<display:column titleKey="position.edit" sortable="true">
-		<jstl:if test="${row.isDraft eq true}">
+	<!-- Action links -->
+	<display:column titleKey="position.edit" sortable="true">
+		<jstl:if
+			test="${row.isDraft eq true and row.company.userAccount.username == name}">
 			<a href="position/edit.do?Id=${row.id}"> <spring:message
 					code="position.edit" />
 			</a>
 		</jstl:if>
 	</display:column>
 	</security:authorize>
-	
-	<!-- Action links -->
 
-	<%-- 	</jstl:if>
- --%>
 	<display:column>
 		<a href="position/display.do?Id=${row.id}"> <spring:message
 				code="position.display" />
@@ -70,5 +71,21 @@
 			</a>
 		</display:column>
 	</security:authorize>
+	<display:column>
+		<jstl:if
+			test="${row.isDraft eq true and row.company.userAccount.username == name}">
+			<a href="position/delete.do?Id=${row.id}"> <spring:message
+					code="position.delete" />
+			</a>
+		</jstl:if>
+	</display:column>
+	<display:column>
+		<jstl:if
+			test="${row.isDraft eq false and row.company.userAccount.username == name}">
+			<a href="position/delete.do?Id=${row.id}"> <spring:message
+					code="position.cancel" />
+			</a>
+		</jstl:if>
+	</display:column>
 
 </display:table>

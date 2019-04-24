@@ -35,9 +35,6 @@
 		<acme:textbox code="problem.optionalHint" path="optionalHint" />
 		<br> <br>
 
-
-		<%-- 		<acme:textbox code="problem.attachments" path="attachments" />
- --%>
 		<spring:message code="problem.attachments.add" />
 		:
 		<button type="button" onClick="addFields()">
@@ -66,6 +63,6 @@
 		<spring:message code="position.confirm.delete" />
 	</button>
 </jstl:if>
-<acme:cancel code="problem.cancel" url="problem/list.do" />
+<acme:cancel code="problem.back" url="problem/list.do" />
 <br />
 <br />

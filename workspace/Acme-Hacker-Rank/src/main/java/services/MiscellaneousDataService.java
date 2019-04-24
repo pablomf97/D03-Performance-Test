@@ -81,7 +81,7 @@ public class MiscellaneousDataService {
 			Assert.notNull(data.getText(), "md.commit.error");
 			Assert.notNull(data.getAttachements());
 
-			result = this.miscellaneousDataRepository.saveAndFlush(data);
+			result = this.miscellaneousDataRepository.save(data);
 			currentCurricula = this.curriculaService.findOne(curriculaId);
 			currentCurricula.getMiscellaneousData().add(data);
 		}
@@ -156,5 +156,8 @@ public class MiscellaneousDataService {
 		return result;
 	}
 
+	public void flush(){
+		this.miscellaneousDataRepository.flush();
+	}
 
 }
