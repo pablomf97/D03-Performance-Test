@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class EducationData extends DomainEntity{
+public class EducationData extends DomainEntity implements Cloneable {
 
 	//Attributes
 	
@@ -69,7 +69,13 @@ public class EducationData extends DomainEntity{
 		this.endDate = endDate;
 	}
 	
-	
+	@Override
+	public EducationData clone() throws CloneNotSupportedException {
+		EducationData educationClone = (EducationData) super.clone();
+		educationClone.setId(0);
+		educationClone.setVersion(0);
+		return educationClone;
+	}
 	
 	
 	

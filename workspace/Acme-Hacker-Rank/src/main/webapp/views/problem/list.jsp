@@ -13,9 +13,9 @@
 <display:table pagesize="5" class="displaytag" name="problems"
 	requestURI="${requestURI}" id="row">
 	<jstl:if
-		test="${row.isDraft eq true and row.company.userAccount.username != name}">
+		test="${not row.isDraft and row.company.userAccount.username eq name}">
 		<display:column titleKey="problem.company" sortable="true">
-			<jstl:out value="${row.company.commercialName }"></jstl:out>
+			<jstl:out value="${row.company.userAccount.username}"></jstl:out>
 		</display:column>
 		<display:column titleKey="problem.title" sortable="true">
 			<jstl:out value="${row.title }"></jstl:out>
@@ -51,6 +51,5 @@
 			</jstl:if>
 		</display:column>
 	</jstl:if>
-
 </display:table>
 

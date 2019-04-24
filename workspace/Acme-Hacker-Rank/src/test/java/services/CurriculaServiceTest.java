@@ -48,10 +48,10 @@ public class CurriculaServiceTest extends AbstractTest{
 	 * Total coverage by exclusively executing this test class
 	 * 
 	 * 
-	 * Coverage of the total project (%): 
+	 * Coverage of the total project (%):3.9%
 	 * 
 	 * 
-	 * Coverage of the total project (lines of codes): 
+	 * Coverage of the total project (lines of codes): 953
 	 */
 
 	

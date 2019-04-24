@@ -39,6 +39,9 @@
 
 		<!-- Company views -->
 		<value>/views/company/tiles.xml</value>
+		
+		<!-- Applications views -->
+		<value>/views/application/tiles.xml</value>
 
 	</util:list>
 

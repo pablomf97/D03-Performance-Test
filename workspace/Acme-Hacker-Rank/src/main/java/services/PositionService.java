@@ -127,6 +127,12 @@ public class PositionService {
 		final Position orig = this.findOne(position.getId());
 		Assert.isTrue(position.getCompany().getId() == principal.getId(), "not.allowed");
 		Assert.isTrue(orig.getId() == position.getId());
+		final Collection<Application> applies = this.applicationService.findByPosition(position);
+		for (final Application a : applies) {
+			this.applicationService.delete(a);
+			this.curriculaService.delete(a.getCopyCurricula().getId());
+		}
+
 		this.positionRepository.delete(position.getId());
 
 	}
@@ -216,6 +222,21 @@ public class PositionService {
 
 	public void flush() {
 		this.positionRepository.flush();
+	}
+	
+	public Collection<Position> findAllAppliedPositionsByHackerId(int hackerId) {
+		Collection<Position> result;
+		
+		result = this.positionRepository.findAllAppliedPositionsByHackerId(hackerId);
+		
+		return result;
+	}
+	
+	public Collection<Position> findAllToApply() {
+		Collection<Position> result;
+		result = this.positionRepository.findAllToApply();
+
+		return result;
 	}
 
 	public Double minSalarayPositions() {

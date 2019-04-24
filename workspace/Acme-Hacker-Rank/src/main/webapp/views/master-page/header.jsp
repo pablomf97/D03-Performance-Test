@@ -61,9 +61,20 @@
 		<li><a class="fNiv"><spring:message
 					code="master.page.position" /></a>
 			<ul>
-				<li class="arrow"></li>
-				<li><a href="position/listAll.do"><spring:message
-							code="master.page.position.list.all" /></a></li>
+				<security:authorize access="!hasRole('HACKER')">
+					<li class="arrow"></li>
+					<li><a href="position/listAll.do"><spring:message
+								code="master.page.position.list.all" /></a></li>
+					<li><a  href="finder/anon/search.do"><spring:message
+						code="master.page.finder" /></a></li> 
+				</security:authorize>
+				<security:authorize access="hasRole('HACKER')">
+					<li class="arrow"></li>
+					<li><a href="position/hacker/listAll.do"><spring:message
+								code="master.page.position.list" /></a></li>
+					<li><a  href="finder/hacker/search.do"><spring:message
+						code="master.page.finder" /></a></li>
+				</security:authorize>
 				<security:authorize access="hasRole('COMPANY')">
 					<li><a href="position/list.do"><spring:message
 								code="master.page.position.list" /></a></li>
@@ -98,6 +109,30 @@
 
 		<li><a class="fNiv" href="company/list.do"><spring:message
 					code="master.page.company.list" /></a></li>
+					
+		<security:authorize access="hasRole('HACKER')">
+			<li><a class="fNiv"><spring:message
+						code="master.page.applications" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="application/listHacker.do"><spring:message
+								code="master.page.hacker.applications" /></a></li>
+				</ul>
+			</li>
+		
+		</security:authorize>
+		
+		<security:authorize access="hasRole('COMPANY')">
+			<li><a class="fNiv"><spring:message
+						code="master.page.applications" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="application/listCompany.do"><spring:message
+								code="master.page.company.applications" /></a></li>
+				</ul>
+			</li>
+		
+		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
 			<li><a class="fNiv"> <spring:message
@@ -129,10 +164,11 @@
 						<li><a href="company/company/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
 					</security:authorize>
-					<security:authorize access="hasRole('HACKER')">
 
 						<li><a href="finder/hacker/search.do"><spring:message
 									code="master.page.finder" /></a></li>
+
+
 						<li><a href="hacker/export.do"><spring:message
 									code="export" /></a></li>
 						<li><a href="hacker/display.do"><spring:message

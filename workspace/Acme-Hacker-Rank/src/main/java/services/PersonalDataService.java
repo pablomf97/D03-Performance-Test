@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.PersonalDataRepository;
+import domain.Actor;
 import domain.Curricula;
 import domain.Hacker;
 import domain.PersonalData;
@@ -115,6 +116,12 @@ public class PersonalDataService {
 		return result;
 	}
 	
+	public void delete(int personalDataId){
+		
+		this.personalDataRepository.delete(personalDataId);
+
+	}
+	
 	public PersonalData defaultData(){
 		PersonalData result;
 		
@@ -123,6 +130,40 @@ public class PersonalDataService {
 		result.setStatement("It is a must the statement");
 		
 		return result;
+	}
+	
+	
+	
+	
+	public PersonalData createCopy(){
+		Actor principal;
+		PersonalData result;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+
+		result = new PersonalData();
+
+		return result;
+	}
+	
+
+	public PersonalData saveCopy(PersonalData data){
+		Actor principal;
+		PersonalData result;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+		
+		Assert.notNull(data.getGithubProfile());
+		Assert.notNull(data.getLinkedIn());
+		Assert.notNull(data.getFullName());
+		Assert.notNull(data.getStatement());
+		
+		result = this.personalDataRepository.save(data);
+
+		return result;
+
 	}
 	public void flush(){
 		

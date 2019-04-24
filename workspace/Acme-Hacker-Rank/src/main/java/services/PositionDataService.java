@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-
 import repositories.PositionDataRepository;
+import domain.Actor;
 import domain.Curricula;
 import domain.Hacker;
 import domain.PositionData;
@@ -137,8 +137,37 @@ public class PositionDataService {
 
 		return result;
 	}
+	
 	public void flush(){
 		this.positionDataRepository.flush();
 	}
+	
+	public PositionData createCopy(){
+		Actor principal;
+		PositionData result;
 
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+
+		result = new PositionData();
+
+		return result;
+	}
+	
+	public PositionData saveCopy(PositionData data){
+		Actor principal;
+		PositionData result;
+
+		principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "HACKER"));
+
+		Assert.notNull(data.getTitle());
+		Assert.notNull(data.getDescription());
+		Assert.notNull(data.getStartDate());
+
+		result = this.positionDataRepository.save(data);
+		Assert.notNull(result);
+
+		return result;
+	}
 }

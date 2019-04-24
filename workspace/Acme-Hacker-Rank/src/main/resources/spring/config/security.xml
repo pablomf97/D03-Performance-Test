@@ -80,7 +80,17 @@
 			access="isAnonymous()" />
 		<security:intercept-url pattern="/company/company/register.do"
 			access="isAnonymous()" />
-
+			
+		<security:intercept-url pattern="/application/edit.do"
+			access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/application/create.do"
+			access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/application/listHacker.do"
+			access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/application/listCompany.do"
+			access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/application/display.do"
+			access="hasAnyRole('HACKER','COMPANY')" />	
 
 		<security:intercept-url pattern="/position/display.do"
 			access="permitAll" />

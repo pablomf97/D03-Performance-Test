@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class PersonalData extends DomainEntity{
+public class PersonalData extends DomainEntity implements Cloneable {
 
 	//Attributes
 	
@@ -18,7 +18,6 @@ public class PersonalData extends DomainEntity{
 	private String fullName;
 	private String statement;
 	private String phoneNumber;
-	
 	
 	//Getters and setters
 	
@@ -60,7 +59,13 @@ public class PersonalData extends DomainEntity{
 		this.phoneNumber = phoneNumber;
 	}
 	
-	
+	@Override
+	public PersonalData clone() throws CloneNotSupportedException {
+		PersonalData personalClone = (PersonalData) super.clone();
+		personalClone.setId(0);
+		personalClone.setVersion(0);
+		return personalClone;
+	}
 
 	
 	
