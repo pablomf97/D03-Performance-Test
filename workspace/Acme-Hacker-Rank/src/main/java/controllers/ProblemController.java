@@ -63,7 +63,10 @@ public class ProblemController extends AbstractController {
 			result = new ModelAndView("redirect:list.do");
 			if (opps.getMessage().equals("problem.used"))
 				result.addObject("problemUsed", "problemUsed");
-			result.addObject("messageCode", "problem.commit.error");
+			else {
+				result = new ModelAndView("redirect:../welcome/index.do");
+				result.addObject("messageCode", "problem.commit.error");
+			}
 		}
 		return result;
 	}
@@ -90,7 +93,8 @@ public class ProblemController extends AbstractController {
 				}
 		} catch (final Throwable opps) {
 			//TODO: pantalla de error
-			result = new ModelAndView("redirect:misc/error");
+			result = new ModelAndView("redirect:../welcome/index.do");
+			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
 	}
@@ -118,7 +122,8 @@ public class ProblemController extends AbstractController {
 				}
 		} catch (final Throwable opps) {
 			//TODO: pantalla de error
-			result = new ModelAndView("redirect:misc/error");
+			result = new ModelAndView("redirect:../welcome/index.do");
+			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
 	}
@@ -134,7 +139,7 @@ public class ProblemController extends AbstractController {
 			result = new ModelAndView("problem/edit");
 			result.addObject("problem", problem);
 		} catch (final Throwable opps) {
-			result = new ModelAndView("redirect:list.do");
+			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
@@ -159,7 +164,7 @@ public class ProblemController extends AbstractController {
 			}
 		} catch (final Throwable opps) {
 			opps.printStackTrace();
-			result = new ModelAndView("redirect:list.do");
+			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
@@ -174,7 +179,7 @@ public class ProblemController extends AbstractController {
 			final Problem problem = this.problemService.create(actor);
 			result.addObject("problem", problem);
 		} catch (final Throwable opps) {
-			result = new ModelAndView("redirect:list.do");
+			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;

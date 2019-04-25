@@ -48,6 +48,9 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 	@Query("select p from Position p where p.isDraft = false")
 	Collection<Position> findAllFinal();
 
+	@Query("select p from Position p where p.company.id = ?1 and p.isDraft = false")
+	Collection<Position> findByOwnerFinal(int id);
+
 	@Query("select p from Position p where p.isDraft = false and p.isCancelled = false")
 	Collection<Position> findAllToApply();
 

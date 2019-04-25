@@ -69,10 +69,7 @@
 		<form:select multiple="true" path="problems" items="${problems}"
 			itemLabel="title" />
 		<br> <br>
-		
-		<jstl:if test="${problemUsed eq 'problemUsed'}">
-			<a class="error"><spring:message code="error.probl" /></a>
-		</jstl:if>
+		<form:errors path="problems" cssClass="error" />
 	</fieldset>
 	<br />
 	<jstl:if test="${position.isDraft == true || position.id == 0}">
