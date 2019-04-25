@@ -17,9 +17,7 @@ import repositories.HackerRepository;
 import security.Authority;
 import security.UserAccount;
 import domain.Actor;
-import domain.Administrator;
 import domain.CreditCard;
-import domain.Finder;
 import domain.Hacker;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -46,13 +44,13 @@ public class HackerService {
 
 	@Autowired
 	private UtilityService utilityService;
-	
+
 	@Autowired
 	private FinderService finderService;
-	
+
 	@Autowired
 	private CurriculaService curriculaService;
-	
+
 	@Autowired
 	private ApplicationService applicationService;
 
@@ -123,11 +121,11 @@ public class HackerService {
 			}
 
 			/* Managing email */
-			// String email = hacker.getEmail();
-			// Assert.isTrue(
-			// this.actorService.checkEmail(email, hacker
-			// .getUserAccount().getAuthorities().iterator()
-			// .next().toString()), "actor.email.error");
+			String email = hacker.getEmail();
+			Assert.isTrue(
+					this.actorService.checkEmail(email, hacker.getUserAccount()
+							.getAuthorities().iterator().next().toString()),
+					"actor.email.error");
 
 			/* Managing photo */
 			Assert.isTrue(ResourceUtils.isUrl(hacker.getPhoto()),
@@ -137,11 +135,11 @@ public class HackerService {
 			Assert.isTrue(principal.getId() == hacker.getId(), "no.permission");
 
 			/* Managing email */
-			// String email = hacker.getEmail();
-			// Assert.isTrue(
-			// this.actorService.checkEmail(email, hacker
-			// .getUserAccount().getAuthorities().iterator()
-			// .next().toString()), "actor.email.error");
+			String email = hacker.getEmail();
+			Assert.isTrue(
+					this.actorService.checkEmail(email, hacker.getUserAccount()
+							.getAuthorities().iterator().next().toString()),
+					"actor.email.error");
 
 			/* Managing phone number */
 			char[] phoneArray = hacker.getPhoneNumber().toCharArray();
@@ -244,6 +242,16 @@ public class HackerService {
 			}
 		}
 
+		if (form.getEmail() != null) {
+			try {
+				Assert.isTrue(
+						this.actorService.checkEmail(form.getEmail(), "HACKER"),
+						"actor.email.error");
+			} catch (Throwable oops) {
+				binding.rejectValue("email", "email.error");
+			}
+		}
+
 		return res;
 	}
 
@@ -293,7 +301,7 @@ public class HackerService {
 		Md5PasswordEncoder encoder;
 		encoder = new Md5PasswordEncoder();
 		userAccount
-		.setPassword(encoder.encodePassword(form.getPassword(), null));
+				.setPassword(encoder.encodePassword(form.getPassword(), null));
 
 		res.setUserAccount(userAccount);
 
@@ -361,14 +369,24 @@ public class HackerService {
 			}
 		}
 
+		if (form.getEmail() != null) {
+			try {
+				Assert.isTrue(
+						this.actorService.checkEmail(form.getEmail(), "HACKER"),
+						"actor.email.error");
+			} catch (Throwable oops) {
+				binding.rejectValue("email", "email.error");
+			}
+		}
+
 		return res;
 	}
 
-	public String hackerWithMoreApplications(){
+	public String hackerWithMoreApplications() {
 
-		String res=this.hackerRepository.hackerWithMoreApplications();
-		if(res==null){
-			res="";
+		String res = this.hackerRepository.hackerWithMoreApplications();
+		if (res == null) {
+			res = "";
 		}
 		return res;
 
@@ -382,27 +400,21 @@ public class HackerService {
 		return this.hackerRepository.findByUsername(username);
 
 	}
-	
 
 	public void delete(Hacker hacker) {
 		Actor principal;
-		
+
 		Assert.notNull(hacker);
 
 		principal = this.actorService.findByPrincipal();
 
-		Assert.isTrue(principal.getId() == hacker.getId(),
-				"no.permission");	
-		
+		Assert.isTrue(principal.getId() == hacker.getId(), "no.permission");
+
 		this.applicationService.deleteApp(hacker);
-		
+
 		this.curriculaService.deleteCV(hacker);
-		
-		
-		
+
 		this.finderService.deleteFinder(hacker);
-		
-		
 
 		this.hackerRepository.delete(hacker);
 	}

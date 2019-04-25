@@ -134,11 +134,11 @@ public class AdministratorService {
 			}
 
 			/* Managing email */
-			// String email = administrator.getEmail();
-			// Assert.isTrue(
-			// this.actorService.checkEmail(email, administrator
-			// .getUserAccount().getAuthorities().iterator()
-			// .next().toString()), "actor.email.error");
+			String email = administrator.getEmail();
+			Assert.isTrue(
+					this.actorService.checkEmail(email, administrator
+							.getUserAccount().getAuthorities().iterator()
+							.next().toString()), "actor.email.error");
 
 			/* Managing photo */
 			Assert.isTrue(ResourceUtils.isUrl(administrator.getPhoto()),
@@ -163,11 +163,11 @@ public class AdministratorService {
 			}
 
 			/* Managing email */
-			// String email = administrator.getEmail();
-			// Assert.isTrue(
-			// this.actorService.checkEmail(email, administrator
-			// .getUserAccount().getAuthorities().iterator()
-			// .next().toString()), "actor.email.error");
+			String email = administrator.getEmail();
+			Assert.isTrue(
+					this.actorService.checkEmail(email, administrator
+							.getUserAccount().getAuthorities().iterator()
+							.next().toString()), "actor.email.error");
 
 			/* Managing photo */
 			Assert.isTrue(ResourceUtils.isUrl(administrator.getPhoto()),
@@ -277,6 +277,17 @@ public class AdministratorService {
 				}
 			}
 		}
+
+		if (form.getEmail() != null) {
+			try {
+				Assert.isTrue(
+						this.actorService.checkEmail(form.getEmail(), "ADMIN"),
+						"actor.email.error");
+			} catch (Throwable oops) {
+				binding.rejectValue("email", "email.error");
+			}
+		}
+
 		return res;
 	}
 
@@ -396,12 +407,22 @@ public class AdministratorService {
 			}
 		}
 
+		if (form.getEmail() != null) {
+			try {
+				Assert.isTrue(
+						this.actorService.checkEmail(form.getEmail(), "ADMIN"),
+						"actor.email.error");
+			} catch (Throwable oops) {
+				binding.rejectValue("email", "email.error");
+			}
+		}
+
 		return res;
 	}
-	
-	public Administrator findByUsername(String username){
+
+	public Administrator findByUsername(String username) {
 		return this.administratorRepository.findByUsername(username);
-		
+
 	}
 
 	public void flush() {

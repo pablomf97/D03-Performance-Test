@@ -8,9 +8,24 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<script>
+	function checkPhone(msg) {
+		var phone = document.getElementById("phoneNumber").value;
+		var pattern = /^(((([+][1-9]{1}[0-9]{0,2}[\s]){0,1}([(][1-9]{1}[0-9]{0,2}[)][\s]){0,1})){0,1}([0-9]{4}){1}([0-9]{0,}))$/;
+		var pat = pattern.test(phone);
+		if (pat) {
+			return true;
+		} else {
+			return confirm(msg);
+		}
+	}
+</script>
+
+<spring:message code="phone.confirmation" var="confirmTelephone" />
 <security:authorize access="hasRole('COMPANY')">
 	<form:form modelAttribute="editionCompanyFormObject"
-		action="company/company/edit.do">
+		action="company/company/edit.do"
+		onsubmit="javascript: return checkPhone('${confirmTelephone}');">
 
 		<form:hidden path="id" />
 		<form:hidden path="version" />
@@ -239,9 +254,11 @@
 		<!-- Buttons -->
 		<input type="submit" name="save"
 			value="<spring:message code="form.save" />" />
-		
-		<input type="submit" name="deleteCompany" value="<spring:message code="actor.delete"/>" onclick="return confirm('<spring:message code="actor.confirm.delete"/>')"/>
-		
+
+		<input type="submit" name="deleteCompany"
+			value="<spring:message code="actor.delete"/>"
+			onclick="return confirm('<spring:message code="actor.confirm.delete"/>')" />
+
 		<button type="button" onclick="javascript: relativeRedir('/')">
 			<spring:message code="form.cancel" />
 		</button>

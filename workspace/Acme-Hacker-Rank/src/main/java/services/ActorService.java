@@ -101,13 +101,15 @@ public class ActorService {
 	 */
 	public Boolean checkEmail(final String email, final String authority) {
 		Boolean result;
+		String emailLowerCase = email.toLowerCase();
+
 		final Pattern pattern = Pattern
 				.compile("(^(([a-z]|[0-9]){1,}[@]{1}([a-z]|[0-9]){1,}([.]{1}([a-z]|[0-9]){1,}){1,})$)|(^((([a-z]|[0-9]){1,}[ ]{1}){1,}<(([a-z]|[0-9]){1,}[@]{1}([a-z]|[0-9]){1,}([.]{1}([a-z]|[0-9]){1,}){1,})>)$)");
-		final Matcher matcher = pattern.matcher(email);
+		final Matcher matcher = pattern.matcher(emailLowerCase);
 		if (authority.equals("ADMIN") && matcher.matches()) {
 			final Pattern patternAdmin = Pattern
 					.compile("(^((([a-z]|[0-9]){1,}[@])$)|(^(([a-z]|[0-9]){1,}[ ]{1}){1,}<(([a-z]|[0-9]){1,}[@]>))$)");
-			final Matcher matcherAdmin = patternAdmin.matcher(email);
+			final Matcher matcherAdmin = patternAdmin.matcher(emailLowerCase);
 			result = matcherAdmin.matches() ? true : false;
 		} else
 			result = matcher.matches() ? true : false;

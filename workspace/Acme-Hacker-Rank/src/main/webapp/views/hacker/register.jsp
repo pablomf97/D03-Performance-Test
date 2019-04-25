@@ -8,6 +8,19 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<script>
+	function checkPhone(msg) {
+		var phone = document.getElementById("phoneNumber").value;
+		var pattern = /^(((([+][1-9]{1}[0-9]{0,2}[\s]){0,1}([(][1-9]{1}[0-9]{0,2}[)][\s]){0,1})){0,1}([0-9]{4}){1}([0-9]{0,}))$/;
+		var pat = pattern.test(phone);
+		if (pat) {
+			return true;
+		} else {
+			return confirm(msg);
+		}
+	}
+</script>
+
 <style>
 .tooltip {
 	position: relative;
@@ -47,9 +60,11 @@
 }
 </style>
 
+<spring:message code="phone.confirmation" var="confirmTelephone" />
 <security:authorize access="isAnonymous()">
 	<form:form modelAttribute="registerFormObject"
-		action="hacker/hacker/register.do">
+		action="hacker/hacker/register.do"
+		onsubmit="javascript: return checkPhone('${confirmTelephone}');">
 
 		<!-- User Account Attributes -->
 		<fieldset>
