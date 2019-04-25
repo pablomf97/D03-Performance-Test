@@ -74,6 +74,7 @@
 								code="master.page.position.list" /></a></li>
 					<li><a href="finder/hacker/search.do"><spring:message
 								code="master.page.finder" /></a></li>
+
 				</security:authorize>
 				<security:authorize access="hasRole('COMPANY')">
 					<li><a href="position/list.do"><spring:message
@@ -119,6 +120,15 @@
 								code="master.page.hacker.applications" /></a></li>
 				</ul></li>
 
+			<li><a class="fNiv"><spring:message
+						code="master.page.curricula" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="curricula/hacker/list.do"><spring:message
+								code="master.page.curricula.list" /></a></li>
+					<li><a href="curricula/hacker/create.do"><spring:message
+								code="master.page.curricula.create" /></a></li>
+				</ul>
 		</security:authorize>
 
 		<security:authorize access="hasRole('COMPANY')">
