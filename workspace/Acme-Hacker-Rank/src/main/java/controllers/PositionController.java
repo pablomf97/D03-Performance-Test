@@ -71,10 +71,10 @@ public class PositionController extends AbstractController {
 			final Actor principal = this.actorService.findByPrincipal();
 			applied = this.positionService.findAllAppliedPositionsByHackerId(principal.getId());
 			positions = this.positionService.findAllToApply();
-			positions.removeAll(applied);
+			positions.removeAll(applied);			
+			result = new ModelAndView("position/listHackerPositions");
+			result.addObject("requestURI", "/position/listHackerPositions.do");
 
-			result = new ModelAndView("position/list");
-			result.addObject("requestURI", "/position/list.do");
 			result.addObject("positions", positions);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:/");
