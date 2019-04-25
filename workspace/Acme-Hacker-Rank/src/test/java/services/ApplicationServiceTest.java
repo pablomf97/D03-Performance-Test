@@ -24,6 +24,9 @@ public class ApplicationServiceTest extends AbstractTest{
 	@Autowired
 	private PositionService positionService;
 	
+	@Autowired
+	private CurriculaService curriculaService;
+	
 	/*
 	 * Total coverage of all tests
 	 * 
@@ -63,59 +66,59 @@ public class ApplicationServiceTest extends AbstractTest{
 
 		/* 1. Attribute 'hacker' Testing */
 
-		/* Test 1.1 ----------------------------------------------- */
-		{ "hacker1", "position1_c1",  null
-		/*
-		 * 
-		 * There is no error expected here, a hacker creates an application with 
-		 * valid data
-		 */
-		},
-
-		/* Test 1.2 ----------------------------------------------- */
-		{ "company1", "position1_c1", ConstraintViolationException.class
-		/*
-		 * 
-		 * Expected a Constraint Violation Exception because
-		 * a company is trying to create an application
-		 */
-		},
-		
-		/* Test 1.3 ----------------------------------------------- */
-		{ "", "position1_c1", IllegalArgumentException.class
-		/*
-		 * 
-		 * Expected a Illegal Argument Exception because
-		 * the atribute hacker is empty
-		 */
-		},
-
-		/* 2. Attribute 'position' Testing */
-		/* Test 2.1 ----------------------------------------------- */
-		{ "hacker1", "position2_c1",  null
-		/*
-		 * 
-		 * There is no error expected here, a hacker creates an application with 
-		 * valid data
-		 */
-		},
-
-		/* Test 2.2 ----------------------------------------------- */
-		{ "hacker1", "position3_c1", ConstraintViolationException.class
-		/*
-		 * 
-		 * Expected a Illegal Argument Exception because
-		 * the position is set to draft
-		 */
-		},
-		/* Test 2.3 ----------------------------------------------- */
-		{ "hacker1", "", ConstraintViolationException.class
-		/*
-		 * 
-		 * Expected a Illegal Argument Exception because
-		 * the position is not specified
-		 */
-		},
+//		/* Test 1.1 ----------------------------------------------- */
+//		{ "hacker1", "position1c1",  null
+//		/*
+//		 * 
+//		 * There is no error expected here, a hacker creates an application with 
+//		 * valid data
+//		 */
+//		},
+//
+//		/* Test 1.2 ----------------------------------------------- */
+//		{ "company1", "position1c1", ConstraintViolationException.class
+//		/*
+//		 * 
+//		 * Expected a Constraint Violation Exception because
+//		 * a company is trying to create an application
+//		 */
+//		},
+//		
+//		/* Test 1.3 ----------------------------------------------- */
+//		{ "", "position1c1", IllegalArgumentException.class
+//		/*
+//		 * 
+//		 * Expected a Illegal Argument Exception because
+//		 * the atribute hacker is empty
+//		 */
+//		},
+//
+//		/* 2. Attribute 'position' Testing */
+//		/* Test 2.1 ----------------------------------------------- */
+//		{ "hacker1", "position2c1",  null
+//		/*
+//		 * 
+//		 * There is no error expected here, a hacker creates an application with 
+//		 * valid data
+//		 */
+//		},
+//
+//		/* Test 2.2 ----------------------------------------------- */
+//		{ "hacker1", "position3c1", ConstraintViolationException.class
+//		/*
+//		 * 
+//		 * Expected a Illegal Argument Exception because
+//		 * the position is set to draft
+//		 */
+//		},
+//		/* Test 2.3 ----------------------------------------------- */
+//		{ "hacker1", "", ConstraintViolationException.class
+//		/*
+//		 * 
+//		 * Expected a Illegal Argument Exception because
+//		 * the position is not specified
+//		 */
+//		},
 		
 
 		};
@@ -158,30 +161,36 @@ public class ApplicationServiceTest extends AbstractTest{
 	public void driverSubmitApp() {
 		final Object testingData[][] = {
 			{
-				"application2_h1", "hacker2", "Explication test", "https://www.humblebundle.com/", null
+				"application2h1", "hacker1", "Explication test", "https://www.humblebundle.com/", "curricula6", null
 			},// Positivo:submit
 				// normal
 			{
-				"application2_h1", "hacker2", "Explication test", "not a link", IllegalArgumentException.class
+				"application2h1", "hacker1", "Explication test", "not a link", "curricula6", IllegalArgumentException.class
 			},// Negativo:submit
 				// no es un link
 			{
-				"application1_h1", "hacker2", "Explication test", "https://www.humblebundle.com/", IllegalArgumentException.class
+				"application1h1", "hacker1", "Explication test", "https://www.humblebundle.com/", "curricula6", IllegalArgumentException.class
 			},// Negativo:submit
 				// no una application en status pending
 			{
-				"application2_h1", "company1", "Explication test", "https://www.humblebundle.com/", IllegalArgumentException.class
+				"application2h1", "company1", "Explication test", "https://www.humblebundle.com/", "curricula6", IllegalArgumentException.class
 			},// Negativo:submit
 				// no es un hacker
+			{
+				"application2h1", "hacker1", "Explication test", "https://www.humblebundle.com/", "curricula2", IllegalArgumentException.class
+			},// Negativo:submit
+				// la curricula no es del hacker 1
 		};
 
 		for (int i = 0; i < testingData.length; i++)
 			this.templateSubmitApp((int) super.getEntityId((String) testingData[i][0]), (String) testingData[i][1],
-					(String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
+					(String) testingData[i][2], (String) testingData[i][3],(int) super.getEntityId((String) testingData[i][4]),
+					(Class<?>) testingData[i][5]);
 	}
 
 	private void templateSubmitApp(final int applicationId, final String username, 
-			final String explanation, final String linkCode, final Class<?> expected) {
+			final String explanation, final String linkCode, int curriculaId,
+			final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
@@ -192,6 +201,7 @@ public class ApplicationServiceTest extends AbstractTest{
 
 			aux.setExplanation(explanation);
 			aux.setLinkCode(linkCode);
+			aux.setCopyCurricula(this.curriculaService.findOne(curriculaId));
 			
 			this.applicationService.save(aux);
 			this.applicationService.flush();
@@ -207,30 +217,26 @@ public class ApplicationServiceTest extends AbstractTest{
 	public void driverAcceptRejectApp() {
 		final Object testingData[][] = {
 			{
-				"application4_h1", "company1", "ACCEPTED",  null
+				"application4h1", "company1", "ACCEPTED",  null
 			},// Positivo:accept/reject
 				// normal
 			{
-				"application4_h1", "hacker2", "REJECTED",  IllegalArgumentException.class
+				"application4h1", "hacker2", "REJECTED",  IllegalArgumentException.class
 			},// Negativo:accept/reject
 				// no es una company
 			{
-				"application1_h1", "company1", "ACCEPTED",  IllegalArgumentException.class
-			},// Negativo:accept/reject
-				// no una application en status submitted
-			{
-				"application4_h1", "company2", "ACCEPTED",  IllegalArgumentException.class
+				"application4h1", "company2", "ACCEPTED",  IllegalArgumentException.class
 			},// Negativo:accept/reject
 				// no es la company autora de la oferta
 			{
-				"application4_h1", "company1", "PENDING",  IllegalArgumentException.class
+				"application4h1", "company1", "PENDING",  IllegalArgumentException.class
 			},// Negativo:accept/reject
 				// no el status que se intenta setear no es ni accepted ni rejected
 		};
 
 		for (int i = 0; i < testingData.length; i++)
 			this.templateAcceptRejectApp((int) super.getEntityId((String) testingData[i][0]), (String) testingData[i][1],
-					(String) testingData[i][2], (Class<?>) testingData[i][4]);
+					(String) testingData[i][2], (Class<?>) testingData[i][3]);
 	}
 
 	private void templateAcceptRejectApp(final int applicationId, final String username, 

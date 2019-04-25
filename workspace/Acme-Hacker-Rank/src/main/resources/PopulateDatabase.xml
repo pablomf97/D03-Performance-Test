@@ -364,44 +364,44 @@
 
 	<!-- APPLICATION -->
 
-	<bean id="application1_h1" class="domain.Application">
+	<bean id="application1h1" class="domain.Application">
 		<property name="applicationMoment" value="08/10/2018 10:00" />
 		<property name="explanation" value="This is my first great application" />
 		<property name="linkCode" value="https://www.linktocodeofapp1.com/" />
 		<property name="submitMoment" value="08/01/2019 10:00" />
 		<property name="status" value="ACCEPTED" />
-		<property name="problem" ref="problem3_c1" />
+		<property name="problem" ref="problem3c1" />
 		<property name="hacker" ref="hacker1" />
 		<property name="position" ref="position1c1" />
-		<property name="copyCurricula" ref="curricula1_copy" />
+		<property name="copyCurricula" ref="curricula1copy" />
 	</bean>
 	
-	<bean id="application2_h1" class="domain.Application">
+	<bean id="application2h1" class="domain.Application">
 		<property name="applicationMoment" value="08/12/2018 10:00" />
 		<property name="status" value="PENDING" />
-		<property name="problem" ref="problem1_c1" />
+		<property name="problem" ref="problem1c1" />
 		<property name="hacker" ref="hacker1" />
-		<property name="position" ref="position2_c1" />
+		<property name="position" ref="position2c1" />
 	</bean>
 	
-	<bean id="application3_h1" class="domain.Application">
+	<bean id="application3h1" class="domain.Application">
 		<property name="applicationMoment" value="08/12/2018 10:00" />
 		<property name="status" value="PENDING" />
-		<property name="problem" ref="problem3_c2" />
+		<property name="problem" ref="problem3c2" />
 		<property name="hacker" ref="hacker1" />
 		<property name="position" ref="position1c2" />
 	</bean>
 	
-	<bean id="application4_h1" class="domain.Application">
+	<bean id="application4h1" class="domain.Application">
 		<property name="applicationMoment" value="12/10/2018 14:00" />
 		<property name="explanation" value="This is my application" />
 		<property name="linkCode" value="https://www.link.com/" />
 		<property name="submitMoment" value="25/11/2018 10:00" />
 		<property name="status" value="SUBMITTED" />
-		<property name="problem" ref="problem5_c1" />
+		<property name="problem" ref="problem5c1" />
 		<property name="hacker" ref="hacker1" />
-		<property name="position" ref="position4_c1" />
-		<property name="copyCurricula" ref="curricula1_copy" />
+		<property name="position" ref="position4c1" />
+		<property name="copyCurricula" ref="curricula1copy" />
 	</bean>
 
 	<!-- CURRICULA -->
@@ -425,13 +425,13 @@
 		</property>
 	</bean>
 
-	<bean id="curricula1_copy" class="domain.Curricula">
+	<bean id="curricula1copy" class="domain.Curricula">
 		<property name="isCopy" value="true" />
 		<property name="hacker" ref="hacker1" />
-		<property name="personalData" ref="personalData1_copy" />
+		<property name="personalData" ref="personalData1copy" />
 		<property name="educationData">
 			<list>
-				<ref bean="educationData1_copy" />
+				<ref bean="educationData1copy" />
 			</list>
 		</property>
 		<property name="miscellaneousData">
@@ -439,7 +439,7 @@
 		</property>
 		<property name="positionData">
 			<list>
-				<ref bean="positionData1_copy" />
+				<ref bean="positionData1copy" />
 			</list>
 		</property>
 	</bean>
@@ -450,8 +450,8 @@
 		<property name="personalData" ref="personalData6" />
 		<property name="educationData">
 			<list>
-				<ref bean="educationData6_1" />
-				<ref bean="educationData6_2" />
+				<ref bean="educationData61" />
+				<ref bean="educationData62" />
 			</list>
 		</property>
 		<property name="miscellaneousData">
@@ -459,8 +459,8 @@
 		</property>
 		<property name="positionData">
 			<list>
-				<ref bean="positionData6_1" />
-				<ref bean="positionData6_2" />
+				<ref bean="positionData61" />
+				<ref bean="positionData62" />
 			</list>
 		</property>
 	</bean>
@@ -484,13 +484,13 @@
 		</property>
 	</bean>
 	
-	<bean id="curricula7_copy" class="domain.Curricula">
+	<bean id="curricula7copy" class="domain.Curricula">
 		<property name="isCopy" value="true" />
 		<property name="hacker" ref="hacker1" />
-		<property name="personalData" ref="personalData7_copy" />
+		<property name="personalData" ref="personalData7copy" />
 		<property name="educationData">
 			<list>
-				<ref bean="educationData7_copy" />
+				<ref bean="educationData7copy" />
 			</list>
 		</property>
 		<property name="miscellaneousData">
@@ -498,7 +498,7 @@
 		</property>
 		<property name="positionData">
 			<list>
-				<ref bean="positionData7_copy" />
+				<ref bean="positionData7copy" />
 			</list>
 		</property>
 	</bean>
@@ -552,8 +552,8 @@
 		</property>
 		<property name="miscellaneousData">
 			<list>
-				<ref bean="miscellaneousData3_1" />
-				<ref bean="miscellaneousData3_2" />
+				<ref bean="miscellaneousData31" />
+				<ref bean="miscellaneousData32" />
 			</list>
 		</property>
 		<property name="positionData">
@@ -613,7 +613,7 @@
 		<property name="endDate" value="20/07/2015 11:26" />
 	</bean>
 
-	<bean id="educationData1_copy" class="domain.EducationData">
+	<bean id="educationData1copy" class="domain.EducationData">
 		<property name="degree" value="Ing. Informatico de Software" />
 		<property name="institution" value="Universidad de Sevilla" />
 		<property name="mark" value="9.99" />
@@ -653,7 +653,7 @@
 		<property name="endDate" value="05/02/2015 10:00" />
 	</bean>
 
-	<bean id="educationData6_1" class="domain.EducationData">
+	<bean id="educationData61" class="domain.EducationData">
 		<property name="degree" value="Ing. Informatico de todo 6_1" />
 		<property name="institution" value="Udemy" />
 		<property name="mark" value="10.0" />
@@ -661,7 +661,7 @@
 		<property name="endDate" value="05/02/2015 10:00" />
 	</bean>
 
-	<bean id="educationData6_2" class="domain.EducationData">
+	<bean id="educationData62" class="domain.EducationData">
 		<property name="degree" value="Ing. Informatico de todo 6_2" />
 		<property name="institution" value="Udemy" />
 		<property name="mark" value="8.0" />
@@ -677,7 +677,7 @@
 		<property name="endDate" value="05/02/2015 10:00" />
 	</bean>
 	
-	<bean id="educationData7_copy" class="domain.EducationData">
+	<bean id="educationData7copy" class="domain.EducationData">
 		<property name="degree" value="Ing. Informatico de todo" />
 		<property name="institution" value="Udemy" />
 		<property name="mark" value="10.0" />
@@ -703,7 +703,7 @@
 		<property name="phoneNumber" value="646626167" />
 	</bean>
 
-	<bean id="personalData1_copy" class="domain.PersonalData">
+	<bean id="personalData1copy" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
 		<property name="linkedIn" value="https://es.linkedin.com/" />
 		<property name="fullName" value="Alberto RamÃ­rez" />
@@ -759,7 +759,7 @@
 		<property name="phoneNumber" value="646626167" />
 	</bean>
 	
-	<bean id="personalData7_copy" class="domain.PersonalData">
+	<bean id="personalData7copy" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
 		<property name="linkedIn" value="https://es.linkedin.com/" />
 		<property name="fullName" value="Paula Montero GalÃ¡n" />
@@ -784,7 +784,7 @@
 		<property name="endDate" value="20/07/2015 11:26" />
 	</bean>
 
-	<bean id="positionData1_copy" class="domain.PositionData">
+	<bean id="positionData1copy" class="domain.PositionData">
 		<property name="title" value="Title of position data 1" />
 		<property name="description" value="Tired of writing datas" />
 		<property name="startDate" value="01/09/2011 19:48" />
@@ -819,14 +819,14 @@
 		<property name="endDate" value="05/02/2015 10:00" />
 	</bean>
 
-	<bean id="positionData6_1" class="domain.PositionData">
+	<bean id="positionData61" class="domain.PositionData">
 		<property name="title" value="Title of position data 6_1" />
 		<property name="description" value="Supersol" />
 		<property name="startDate" value="05/01/2015 10:00" />
 		<property name="endDate" value="05/02/2015 10:00" />
 	</bean>
 
-	<bean id="positionData6_2" class="domain.PositionData">
+	<bean id="positionData62" class="domain.PositionData">
 		<property name="title" value="Title of position data 6_2" />
 		<property name="description" value="MAS" />
 		<property name="startDate" value="05/01/2015 10:00" />
@@ -840,7 +840,7 @@
 		<property name="endDate" value="05/02/2015 10:00" />
 	</bean>
 	
-	<bean id="positionData7_copy" class="domain.PositionData">
+	<bean id="positionData7copy" class="domain.PositionData">
 		<property name="title" value="Title of position data 7" />
 		<property name="description" value="Dia" />
 		<property name="startDate" value="05/01/2015 10:00" />
@@ -856,12 +856,12 @@
 
 	<!-- MISCELLANEOUS DATA -->
 
-	<bean id="miscellaneousData3_1" class="domain.MiscellaneousData">
+	<bean id="miscellaneousData31" class="domain.MiscellaneousData">
 		<property name="text" value="Miscellaneous data 1 of curricula 3" />
 		<property name="attachements" value="https://attachment.com/" />
 	</bean>
 
-	<bean id="miscellaneousData3_2" class="domain.MiscellaneousData">
+	<bean id="miscellaneousData32" class="domain.MiscellaneousData">
 		<property name="text" value="Miscellaneous data 2 of curricula 3" />
 		<property name="attachements" value="https://attachment.com/" />
 	</bean>
@@ -911,13 +911,13 @@
 
 		<property name="problems">
 			<list>
-				<ref bean="problem1_c1" />
+				<ref bean="problem1c1" />
 				<ref bean="problem2c1" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="position2_c1" class="domain.Position">
+	<bean id="position2c1" class="domain.Position">
 		<property name="title" value="Position 2 of company 1" />
 		<property name="description" value="Your dream position" />
 		<property name="deadline" value="03/01/2022 19:48" />
@@ -932,9 +932,9 @@
 
 		<property name="problems">
 			<list>
-				<ref bean="problem1_c1" />
-				<ref bean="problem3_c1" />
-				<ref bean="problem5_c1" />
+				<ref bean="problem1c1" />
+				<ref bean="problem3c1" />
+				<ref bean="problem5c1" />
 			</list>
 		</property>
 	</bean>
@@ -959,7 +959,7 @@
 		</property>
 	</bean>
 	
-	<bean id="position4_c1" class="domain.Position">
+	<bean id="position4c1" class="domain.Position">
 		<property name="title" value="Position 4 of company 1" />
 		<property name="description" value="Your position" />
 		<property name="deadline" value="03/01/2022 19:48" />
@@ -974,9 +974,9 @@
 
 		<property name="problems">
 			<list>
-				<ref bean="problem1_c1" />
-				<ref bean="problem3_c1" />
-				<ref bean="problem5_c1" />
+				<ref bean="problem1c1" />
+				<ref bean="problem3c1" />
+				<ref bean="problem5c1" />
 			</list>
 		</property>
 	</bean>
@@ -996,12 +996,12 @@
 
 		<property name="problems">
 			<list>
-				<ref bean="problem3_c2" />
+				<ref bean="problem3c2" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="position2_c2" class="domain.Position">
+	<bean id="position2c2" class="domain.Position">
 		<property name="title" value="Position 2 of company 2" />
 		<property name="description" value="The position position you'll never get" />
 		<property name="deadline" value="20/04/2020 19:48" />
@@ -1016,13 +1016,13 @@
 
 		<property name="problems">
 			<list>
-				<ref bean="problem3_c2" />
-				<ref bean="problem4_c2" />
+				<ref bean="problem3c2" />
+				<ref bean="problem4c2" />
 			</list>
 		</property>
 	</bean>
 	
-	<bean id="position3_c2" class="domain.Position">
+	<bean id="position3c2" class="domain.Position">
 		<property name="title" value="Position 3 of company 2" />
 		<property name="description" value="The position position you'll never get out off" />
 		<property name="deadline" value="20/04/2020 19:48" />
@@ -1037,15 +1037,15 @@
 
 		<property name="problems">
 			<list>
-				<ref bean="problem3_c2" />
-				<ref bean="problem4_c2" />
+				<ref bean="problem3c2" />
+				<ref bean="problem4c2" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- PROBLEMS -->
 
-	<bean id="problem1_c1" class="domain.Problem">
+	<bean id="problem1c1" class="domain.Problem">
 		<property name="title" value="Problem 1 of company 1" />
 		<property name="statement" value="Solve this problem now" />
 		<property name="optionalHint" value="Good luck" />
@@ -1063,7 +1063,7 @@
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
 	</bean>
-	<bean id="problem3_c1" class="domain.Problem">
+	<bean id="problem3c1" class="domain.Problem">
 		<property name="title" value="Problem 3 of company 1" />
 		<property name="statement" value="Don't solve this problem now" />
 		<property name="attachments"
@@ -1071,7 +1071,7 @@
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="false" />
 	</bean>
-	<bean id="problem4_c1" class="domain.Problem">
+	<bean id="problem4c1" class="domain.Problem">
 		<property name="title" value="Problem 4 of company 1" />
 		<property name="statement" value="Don't solve this problem please" />
 		<property name="optionalHint" value="Good luck" />
@@ -1080,7 +1080,7 @@
 		<property name="company" ref="company1" />
 		<property name="isDraft" value="true" />
 	</bean>
-	<bean id="problem5_c1" class="domain.Problem">
+	<bean id="problem5c1" class="domain.Problem">
 		<property name="title" value="Problem 5 of company 1" />
 		<property name="statement" value="We'll hire you anyways" />
 		<property name="optionalHint" value="Good luck" />
@@ -1090,7 +1090,7 @@
 		<property name="isDraft" value="false" />
 	</bean>
 
-	<bean id="problem6_c1" class="domain.Problem">
+	<bean id="problem6c1" class="domain.Problem">
 		<property name="title" value="Problem 6 of company 1" />
 		<property name="statement" value="We'll never hire you" />
 		<property name="attachments"
@@ -1099,7 +1099,7 @@
 		<property name="isDraft" value="true" />
 	</bean>
 
-	<bean id="problem1_c2" class="domain.Problem">
+	<bean id="problem1c2" class="domain.Problem">
 		<property name="title" value="Problem 1 of company 2" />
 		<property name="statement" value="Solve this problem now" />
 		<property name="optionalHint" value="Good luck" />
@@ -1109,7 +1109,7 @@
 		<property name="isDraft" value="true" />
 	</bean>
 
-	<bean id="problem2_c2" class="domain.Problem">
+	<bean id="problem2c2" class="domain.Problem">
 		<property name="title" value="Problem 2 of company 2" />
 		<property name="statement" value="See ya" />
 		<property name="optionalHint" value="Good luck" />
@@ -1119,7 +1119,7 @@
 		<property name="isDraft" value="true" />
 	</bean>
 
-	<bean id="problem3_c2" class="domain.Problem">
+	<bean id="problem3c2" class="domain.Problem">
 		<property name="title" value="Problem 3  of company 2" />
 		<property name="statement" value="Solve this if you can" />
 		<property name="optionalHint" value="Good luck" />
@@ -1129,7 +1129,7 @@
 		<property name="isDraft" value="false" />
 	</bean>
 
-	<bean id="problem4_c2" class="domain.Problem">
+	<bean id="problem4c2" class="domain.Problem">
 		<property name="title" value="Problem 4  of company 2" />
 		<property name="statement" value="Solve this problem now" />
 		<property name="optionalHint" value="Good luck" />
@@ -1139,7 +1139,7 @@
 		<property name="isDraft" value="false" />
 	</bean>
 
-	<bean id="problem5_c2" class="domain.Problem">
+	<bean id="problem5c2" class="domain.Problem">
 		<property name="title" value="Problem 5 of company 2" />
 		<property name="statement" value="Is this even a problem?" />
 		<property name="optionalHint" value="Good luck" />
