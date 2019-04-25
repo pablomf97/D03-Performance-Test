@@ -13,7 +13,7 @@
 <display:table pagesize="5" class="displaytag" name="problems"
 	requestURI="${requestURI}" id="row">
 	<jstl:if
-		test="${not row.isDraft and row.company.userAccount.username eq name}">
+		test="${row.company.userAccount.username eq name}">
 		<display:column titleKey="problem.company" sortable="true">
 			<jstl:out value="${row.company.userAccount.username}"></jstl:out>
 		</display:column>

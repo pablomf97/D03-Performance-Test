@@ -1,7 +1,6 @@
 
 package services;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -12,9 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.CurriculaRepository;
-import repositories.EducationDataRepository;
-import repositories.MiscellaneousDataRepository;
-import repositories.PositionDataRepository;
 import domain.Actor;
 import domain.Curricula;
 import domain.EducationData;
@@ -26,31 +22,31 @@ import domain.PositionData;
 @Service
 public class CurriculaService {
 
-
 	//Repository
 
 	@Autowired
-	private CurriculaRepository curriculaRepository;
+	private CurriculaRepository			curriculaRepository;
 
 	//Services
 
 	@Autowired
-	private ActorService actorService;
-	
+	private ActorService				actorService;
+
 	@Autowired
-	private PersonalDataService personalDataService;
-	
+	private PersonalDataService			personalDataService;
+
 	@Autowired
-	private MiscellaneousDataService miscellaneousDataService;
-	
+	private MiscellaneousDataService	miscellaneousDataService;
+
 	@Autowired
-	private PositionDataService positionDataService;
-	
+	private PositionDataService			positionDataService;
+
 	@Autowired
-	private EducationDataService educationDataService;
+	private EducationDataService		educationDataService;
+
 
 	//Create
-	public Curricula create(){
+	public Curricula create() {
 		Curricula result;
 		Hacker principal;
 
@@ -63,14 +59,11 @@ public class CurriculaService {
 		result.setPersonalData(this.personalDataService.defaultData());
 		result.setIsCopy(false);
 		result.setHacker(principal);
-		
-		this.curriculaRepository.saveAndFlush(result);
-		
 		return result;
 	}
 
 	//Save
-	public Curricula save(final Curricula curricula){
+	public Curricula save(final Curricula curricula) {
 		Curricula result, aux = null;
 		Hacker principal;
 
@@ -79,9 +72,9 @@ public class CurriculaService {
 		Assert.isTrue(curricula.getHacker().getId() == principal.getId());
 
 		//Checking persistence
-		if(curricula.getId()==0){
+		if (curricula.getId() == 0)
 			Assert.notNull(curricula.getPersonalData());
-		}else{
+		else {
 			Assert.notNull(curricula.getPersonalData());
 			Assert.notEmpty(curricula.getEducationData());
 			Assert.notEmpty(curricula.getPositionData());
@@ -90,75 +83,71 @@ public class CurriculaService {
 		}
 
 		result = this.curriculaRepository.save(curricula);
-		
-		if(aux != null){
+
+		if (aux != null)
 			this.personalDataService.delete(aux.getPersonalData().getId());
-		}
-		
+
 		return result;
 	}
 
-	public void delete(Curricula curricula){
+	public void delete(final Curricula curricula) {
 		Hacker principal;
 
 		//Checking curricula owner
 		principal = (Hacker) this.actorService.findByPrincipal();
 		Assert.isTrue(curricula.getHacker().getId() == principal.getId());
-		
+
 		this.curriculaRepository.delete(curricula);
-		
+
 	}
 
 	//Finds
-	public Curricula findOne(int curriculaId){
+	public Curricula findOne(final int curriculaId) {
 
-		Curricula result = this.curriculaRepository.findOne(curriculaId);
-
-		return result;
-	}
-
-	public Collection<Curricula> findAll(){
-
-		Collection<Curricula> result = this.curriculaRepository.findAll();
+		final Curricula result = this.curriculaRepository.findOne(curriculaId);
 
 		return result;
 	}
-	
-	public Collection<Curricula> getCurriculasByHacker(int hackerId){
-		
-		Collection<Curricula>result = this.curriculaRepository.getCurriculasByHacker(hackerId);
-		
+
+	public Collection<Curricula> findAll() {
+
+		final Collection<Curricula> result = this.curriculaRepository.findAll();
+
 		return result;
 	}
-	
-	public Curricula getCurriculaByMiscellaneousData(int dataId){
-		Curricula result = this.curriculaRepository.getCurriculaByMiscellaneousData(dataId);
-		
+
+	public Collection<Curricula> getCurriculasByHacker(final int hackerId) {
+
+		final Collection<Curricula> result = this.curriculaRepository.getCurriculasByHacker(hackerId);
+
 		return result;
 	}
-	
-	public Curricula getCurriculaByEducationData(int dataId){
-		Curricula result = this.curriculaRepository.getCurriculaByEducationData(dataId);
-		
+
+	public Curricula getCurriculaByMiscellaneousData(final int dataId) {
+		final Curricula result = this.curriculaRepository.getCurriculaByMiscellaneousData(dataId);
+
 		return result;
 	}
-	
-	public Curricula getCurriculaByPositionData(int dataId){
-		Curricula result = this.curriculaRepository.getCurriculaByPositionData(dataId);
-		
+
+	public Curricula getCurriculaByEducationData(final int dataId) {
+		final Curricula result = this.curriculaRepository.getCurriculaByEducationData(dataId);
+
 		return result;
 	}
-	
-	public Curricula getCurriculaByPersonalData(int dataId){
-		Curricula result = this.curriculaRepository.getCurriculaByPersonalData(dataId);
-		
+
+	public Curricula getCurriculaByPositionData(final int dataId) {
+		final Curricula result = this.curriculaRepository.getCurriculaByPositionData(dataId);
+
 		return result;
 	}
-	
-	
-	
-	
-	public Curricula createCopy(){
+
+	public Curricula getCurriculaByPersonalData(final int dataId) {
+		final Curricula result = this.curriculaRepository.getCurriculaByPersonalData(dataId);
+
+		return result;
+	}
+
+	public Curricula createCopy() {
 		Curricula result;
 		Actor principal;
 
@@ -171,12 +160,12 @@ public class CurriculaService {
 		result.setMiscellaneousData(new ArrayList<MiscellaneousData>());
 		result.setIsCopy(true);
 		result.setHacker((Hacker) principal);
-				
+
 		return result;
 	}
-	
+
 	//Save
-	public Curricula saveCopy(Curricula curricula){
+	public Curricula saveCopy(final Curricula curricula) {
 		Curricula result;
 		Actor principal;
 
@@ -185,54 +174,44 @@ public class CurriculaService {
 		Assert.isTrue(curricula.getHacker().getId() == principal.getId());
 
 		//Checking persistence
-		if(curricula.getId()==0){
+		if (curricula.getId() == 0)
 			Assert.notNull(curricula.getPersonalData());
-		}else{
+		else {
 			Assert.notNull(curricula.getPersonalData());
 			Assert.notEmpty(curricula.getEducationData());
 			Assert.notEmpty(curricula.getPositionData());
 		}
 		result = this.curriculaRepository.save(curricula);
-		
+
 		return result;
 	}
 
-	
-	
-	
-
-	
-	public Collection<Curricula> findCurriculasByHackerId (int hackerId) {
+	public Collection<Curricula> findCurriculasByHackerId(final int hackerId) {
 		Collection<Curricula> curriculas;
-		
+
 		curriculas = this.curriculaRepository.findCurriculasByHackerId(hackerId);
-		
+
 		return curriculas;
 	}
 
 	public void delete(final Integer entity) {
 		this.curriculaRepository.delete(entity);
 	}
-	
+
 	protected void deleteCV(final Hacker hacker) {
 		Collection<Curricula> cvs;
-		cvs=this.curriculaRepository.findCVPerHacker(hacker.getId());
-	
-			for (Curricula cv :cvs){
-				
-		
-				this.miscellaneousDataService.deleteMiscHacker(cv.getMiscellaneousData());
-				for (EducationData ed: cv.getEducationData()){
-					this.educationDataService.deleteEDHacker(ed);
-				}
-				for (PositionData pd : cv.getPositionData()){
-					this.positionDataService.deletePosHacker(pd);
-				}
+		cvs = this.curriculaRepository.findCVPerHacker(hacker.getId());
 
-				
-				this.curriculaRepository.delete(cv);
-			}
+		for (final Curricula cv : cvs) {
+
+			this.miscellaneousDataService.deleteMiscHacker(cv.getMiscellaneousData());
+			for (final EducationData ed : cv.getEducationData())
+				this.educationDataService.deleteEDHacker(ed);
+			for (final PositionData pd : cv.getPositionData())
+				this.positionDataService.deletePosHacker(pd);
+
+			this.curriculaRepository.delete(cv);
+		}
 	}
-	
 
 }

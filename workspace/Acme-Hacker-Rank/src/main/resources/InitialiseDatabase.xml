@@ -16,7 +16,7 @@
 	<bean id="administrator1" class="domain.Administrator">
 		<property name="name" value="José" />
 		<property name="surname" value="Gamiz Redondo" />
-		<property name="VAT" value="0.21" />
+		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="josgamred@mail.com" />
@@ -29,14 +29,14 @@
 	<!-- SYSTEM CONFIGURATION -->
 
 	<bean id="sysConf" class="domain.SystemConfiguration">
-		<property name="systemName" value="Acme Madrugá" />
+		<property name="systemName" value="Acme Hacker Rank" />
 		<property name="welcomeMessage">
 			<util:map id="utilmap0" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
 				<entry key="Español"
-					value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar procesiones." />
+					value="“¡Bien-venidos a Acme Hacker Rank!¡Somos el mercado de trabajo favorito de los profesionales de las TICs!" />
 				<entry key="English"
-					value="Welcome to Acme Madrugá, the site to organise your parades." />
+					value="Welcome to Acme hacker Rank! We're IT hacker’s favourite job marketplace!" />
 			</util:map>
 		</property>
 		<property name="breachNotification">
@@ -56,7 +56,7 @@
 	<bean id="creditCard1" class="domain.CreditCard">
 		<property name="holder" value="José Gamiz Redondo" />
 		<property name="make" value="VISA" />
-		<property name="number" value="1234567891234567" />
+		<property name="number" value="1111222233334444" />
 		<property name="expirationMonth" value="07" />
 		<property name="expirationYear" value="22" />
 		<property name="CVV" value="123" />
