@@ -1,3 +1,4 @@
+
 package controllers;
 
 import javax.servlet.http.HttpSession;
@@ -25,10 +26,11 @@ public class AdministratorController extends AbstractController {
 	/* Services */
 
 	@Autowired
-	private AdministratorService administratorService;
+	private AdministratorService	administratorService;
 
 	@Autowired
-	private ActorService actorService;
+	private ActorService			actorService;
+
 
 	/* Methods */
 
@@ -41,7 +43,7 @@ public class AdministratorController extends AbstractController {
 	 * @return ModelAndView
 	 * **/
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam(required = false) Integer id) {
+	public ModelAndView display(@RequestParam(required = false) final Integer id) {
 		ModelAndView res;
 		Administrator toDisplay;
 		Boolean found = true;
@@ -51,14 +53,13 @@ public class AdministratorController extends AbstractController {
 				toDisplay = (Administrator) this.actorService.findOne(id);
 				if (toDisplay == null)
 					found = false;
-			} else {
+			} else
 				toDisplay = (Administrator) this.actorService.findByPrincipal();
-			}
 
 			res = new ModelAndView("administrator/display");
 			res.addObject("admin", toDisplay);
 			res.addObject("found", found);
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			found = false;
 			res = new ModelAndView("administrator/display");
 			res.addObject("found", found);
@@ -77,7 +78,7 @@ public class AdministratorController extends AbstractController {
 	public ModelAndView registerNewAdministrator() {
 		ModelAndView res;
 
-		RegisterFormObject registerFormObject = new RegisterFormObject();
+		final RegisterFormObject registerFormObject = new RegisterFormObject();
 		registerFormObject.setTermsAndConditions(false);
 
 		res = this.createRegisterModelAndView(registerFormObject);
@@ -92,32 +93,30 @@ public class AdministratorController extends AbstractController {
 	 * @return ModelAndView
 	 **/
 	@RequestMapping(value = "/administrator/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView register(@Valid RegisterFormObject registerFormObject,
-			BindingResult binding) {
+	public ModelAndView register(@Valid final RegisterFormObject registerFormObject, final BindingResult binding) {
 
 		ModelAndView res;
 
 		Administrator administrator = new Administrator();
 		administrator = this.administratorService.create();
 
-		administrator = this.administratorService.reconstruct(
-				registerFormObject, binding);
+		administrator = this.administratorService.reconstruct(registerFormObject, binding);
 
-		if (binding.hasErrors()) {
+		if (binding.hasErrors())
 			res = this.createRegisterModelAndView(registerFormObject);
-		} else {
+		else
 			try {
 
 				this.administratorService.save(administrator);
 
 				res = new ModelAndView("redirect:/");
 
-			} catch (Throwable oops) {
-				res = this.createRegisterModelAndView(registerFormObject,
-						"administrator.commit.error");
+			} catch (final Throwable oops) {
+				res = this.createRegisterModelAndView(registerFormObject, "administrator.commit.error");
 
 			}
-		}
+		final Long count = this.administratorService.count();
+		res.addObject("count", count);
 		return res;
 	}
 
@@ -133,13 +132,14 @@ public class AdministratorController extends AbstractController {
 		Actor principal;
 
 		principal = this.actorService.findByPrincipal();
-		EditionFormObject editionFormObject = new EditionFormObject(principal);
+		final EditionFormObject editionFormObject = new EditionFormObject(principal);
 
 		res = this.createEditModelAndView(editionFormObject);
+		final Long count = this.administratorService.count();
+		res.addObject("count", count);
 
 		return res;
 	}
-
 	/**
 	 * 
 	 * Edit administrator POST
@@ -147,40 +147,37 @@ public class AdministratorController extends AbstractController {
 	 * @return ModelAndView
 	 **/
 	@RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView edit(@Valid EditionFormObject editionFormObject,
-			BindingResult binding) {
+	public ModelAndView edit(@Valid final EditionFormObject editionFormObject, final BindingResult binding) {
 
 		ModelAndView res;
 
 		Administrator administrator = new Administrator();
 		administrator = this.administratorService.create();
 
-		administrator = this.administratorService.reconstruct(
-				editionFormObject, binding);
+		administrator = this.administratorService.reconstruct(editionFormObject, binding);
 
-		if (binding.hasErrors()) {
+		if (binding.hasErrors())
 			res = this.createEditModelAndView(editionFormObject);
-		} else {
+		else
 			try {
 
 				this.administratorService.save(administrator);
 
 				res = new ModelAndView("redirect:/");
 
-			} catch (Throwable oops) {
-				res = this.createEditModelAndView(editionFormObject,
-						"administrator.commit.error");
+			} catch (final Throwable oops) {
+				res = this.createEditModelAndView(editionFormObject, "administrator.commit.error");
 
 			}
-		}
+		final Long count = this.administratorService.count();
+		res.addObject("count", count);
 		return res;
 	}
 
 	/* Auxiliary methods */
 
 	/* Registration related */
-	protected ModelAndView createRegisterModelAndView(
-			RegisterFormObject registerFormObject) {
+	protected ModelAndView createRegisterModelAndView(final RegisterFormObject registerFormObject) {
 		ModelAndView result;
 
 		result = this.createRegisterModelAndView(registerFormObject, null);
@@ -188,8 +185,7 @@ public class AdministratorController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createRegisterModelAndView(
-			RegisterFormObject registerFormObject, String messageCode) {
+	protected ModelAndView createRegisterModelAndView(final RegisterFormObject registerFormObject, final String messageCode) {
 		ModelAndView result;
 
 		result = new ModelAndView("administrator/register");
@@ -200,8 +196,7 @@ public class AdministratorController extends AbstractController {
 	}
 
 	/* Edition related */
-	protected ModelAndView createEditModelAndView(
-			EditionFormObject editionFormObject) {
+	protected ModelAndView createEditModelAndView(final EditionFormObject editionFormObject) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(editionFormObject, null);
@@ -209,8 +204,7 @@ public class AdministratorController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(
-			EditionFormObject editionFormObject, String messageCode) {
+	protected ModelAndView createEditModelAndView(final EditionFormObject editionFormObject, final String messageCode) {
 		ModelAndView result;
 
 		result = new ModelAndView("administrator/edit");
@@ -219,28 +213,27 @@ public class AdministratorController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "deleteAdmin")
 	public ModelAndView deleteAdministrator(final EditionFormObject editionFormObject, final BindingResult binding, final HttpSession session) {
 		ModelAndView result;
 		Administrator administrator;
 
 		administrator = this.administratorService.findOne(editionFormObject.getId());
+		final Long count = this.administratorService.count();
 
-		if (binding.hasErrors()) {
+		if (binding.hasErrors() || count < 2)
 			result = this.createEditModelAndView(editionFormObject, "administrator.commit.error");
-			
-		} else
+		else
 			try {
+
 				this.administratorService.delete(administrator);
 				session.invalidate();
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(editionFormObject, "administrator.commit.error");
-				
-			}
 
+			}
 		return result;
 	}
-
 }
