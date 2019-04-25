@@ -46,7 +46,7 @@ public class PositionController extends AbstractController {
 			result = new ModelAndView("position/list");
 			if (id != null) {
 				final Actor actor = this.actorService.findOne(id);
-				positions = this.positionService.findByOwner(actor);
+				positions = this.positionService.findByOwnerFinal(actor);
 				try {
 					final Actor actor2 = this.actorService.findByPrincipal();
 					result.addObject("name", actor2.getUserAccount().getUsername());
@@ -54,7 +54,7 @@ public class PositionController extends AbstractController {
 				}
 			} else
 				positions = this.positionService.findAllFinal();
-			result.addObject("requestURI", "/position/list.do");
+			result.addObject("requestURI", "/position/listAll.do");
 			result.addObject("positions", positions);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:../welcome/index.do");
@@ -137,23 +137,23 @@ public class PositionController extends AbstractController {
 					this.positionService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
-					final Actor actor = this.actorService.findByPrincipal();
-					final Collection<Problem> problems = this.problemService.findByOwnerFinal(actor);
-					if (opps.getMessage().equals("problems.error")) {
-
-						result = new ModelAndView("position/edit");
-						result.addObject("problemUsed", "problemUsed");
-						result.addObject("position", position);
-						result.addObject("problems", problems);
-					} else {
-						result = new ModelAndView("position/edit");
-						result.addObject("position", position);
-						result.addObject("messageCode", "position.commit.error");
-					}
+					//					if (opps.getMessage().equals("problems.error")) {
+					//						result = new ModelAndView("position/edit");
+					//						result.addObject("position", position);
+					//						final Actor actor = this.actorService.findByPrincipal();
+					//						final Collection<Problem> problems = this.problemService.findByOwnerFinal(actor);
+					//						result.addObject("problems", problems);
+					//						final boolean b = true;
+					//						result.addObject("problemUsed", b);
+					//					} else {
+					result = new ModelAndView("redirect:../welcome/index.do");
+					result.addObject("messageCode", "problem.commit.error");
+					//					}
 				}
 		} catch (final Throwable opps) {
 			//TODO: pantalla de error
-			result = new ModelAndView("redirect:misc/error");
+			result = new ModelAndView("redirect:../welcome/index.do");
+			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
 	}
@@ -175,23 +175,24 @@ public class PositionController extends AbstractController {
 					this.positionService.save(res);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
-					result = new ModelAndView("position/edit");
-					final Actor actor = this.actorService.findByPrincipal();
-					final Collection<Problem> problems = this.problemService.findByOwnerFinal(actor);
-					result.addObject("problems", problems);
-					if (opps.getMessage().equals("problems.error")) {
-						result = new ModelAndView("problem/edit");
-						result.addObject("problemUsed", "problemUsed");
-						result.addObject("position", position);
-						result.addObject("problems", problems);
-					} else {
-						result.addObject("position", position);
-						result.addObject("messageCode", "position.commit.error");
-					}
+					//					result = new ModelAndView("position/edit");
+					//					final Actor actor = this.actorService.findByPrincipal();
+					//					final Collection<Problem> problems = this.problemService.findByOwnerFinal(actor);
+					//					result.addObject("problems", problems);
+					//					if (opps.getMessage().equals("problems.error")) {
+					//						result = new ModelAndView("position/edit");
+					//						result.addObject("problemUsed", true);
+					//						result.addObject(position);
+					//						result.addObject("problems", problems);
+					//					} else {
+					result = new ModelAndView("redirect:../welcome/index.do");
+					result.addObject("messageCode", "problem.commit.error");
+					//					}
 				}
 		} catch (final Throwable opps) {
 			//TODO: pantalla de error
-			result = new ModelAndView("redirect:misc/error");
+			result = new ModelAndView("redirect:../welcome/index.do");
+			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
 	}
