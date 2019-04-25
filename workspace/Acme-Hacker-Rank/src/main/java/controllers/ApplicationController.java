@@ -247,6 +247,8 @@ public class ApplicationController extends AbstractController {
 					"COMPANY")));
 
 			application = this.applicationService.findOne(applicationId);
+			
+			Assert.isTrue(application.getStatus().equals("SUBMITTED"));
 
 			if (action.equals("accept")) {
 

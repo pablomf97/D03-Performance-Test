@@ -84,7 +84,7 @@
 
 			</jstl:if>
 			<jstl:if test="${position.isDraft == false }">
-				<spring:message code="position.cancelled " />
+				<spring:message code="position.cancelled" />
 
 			</jstl:if>
 		</button>

@@ -124,6 +124,7 @@ public class PositionController extends AbstractController {
 		ModelAndView result;
 		Position res = null;
 		try {
+			position.setIsDraft(false);
 			res = this.positionService.reconstruct(position, binding);
 			if (binding.hasErrors()) {
 				result = new ModelAndView("position/edit");

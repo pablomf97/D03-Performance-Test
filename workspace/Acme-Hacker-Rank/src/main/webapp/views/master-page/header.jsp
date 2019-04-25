@@ -70,8 +70,6 @@
 				</security:authorize>
 				<security:authorize access="hasRole('HACKER')">
 					<li class="arrow"></li>
-					<li><a href="position/hacker/listAll.do"><spring:message
-								code="master.page.position.list" /></a></li>
 					<li><a href="finder/hacker/search.do"><spring:message
 								code="master.page.finder" /></a></li>
 
@@ -103,14 +101,14 @@
 				</ul></li>
 		</security:authorize>
 
-		<security:authorize access="isAnonymous()">
-			<li><a class="fNiv" href="security/login.do"><spring:message
-						code="master.page.login" /></a></li>
-		</security:authorize>
 
 		<li><a class="fNiv" href="company/list.do"><spring:message
 					code="master.page.company.list" /></a></li>
 
+		<security:authorize access="isAnonymous()">
+			<li><a class="fNiv" href="security/login.do"><spring:message
+						code="master.page.login" /></a></li>
+		</security:authorize>
 		<security:authorize access="hasRole('HACKER')">
 			<li><a class="fNiv"><spring:message
 						code="master.page.applications" /></a>
@@ -118,6 +116,8 @@
 					<li class="arrow"></li>
 					<li><a href="application/listHacker.do"><spring:message
 								code="master.page.hacker.applications" /></a></li>
+					<li><a href="position/hacker/listAll.do"><spring:message
+								code="master.page.position.list" /></a></li>
 				</ul></li>
 
 			<li><a class="fNiv"><spring:message
@@ -176,13 +176,15 @@
 					<li><a href="finder/hacker/search.do"><spring:message
 								code="master.page.finder" /></a></li>
 
+					<security:authorize access="hasRole('HACKER')">
+						<li><a href="hacker/export.do"><spring:message
+									code="export" /></a></li>
+						<li><a href="hacker/display.do"><spring:message
+									code="actor.view" /></a></li>
+						<li><a href="hacker/hacker/edit.do"><spring:message
+									code="master.page.actor.edit" /></a></li>
+					</security:authorize>
 
-					<li><a href="hacker/export.do"><spring:message
-								code="export" /></a></li>
-					<li><a href="hacker/display.do"><spring:message
-								code="actor.view" /></a></li>
-					<li><a href="hacker/hacker/edit.do"><spring:message
-								code="master.page.actor.edit" /></a></li>
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
 		</security:authorize>

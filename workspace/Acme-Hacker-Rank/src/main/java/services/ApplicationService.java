@@ -112,7 +112,7 @@ public class ApplicationService {
 			if (application.getId() == 0) {
 
 				Collection<Application> alreadyApplied = this
-						.findApplicationsByHackerId(principal.getId());
+						.findApplicationsNotRejectedByHackerId(principal.getId());
 				for (Application app : alreadyApplied) {
 					Assert.isTrue(
 							!application.getPosition()
@@ -215,6 +215,11 @@ public class ApplicationService {
 			}
 
 		} else if (this.actorService.checkAuthority(principal, "COMPANY")) {
+			
+			Assert.isTrue(!application.getStatus()
+					.equals("PENDING"));
+			Assert.isTrue(!application.getStatus()
+					.equals("SUBMITTED"));
 
 			Assert.isTrue(application.getPosition().getCompany()
 					.equals((Company) principal));

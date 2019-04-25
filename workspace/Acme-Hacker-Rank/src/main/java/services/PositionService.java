@@ -191,7 +191,7 @@ public class PositionService {
 		result.setTechnologiesRequired(position.getTechnologiesRequired());
 		result.setTitle(position.getTitle());
 		this.validator.validate(result, binding);
-		if (result.getProblems() != null) {
+		if (result.getProblems() != null && result.getIsDraft().equals(false)) {
 			final Collection<Problem> newProblems = position.getProblems();
 			final Actor actor = this.actorService.findByPrincipal();
 			final Collection<Problem> orig = this.problemService.findByOwner(actor);
