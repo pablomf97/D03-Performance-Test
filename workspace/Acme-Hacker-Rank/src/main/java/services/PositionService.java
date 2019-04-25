@@ -89,7 +89,7 @@ public class PositionService {
 		Assert.isTrue(this.actorService.checkAuthority(principal, "COMPANY"), "not.allowed");
 		Assert.isTrue(position.getCompany().equals(principal), "not.allowed");
 		if (position.getIsDraft() == false)
-			Assert.isTrue(position.getProblems().size() >= 2, "problems.error");
+			this.checkProblems(position);
 		if (position.getId() == 0) {
 			result = position;
 			result.setTicker(this.generateTicker(position));
@@ -155,49 +155,63 @@ public class PositionService {
 		return this.positionRepository.findByOwner(actor.getId());
 
 	}
+	public Collection<Position> findByOwnerFinal(final Actor actor) {
+		Assert.notNull(actor);
+		return this.positionRepository.findByOwnerFinal(actor.getId());
 
+	}
 	// Other business methods -------------------------------
 
 	public Position reconstruct(final Position position, final BindingResult binding) {
 		final Actor principal = this.actorService.findByPrincipal();
 		final Position result = this.create(principal);
+		if (position.getProblems().contains(null))
+			position.getProblems().remove(null);
 
-		if (position.getId() == 0)
+		if (position.getId() == 0) {
 			result.setIsCancelled(false);
-		else {
+			if (position.getProblems() != null)
+				result.setProblems(position.getProblems());
+		} else {
 			final Position orig = this.findOne(position.getId());
 			Assert.notNull(orig);
 			Assert.isTrue(orig.getCompany().getId() == principal.getId());
 			result.setIsCancelled(orig.getIsCancelled());
 			result.setId(orig.getId());
+			if (position.getProblems() != null)
+				result.setProblems(position.getProblems());
 		}
-		result.setCompany((Company) principal);
 		result.setDeadline(position.getDeadline());
 		result.setDescription(position.getDescription());
 		result.setIsDraft(position.getIsDraft());
 		result.setProfileRequired(position.getProfileRequired());
-		if (position.getProblems() == null)
-			result.setProblems(position.getProblems());
+
 		result.setSalary(position.getSalary());
 		result.setSkillsRequired(position.getSkillsRequired());
 		result.setTechnologiesRequired(position.getTechnologiesRequired());
 		result.setTitle(position.getTitle());
 		this.validator.validate(result, binding);
-		this.checkProblems(position, binding);
-		return result;
-	}
+		if (result.getProblems() != null) {
+			final Collection<Problem> newProblems = position.getProblems();
+			final Actor actor = this.actorService.findByPrincipal();
+			final Collection<Problem> orig = this.problemService.findByOwner(actor);
 
-	public void checkProblems(final Position position, final BindingResult binding) {
-		final Collection<Problem> newProblems = position.getProblems();
-		final Actor actor = this.actorService.findByPrincipal();
-		final Collection<Problem> orig = this.problemService.findByOwner(actor);
-
-		if (orig != null && !orig.isEmpty() && (position.getProblems()) != null && !(position.getProblems()).isEmpty())
 			try {
 				Assert.isTrue(orig.containsAll(newProblems), "problems.error");
+				Assert.isTrue(newProblems.size() >= 2, "problems.error");
 			} catch (final Throwable oops) {
 				binding.rejectValue("problems", "problems.error");
 			}
+		}
+		return result;
+	}
+
+	public void checkProblems(final Position position) {
+		final Collection<Problem> newProblems = position.getProblems();
+		final Actor actor = this.actorService.findByPrincipal();
+		final Collection<Problem> orig = this.problemService.findByOwner(actor);
+		Assert.isTrue(orig.containsAll(newProblems), "problems.error");
+		Assert.isTrue(newProblems.size() >= 2, "problems.error");
 	}
 
 	public String generateTicker(final Position position) {
