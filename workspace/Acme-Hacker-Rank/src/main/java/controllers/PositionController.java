@@ -73,8 +73,8 @@ public class PositionController extends AbstractController {
 			positions = this.positionService.findAllToApply();
 			positions.removeAll(applied);
 			
-			result = new ModelAndView("position/list");
-			result.addObject("requestURI", "/position/list.do");
+			result = new ModelAndView("position/listHackerPositions");
+			result.addObject("requestURI", "/position/listHackerPositions.do");
 			result.addObject("positions", positions);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:/");

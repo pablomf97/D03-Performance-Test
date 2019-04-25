@@ -277,7 +277,7 @@ public class ApplicationService {
 			List<Problem> listProblems = new ArrayList<>(problems);
 			
 			Integer a = (rnd.nextInt() % 10);
-			while(a < 0 || a > problems.size()) {
+			while(a < 0 || a > (problems.size()-1)) {
 				a = (rnd.nextInt() % 10);
 			}
 			
