@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import utilities.AbstractTest;
 import domain.Application;
+import domain.Position;
 
 @ContextConfiguration(locations = { "classpath:spring/junit.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -19,6 +20,9 @@ public class ApplicationServiceTest extends AbstractTest{
 	
 	@Autowired
 	private ApplicationService applicationService;
+	
+	@Autowired
+	private PositionService positionService;
 	
 	/*
 	 * Total coverage of all tests
@@ -119,7 +123,7 @@ public class ApplicationServiceTest extends AbstractTest{
 		for (int i = 0; i < testingData.length; i++) {
 			templateCreateApplication((String) testingData[i][0],
 					(int) super.getEntityId((String) testingData[i][1]),
-					(Class<?>) testingData[i][3]);}
+					(Class<?>) testingData[i][2]);}
 		}
 		
 
@@ -130,9 +134,14 @@ public class ApplicationServiceTest extends AbstractTest{
 
 		try {
 			this.authenticate(username);
+			Position aux;
 			Application application = this.applicationService
 					.create();
+			
+			aux = this.positionService.findOne(positionId);
 
+			application.setPosition(aux);
+			
 			this.applicationService.save(application);
 
 			this.applicationService.flush();
@@ -140,6 +149,107 @@ public class ApplicationServiceTest extends AbstractTest{
 			this.unauthenticate();
 
 		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+	
+	@Test
+	public void driverSubmitApp() {
+		final Object testingData[][] = {
+			{
+				"application2_h1", "hacker2", "Explication test", "https://www.humblebundle.com/", null
+			},// Positivo:submit
+				// normal
+			{
+				"application2_h1", "hacker2", "Explication test", "not a link", IllegalArgumentException.class
+			},// Negativo:submit
+				// no es un link
+			{
+				"application1_h1", "hacker2", "Explication test", "https://www.humblebundle.com/", IllegalArgumentException.class
+			},// Negativo:submit
+				// no una application en status pending
+			{
+				"application2_h1", "company1", "Explication test", "https://www.humblebundle.com/", IllegalArgumentException.class
+			},// Negativo:submit
+				// no es un hacker
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateSubmitApp((int) super.getEntityId((String) testingData[i][0]), (String) testingData[i][1],
+					(String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
+	}
+
+	private void templateSubmitApp(final int applicationId, final String username, 
+			final String explanation, final String linkCode, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			this.authenticate(username);
+			Application aux = this.applicationService.findOne(applicationId);
+
+			aux.setExplanation(explanation);
+			aux.setLinkCode(linkCode);
+			
+			this.applicationService.save(aux);
+			this.applicationService.flush();
+			
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+	
+	@Test
+	public void driverAcceptRejectApp() {
+		final Object testingData[][] = {
+			{
+				"application4_h1", "company1", "ACCEPTED",  null
+			},// Positivo:accept/reject
+				// normal
+			{
+				"application4_h1", "hacker2", "REJECTED",  IllegalArgumentException.class
+			},// Negativo:accept/reject
+				// no es una company
+			{
+				"application1_h1", "company1", "ACCEPTED",  IllegalArgumentException.class
+			},// Negativo:accept/reject
+				// no una application en status submitted
+			{
+				"application4_h1", "company2", "ACCEPTED",  IllegalArgumentException.class
+			},// Negativo:accept/reject
+				// no es la company autora de la oferta
+			{
+				"application4_h1", "company1", "PENDING",  IllegalArgumentException.class
+			},// Negativo:accept/reject
+				// no el status que se intenta setear no es ni accepted ni rejected
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateAcceptRejectApp((int) super.getEntityId((String) testingData[i][0]), (String) testingData[i][1],
+					(String) testingData[i][2], (Class<?>) testingData[i][4]);
+	}
+
+	private void templateAcceptRejectApp(final int applicationId, final String username, 
+			final String status, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			this.authenticate(username);
+			Application aux = this.applicationService.findOne(applicationId);
+
+			aux.setStatus(status);
+			
+			this.applicationService.save(aux);
+			this.applicationService.flush();
+			
+			this.unauthenticate();
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		super.checkExceptions(expected, caught);

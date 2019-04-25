@@ -391,6 +391,18 @@
 		<property name="hacker" ref="hacker1" />
 		<property name="position" ref="position1c2" />
 	</bean>
+	
+	<bean id="application4_h1" class="domain.Application">
+		<property name="applicationMoment" value="12/10/2018 14:00" />
+		<property name="explanation" value="This is my application" />
+		<property name="linkCode" value="https://www.link.com/" />
+		<property name="submitMoment" value="25/11/2018 10:00" />
+		<property name="status" value="SUBMITTED" />
+		<property name="problem" ref="problem5_c1" />
+		<property name="hacker" ref="hacker1" />
+		<property name="position" ref="position4_c1" />
+		<property name="copyCurricula" ref="curricula1_copy" />
+	</bean>
 
 	<!-- CURRICULA -->
 
@@ -468,6 +480,25 @@
 		<property name="positionData">
 			<list>
 				<ref bean="positionData7" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="curricula7_copy" class="domain.Curricula">
+		<property name="isCopy" value="true" />
+		<property name="hacker" ref="hacker1" />
+		<property name="personalData" ref="personalData7_copy" />
+		<property name="educationData">
+			<list>
+				<ref bean="educationData7_copy" />
+			</list>
+		</property>
+		<property name="miscellaneousData">
+			<null />
+		</property>
+		<property name="positionData">
+			<list>
+				<ref bean="positionData7_copy" />
 			</list>
 		</property>
 	</bean>
@@ -645,6 +676,14 @@
 		<property name="startDate" value="05/01/2015 10:00" />
 		<property name="endDate" value="05/02/2015 10:00" />
 	</bean>
+	
+	<bean id="educationData7_copy" class="domain.EducationData">
+		<property name="degree" value="Ing. Informatico de todo" />
+		<property name="institution" value="Udemy" />
+		<property name="mark" value="10.0" />
+		<property name="startDate" value="05/01/2015 10:00" />
+		<property name="endDate" value="05/02/2015 10:00" />
+	</bean>
 
 	<bean id="educationData8" class="domain.EducationData">
 		<property name="degree" value="Ing. Informatico de todo" />
@@ -719,6 +758,14 @@
 		<property name="statement" value="Statement of personalData 7" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
+	
+	<bean id="personalData7_copy" class="domain.PersonalData">
+		<property name="githubProfile" value="https://github.com/" />
+		<property name="linkedIn" value="https://es.linkedin.com/" />
+		<property name="fullName" value="Paula Montero GalÃ¡n" />
+		<property name="statement" value="Statement of personalData 7" />
+		<property name="phoneNumber" value="646626167" />
+	</bean>
 
 	<bean id="personalData8" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/" />
@@ -787,6 +834,13 @@
 	</bean>
 
 	<bean id="positionData7" class="domain.PositionData">
+		<property name="title" value="Title of position data 7" />
+		<property name="description" value="Dia" />
+		<property name="startDate" value="05/01/2015 10:00" />
+		<property name="endDate" value="05/02/2015 10:00" />
+	</bean>
+	
+	<bean id="positionData7_copy" class="domain.PositionData">
 		<property name="title" value="Title of position data 7" />
 		<property name="description" value="Dia" />
 		<property name="startDate" value="05/01/2015 10:00" />
