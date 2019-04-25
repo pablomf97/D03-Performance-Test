@@ -15,7 +15,8 @@
 			<display:table class="displaytag" name="applications"
 				requestURI="application/listHacker.do" id="app">
 
-				<display:column titleKey="application.applicationMoment" sortable="true">
+				<display:column titleKey="application.applicationMoment"
+					sortable="true">
 					<jstl:out value="${app.applicationMoment}" />
 				</display:column>
 
@@ -27,7 +28,7 @@
 				<spring:message code="application.submitted" var="message2" />
 				<spring:message code="application.not.accepted" var="message3" />
 				<spring:message code="application.accepted" var="message4" />
-				
+
 				<display:column titleKey="application.status" sortable="true">
 					<jstl:choose>
 						<jstl:when test="${app.status == 'PENDING'}">
@@ -44,33 +45,29 @@
 						</jstl:otherwise>
 					</jstl:choose>
 				</display:column>
-				
-				<display:column>
-					<a href="problem/display.do?Id=${app.problem.id}"> <jstl:out value="${app.problem.title}" />
-					</a>
-				</display:column>
-				
+
 				<display:column titleKey="application.submitMoment">
 					<jstl:if test="${application.status != 'PENDING'}">
 						<jstl:out value="${app.submitMoment}" />
 					</jstl:if>
 				</display:column>
-				
+
 				<display:column>
 					<a href="application/display.do?applicationId=${app.id}"> <spring:message
 							code="application.display" />
 					</a>
 				</display:column>
-				
+
 				<display:column>
 					<jstl:if test="${app.status == 'PENDING'}">
-						<a id="edit" href="application/edit.do?applicationId=${app.id}"> <spring:message
-								code="application.edit" /></a>
+						<a id="edit" href="application/edit.do?applicationId=${app.id}">
+							<spring:message code="application.edit" />
+						</a>
 					</jstl:if>
 				</display:column>
-				
+
 			</display:table>
-			
+
 		</jstl:when>
 		<jstl:otherwise>
 			<p>

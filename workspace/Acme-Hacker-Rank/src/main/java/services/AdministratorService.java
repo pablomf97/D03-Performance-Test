@@ -82,7 +82,7 @@ public class AdministratorService {
 	 * 
 	 * @return Administrator
 	 */
-	public Administrator findOne(Integer administratorId) {
+	public Administrator findOne(final Integer administratorId) {
 		Administrator res;
 
 		Assert.notNull(administratorId);
@@ -108,7 +108,7 @@ public class AdministratorService {
 	 * 
 	 * @return Administrator
 	 */
-	public Administrator save(Administrator administrator) {
+	public Administrator save(final Administrator administrator) {
 		Administrator res;
 		Actor principal;
 
@@ -122,16 +122,16 @@ public class AdministratorService {
 					"no.permission");
 
 			/* Managing phone number */
-			char[] phoneArray = administrator.getPhoneNumber().toCharArray();
+			final char[] phoneArray = administrator.getPhoneNumber()
+					.toCharArray();
 			if ((!administrator.getPhoneNumber().equals(null) && !administrator
-					.getPhoneNumber().equals(""))) {
+					.getPhoneNumber().equals("")))
 				if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
-					String cc = this.systemConfigurationService
+					final String cc = this.systemConfigurationService
 							.findMySystemConfiguration().getCountryCode();
 					administrator.setPhoneNumber(cc + " "
 							+ administrator.getPhoneNumber());
 				}
-			}
 
 			/* Managing email */
 			String email = administrator.getEmail();
@@ -151,16 +151,16 @@ public class AdministratorService {
 			administrator.setUserAccount(principal.getUserAccount());
 
 			/* Managing phone number */
-			char[] phoneArray = administrator.getPhoneNumber().toCharArray();
+			final char[] phoneArray = administrator.getPhoneNumber()
+					.toCharArray();
 			if ((!administrator.getPhoneNumber().equals(null) && !administrator
-					.getPhoneNumber().equals(""))) {
+					.getPhoneNumber().equals("")))
 				if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
-					String cc = this.systemConfigurationService
+					final String cc = this.systemConfigurationService
 							.findMySystemConfiguration().getCountryCode();
 					administrator.setPhoneNumber(cc + " "
 							+ administrator.getPhoneNumber());
 				}
-			}
 
 			/* Managing email */
 			String email = administrator.getEmail();
@@ -184,7 +184,7 @@ public class AdministratorService {
 	 * 
 	 * @param Administator
 	 */
-	public void delete(Administrator administrator) {
+	public void delete(final Administrator administrator) {
 		Actor principal;
 
 		Assert.notNull(administrator);
@@ -206,11 +206,11 @@ public class AdministratorService {
 	 * 
 	 * @return Administrator
 	 */
-	public Administrator reconstruct(EditionFormObject form,
-			BindingResult binding) {
+	public Administrator reconstruct(final EditionFormObject form,
+			final BindingResult binding) {
 
 		/* Creating admin */
-		Administrator res = this.create();
+		final Administrator res = this.create();
 
 		res.setId(form.getId());
 		res.setVersion(form.getVersion());
@@ -223,7 +223,7 @@ public class AdministratorService {
 		res.setAddress(form.getAddress());
 
 		/* Creating credit card */
-		CreditCard creditCard = new CreditCard();
+		final CreditCard creditCard = new CreditCard();
 
 		creditCard.setHolder(form.getHolder());
 		creditCard.setMake(form.getMake());
@@ -235,25 +235,23 @@ public class AdministratorService {
 		res.setCreditCard(creditCard);
 
 		/* VAT */
-		if (form.getVAT() != null) {
+		if (form.getVAT() != null)
 			try {
 				Assert.isTrue(this.utilityService.checkVAT(form.getVAT()),
 						"VAT.error");
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("VAT", "VAT.error");
 			}
-		}
 
 		/* Credit card */
-		if (form.getNumber() != null) {
+		if (form.getNumber() != null)
 			try {
 				Assert.isTrue(this.creditCardService
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("number", "number.error");
 			}
-		}
 
 		if (creditCard.getExpirationMonth() != null
 				&& creditCard.getExpirationYear() != null) {
@@ -264,18 +262,17 @@ public class AdministratorService {
 								creditCard.getExpirationMonth(),
 								creditCard.getExpirationYear()),
 						"card.date.error");
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("expirationMonth", "card.date.error");
 			}
 
-			if (form.getCVV() != null) {
+			if (form.getCVV() != null)
 				try {
 					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
 							"CVV.error");
-				} catch (Throwable oops) {
+				} catch (final Throwable oops) {
 					binding.rejectValue("CVV", "CVV.error");
 				}
-			}
 		}
 
 		if (form.getEmail() != null) {
@@ -299,11 +296,11 @@ public class AdministratorService {
 	 * 
 	 * @return Administrator
 	 */
-	public Administrator reconstruct(RegisterFormObject form,
-			BindingResult binding) {
+	public Administrator reconstruct(final RegisterFormObject form,
+			final BindingResult binding) {
 
 		/* Creating admin */
-		Administrator res = this.create();
+		final Administrator res = this.create();
 
 		res.setName(form.getName());
 		res.setSurname(form.getSurname());
@@ -314,7 +311,7 @@ public class AdministratorService {
 		res.setAddress(form.getAddress());
 
 		/* Creating credit card */
-		CreditCard creditCard = new CreditCard();
+		final CreditCard creditCard = new CreditCard();
 
 		creditCard.setHolder(form.getHolder());
 		creditCard.setMake(form.getMake());
@@ -326,10 +323,10 @@ public class AdministratorService {
 		res.setCreditCard(creditCard);
 
 		/* Creating user account */
-		UserAccount userAccount = new UserAccount();
+		final UserAccount userAccount = new UserAccount();
 
-		List<Authority> authorities = new ArrayList<Authority>();
-		Authority authority = new Authority();
+		final List<Authority> authorities = new ArrayList<Authority>();
+		final Authority authority = new Authority();
 		authority.setAuthority(Authority.ADMIN);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
@@ -344,45 +341,41 @@ public class AdministratorService {
 		res.setUserAccount(userAccount);
 
 		/* VAT */
-		if (form.getVAT() != null) {
+		if (form.getVAT() != null)
 			try {
 				Assert.isTrue(this.utilityService.checkVAT(form.getVAT()),
 						"VAT.error");
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("VAT", "VAT.error");
 			}
-		}
 
 		/* Password confirmation */
-		if (form.getPassword() != null) {
+		if (form.getPassword() != null)
 			try {
 				Assert.isTrue(
 						form.getPassword().equals(form.getPassConfirmation()),
 						"pass.confirm.error");
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("password", "pass.confirm.error");
 			}
-		}
 
 		/* Terms&Conditions */
-		if (form.getTermsAndConditions() != null) {
+		if (form.getTermsAndConditions() != null)
 			try {
 				Assert.isTrue((form.getTermsAndConditions()), "terms.error");
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("termsAndConditions", "terms.error");
 			}
-		}
 
 		/* Credit card */
-		if (form.getNumber() != null) {
+		if (form.getNumber() != null)
 			try {
 				Assert.isTrue(this.creditCardService
 						.checkCreditCardNumber(creditCard.getNumber()),
 						"card.number.error");
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("number", "number.error");
 			}
-		}
 
 		if (creditCard.getExpirationMonth() != null
 				&& creditCard.getExpirationYear() != null) {
@@ -393,18 +386,17 @@ public class AdministratorService {
 								creditCard.getExpirationMonth(),
 								creditCard.getExpirationYear()),
 						"card.date.error");
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("expirationMonth", "card.date.error");
 			}
 
-			if (form.getCVV() != null) {
+			if (form.getCVV() != null)
 				try {
 					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
 							"CVV.error");
-				} catch (Throwable oops) {
+				} catch (final Throwable oops) {
 					binding.rejectValue("CVV", "CVV.error");
 				}
-			}
 		}
 
 		if (form.getEmail() != null) {
@@ -420,9 +412,13 @@ public class AdministratorService {
 		return res;
 	}
 
-	public Administrator findByUsername(String username) {
+	public Administrator findByUsername(final String username) {
 		return this.administratorRepository.findByUsername(username);
-
+	}
+	
+	public Long count() {
+		final Long res = this.administratorRepository.count();
+		return res;
 	}
 
 	public void flush() {

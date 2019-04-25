@@ -11,30 +11,33 @@
 
 <security:authorize access="hasRole('HACKER')">
 
-	<form:form modelAttribute="application"
-		action="application/edit.do" id="form">
+	<form:form modelAttribute="application" action="application/edit.do"
+		id="form">
 
 		<form:hidden path="id" />
 
 		<spring:message code="application.explanation" />
 		<br>
-		<form:textarea code="application.explanation"
-			path="explanation"/>
-		<form:errors path="explanation" cssClass="error" />
-		<br><br>
+		<form:textarea code="application.explanation" path="explanation" />
+		<form:errors path="explanation" cssClass="error"/>
+		<br>
+		<br>
 
 		<acme:textbox code="application.linkCode" path="linkCode" />
-		<br><br>
-		
-		<form:select path="copyCurricula" items="${curriculas}" itemLabel="personalData.statement" />
-		<br><br>
+		<br>
+		<br>
+
+		<form:select path="copyCurricula" items="${curriculas}"
+			itemLabel="personalData.statement" />
+		<form:errors path="copyCurricula" cssClass="error" />
+		<br>
+		<br>
 
 		<acme:submit code="application.save" name="save" />&nbsp;
 		
-		<acme:cancel url="application/listHacker.do"
-			code="application.cancel" />
+		<acme:cancel url="application/listHacker.do" code="application.cancel" />
 
-		<br/>
+		<br />
 
 	</form:form>
 

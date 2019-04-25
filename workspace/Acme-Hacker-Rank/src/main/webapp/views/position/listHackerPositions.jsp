@@ -64,6 +64,13 @@
 		</a>
 	</display:column>
 	
+	<security:authorize access="hasRole('HACKER')">
+		<display:column>
+			<a href="application/create.do?positionId=${row.id}"> <spring:message
+					code="position.apply" />
+			</a>
+		</display:column>
+	</security:authorize>
 	<display:column>
 		<jstl:if
 			test="${row.isDraft eq true and row.company.userAccount.username == name}">

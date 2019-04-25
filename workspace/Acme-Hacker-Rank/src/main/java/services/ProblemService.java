@@ -70,6 +70,12 @@ public class ProblemService {
 		return result;
 	}
 
+	public Collection<Problem> findByOwnerFinal(final Actor actor) {
+		Assert.notNull(actor);
+		return this.problemRepository.findByOwnerFinal(actor.getId());
+
+	}
+
 	public Problem save(final Problem problem) {
 		Actor principal;
 		Problem result = null;
@@ -157,24 +163,23 @@ public class ProblemService {
 		return res;
 	}
 
-	public Collection<Problem> findProblemsByPositionId (int positionId) {
+	public Collection<Problem> findProblemsByPositionId(final int positionId) {
 		Collection<Problem> problems;
-		
+
 		problems = this.problemRepository.findProblemsByPositionId(positionId);
-		
+
 		return problems;
 	}
-	
+
 	public void flush() {
 		this.problemRepository.flush();
 	}
-	
-	public void DeleteProblemPerCompany(Company company){
-		Collection<Problem>col=this.findByOwner(company);
-		
-		this.problemRepository.deleteInBatch(col);
-		
-	}
 
+	public void DeleteProblemPerCompany(final Company company) {
+		final Collection<Problem> col = this.findByOwner(company);
+
+		this.problemRepository.deleteInBatch(col);
+
+	}
 
 }

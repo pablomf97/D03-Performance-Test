@@ -15,7 +15,7 @@
 		<form:hidden path="id" />
 		<form:hidden path="isDraft" />
 		<form:hidden path="isCancelled" />
-
+		<form:hidden path="problems" />
 
 		<form:label path="title">
 			<spring:message code="position.title" />:*</form:label>

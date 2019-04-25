@@ -62,19 +62,19 @@ public class PositionController extends AbstractController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/hacker/listAll", method = RequestMethod.GET)
 	public ModelAndView listAllHacker() {
 		ModelAndView result;
 		try {
 			Collection<Position> applied, positions = new ArrayList<>();
-			Actor principal = this.actorService.findByPrincipal();
+			final Actor principal = this.actorService.findByPrincipal();
 			applied = this.positionService.findAllAppliedPositionsByHackerId(principal.getId());
 			positions = this.positionService.findAllToApply();
-			positions.removeAll(applied);
-			
-			result = new ModelAndView("position/list");
-			result.addObject("requestURI", "/position/list.do");
+			positions.removeAll(applied);			
+			result = new ModelAndView("position/listHackerPositions");
+			result.addObject("requestURI", "/position/listHackerPositions.do");
+
 			result.addObject("positions", positions);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:/");
@@ -129,7 +129,7 @@ public class PositionController extends AbstractController {
 				result = new ModelAndView("position/edit");
 				result.addObject("position", position);
 				final Actor actor = this.actorService.findByPrincipal();
-				final Collection<Problem> problems = this.problemService.findByOwner(actor);
+				final Collection<Problem> problems = this.problemService.findByOwnerFinal(actor);
 				result.addObject("problems", problems);
 			} else
 				try {
@@ -138,7 +138,7 @@ public class PositionController extends AbstractController {
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable opps) {
 					final Actor actor = this.actorService.findByPrincipal();
-					final Collection<Problem> problems = this.problemService.findByOwner(actor);
+					final Collection<Problem> problems = this.problemService.findByOwnerFinal(actor);
 					if (opps.getMessage().equals("problems.error")) {
 
 						result = new ModelAndView("position/edit");
@@ -168,7 +168,7 @@ public class PositionController extends AbstractController {
 				result = new ModelAndView("position/edit");
 				result.addObject("position", position);
 				final Actor actor = this.actorService.findByPrincipal();
-				final Collection<Problem> problems = this.problemService.findByOwner(actor);
+				final Collection<Problem> problems = this.problemService.findByOwnerFinal(actor);
 				result.addObject("problems", problems);
 			} else
 				try {
@@ -177,7 +177,7 @@ public class PositionController extends AbstractController {
 				} catch (final Throwable opps) {
 					result = new ModelAndView("position/edit");
 					final Actor actor = this.actorService.findByPrincipal();
-					final Collection<Problem> problems = this.problemService.findByOwner(actor);
+					final Collection<Problem> problems = this.problemService.findByOwnerFinal(actor);
 					result.addObject("problems", problems);
 					if (opps.getMessage().equals("problems.error")) {
 						result = new ModelAndView("problem/edit");
@@ -204,7 +204,7 @@ public class PositionController extends AbstractController {
 			result = new ModelAndView("position/edit");
 			result.addObject(position);
 			final Actor actor = this.actorService.findByPrincipal();
-			final Collection<Problem> problems = this.problemService.findByOwner(actor);
+			final Collection<Problem> problems = this.problemService.findByOwnerFinal(actor);
 			Assert.isTrue(position.getCompany().equals(actor));
 			result.addObject("problems", problems);
 		} catch (final Throwable opps) {
@@ -243,7 +243,7 @@ public class PositionController extends AbstractController {
 			result = new ModelAndView("position/edit");
 			final Position position = this.positionService.create(actor);
 			result.addObject("position", position);
-			final Collection<Problem> problems = this.problemService.findByOwner(actor);
+			final Collection<Problem> problems = this.problemService.findByOwnerFinal(actor);
 			result.addObject("problems", problems);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:list.do");
