@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -129,26 +130,36 @@ public class CompanyController extends AbstractController {
 
 		ModelAndView res;
 
-		Company company = new Company();
-		company = this.companyService.create();
+		try {
 
-		company = this.companyService.reconstruct(editionCompanyFormObject,
-				binding);
+			Assert.isTrue(this.actorService.findByPrincipal().getId() == editionCompanyFormObject
+					.getId()
+					&& this.actorService.findOne(this.actorService
+							.findByPrincipal().getId()) != null);
 
-		if (binding.hasErrors()) {
-			res = this.createEditModelAndView(editionCompanyFormObject);
-		} else {
-			try {
+			Company company = new Company();
+			company = this.companyService.create();
 
-				this.companyService.save(company);
+			company = this.companyService.reconstruct(editionCompanyFormObject,
+					binding);
 
-				res = new ModelAndView("redirect:/");
+			if (binding.hasErrors()) {
+				res = this.createEditModelAndView(editionCompanyFormObject);
+			} else {
+				try {
 
-			} catch (Throwable oops) {
-				res = this.createEditModelAndView(editionCompanyFormObject,
-						"company.commit.error");
+					this.companyService.save(company);
 
+					res = new ModelAndView("redirect:/");
+
+				} catch (Throwable oops) {
+					res = this.createEditModelAndView(editionCompanyFormObject,
+							"company.commit.error");
+
+				}
 			}
+		} catch (Throwable oops) {
+			res = new ModelAndView("redirect:/");
 		}
 		return res;
 	}

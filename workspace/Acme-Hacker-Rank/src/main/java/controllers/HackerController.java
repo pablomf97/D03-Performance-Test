@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.HackerService;
-import domain.Administrator;
 import domain.Hacker;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -98,25 +98,35 @@ public class HackerController extends AbstractController {
 
 		ModelAndView res;
 
-		Hacker hacker = new Hacker();
-		hacker = this.hackerService.create();
+		try {
 
-		hacker = this.hackerService.reconstruct(editionFormObject, binding);
+			Assert.isTrue(this.actorService.findByPrincipal().getId() == editionFormObject
+					.getId()
+					&& this.actorService.findOne(this.actorService
+							.findByPrincipal().getId()) != null);
 
-		if (binding.hasErrors()) {
-			res = this.createEditModelAndView(editionFormObject);
-		} else {
-			try {
+			Hacker hacker = new Hacker();
+			hacker = this.hackerService.create();
 
-				this.hackerService.save(hacker);
+			hacker = this.hackerService.reconstruct(editionFormObject, binding);
 
-				res = new ModelAndView("redirect:/");
+			if (binding.hasErrors()) {
+				res = this.createEditModelAndView(editionFormObject);
+			} else {
+				try {
 
-			} catch (Throwable oops) {
-				res = this.createEditModelAndView(editionFormObject,
-						"hacker.commit.error");
+					this.hackerService.save(hacker);
 
+					res = new ModelAndView("redirect:/");
+
+				} catch (Throwable oops) {
+					res = this.createEditModelAndView(editionFormObject,
+							"hacker.commit.error");
+
+				}
 			}
+		} catch (Throwable oops) {
+			res = new ModelAndView("redirect:/");
 		}
 		return res;
 	}
@@ -215,25 +225,28 @@ public class HackerController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/hacker/edit", method = RequestMethod.POST, params = "deleteHacker")
-	public ModelAndView deleteHacker(final EditionFormObject editionFormObject, final BindingResult binding, final HttpSession session) {
+	public ModelAndView deleteHacker(final EditionFormObject editionFormObject,
+			final BindingResult binding, final HttpSession session) {
 		ModelAndView result;
 		Hacker hacker;
 
 		hacker = this.hackerService.findOne(editionFormObject.getId());
 
 		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(editionFormObject, "administrator.commit.error");
-			
+			result = this.createEditModelAndView(editionFormObject,
+					"administrator.commit.error");
+
 		} else
 			try {
 				this.hackerService.delete(hacker);
 				session.invalidate();
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(editionFormObject, "administrator.commit.error");
-				
+				result = this.createEditModelAndView(editionFormObject,
+						"administrator.commit.error");
+
 			}
 
 		return result;

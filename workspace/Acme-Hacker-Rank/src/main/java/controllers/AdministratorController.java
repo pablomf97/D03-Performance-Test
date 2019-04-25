@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -152,26 +153,36 @@ public class AdministratorController extends AbstractController {
 
 		ModelAndView res;
 
-		Administrator administrator = new Administrator();
-		administrator = this.administratorService.create();
+		try {
 
-		administrator = this.administratorService.reconstruct(
-				editionFormObject, binding);
+			Assert.isTrue(this.actorService.findByPrincipal().getId() == editionFormObject
+					.getId()
+					&& this.actorService.findOne(this.actorService
+							.findByPrincipal().getId()) != null);
 
-		if (binding.hasErrors()) {
-			res = this.createEditModelAndView(editionFormObject);
-		} else {
-			try {
+			Administrator administrator = new Administrator();
+			administrator = this.administratorService.create();
 
-				this.administratorService.save(administrator);
+			administrator = this.administratorService.reconstruct(
+					editionFormObject, binding);
 
-				res = new ModelAndView("redirect:/");
+			if (binding.hasErrors()) {
+				res = this.createEditModelAndView(editionFormObject);
+			} else {
+				try {
 
-			} catch (Throwable oops) {
-				res = this.createEditModelAndView(editionFormObject,
-						"administrator.commit.error");
+					this.administratorService.save(administrator);
 
+					res = new ModelAndView("redirect:/");
+
+				} catch (Throwable oops) {
+					res = this.createEditModelAndView(editionFormObject,
+							"administrator.commit.error");
+
+				}
 			}
+		} catch (Throwable oops) {
+			res = new ModelAndView("redirect:/");
 		}
 		return res;
 	}
@@ -219,25 +230,30 @@ public class AdministratorController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "deleteAdmin")
-	public ModelAndView deleteAdministrator(final EditionFormObject editionFormObject, final BindingResult binding, final HttpSession session) {
+	public ModelAndView deleteAdministrator(
+			final EditionFormObject editionFormObject,
+			final BindingResult binding, final HttpSession session) {
 		ModelAndView result;
 		Administrator administrator;
 
-		administrator = this.administratorService.findOne(editionFormObject.getId());
+		administrator = this.administratorService.findOne(editionFormObject
+				.getId());
 
 		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(editionFormObject, "administrator.commit.error");
-			
+			result = this.createEditModelAndView(editionFormObject,
+					"administrator.commit.error");
+
 		} else
 			try {
 				this.administratorService.delete(administrator);
 				session.invalidate();
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(editionFormObject, "administrator.commit.error");
-				
+				result = this.createEditModelAndView(editionFormObject,
+						"administrator.commit.error");
+
 			}
 
 		return result;

@@ -106,7 +106,7 @@ public class ActorService {
 		final Pattern pattern = Pattern
 				.compile("(^(([a-z]|[0-9]){1,}[@]{1}([a-z]|[0-9]){1,}([.]{1}([a-z]|[0-9]){1,}){1,})$)|(^((([a-z]|[0-9]){1,}[ ]{1}){1,}<(([a-z]|[0-9]){1,}[@]{1}([a-z]|[0-9]){1,}([.]{1}([a-z]|[0-9]){1,}){1,})>)$)");
 		final Matcher matcher = pattern.matcher(emailLowerCase);
-		if (authority.equals("ADMIN") && matcher.matches()) {
+		if (authority.equals("ADMIN")) {
 			final Pattern patternAdmin = Pattern
 					.compile("(^((([a-z]|[0-9]){1,}[@])$)|(^(([a-z]|[0-9]){1,}[ ]{1}){1,}<(([a-z]|[0-9]){1,}[@]>))$)");
 			final Matcher matcherAdmin = patternAdmin.matcher(emailLowerCase);

@@ -9,7 +9,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-
 <security:authorize access="hasRole('HACKER')">
 
 	<form:form modelAttribute="educationData"
@@ -24,43 +23,42 @@
 
 		<spring:message code="educationData.institution" />
 		<br>
-		<form:textarea code="educationData.institution"
-			path="institution" />
+		<form:textarea code="educationData.institution" path="institution" />
 		<form:errors path="institution" cssClass="error" />
 
 		<br>
 		<br>
-		
+
 		<form:label path="mark">
 			<spring:message code="educationData.mark" />:
 		</form:label>
 		<form:input path="mark" />
 		<form:errors cssClass="error" path="mark" />
-		
+
 		<br />
 		<br />
-		
-		
-		
+
+
+
 		<form:label path="startDate">
 			<spring:message code="educationData.startDate" />:
 		</form:label>
 		<form:input path="startDate" placeholder="dd/MM/yyyy HH:mm" />
 		<form:errors cssClass="error" path="startDate" />
-		
+
 		<br />
 		<br />
-		
-		
-			<form:label path="endDate">
+
+
+		<form:label path="endDate">
 			<spring:message code="educationData.endDate" />:
 		</form:label>
 		<form:input path="endDate" placeholder="dd/MM/yyyy HH:mm" />
 		<form:errors cssClass="error" path="endDate" />
-		
+
 		<br />
 		<br />
-		
+
 
 		<acme:submit code="educationData.save" name="save" />&nbsp;
 		
@@ -74,7 +72,7 @@
 
 		</jstl:if>
 
-		
+
 	</form:form>
 
 </security:authorize>
